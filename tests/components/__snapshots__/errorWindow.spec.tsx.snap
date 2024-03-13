@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    data-testid="error-window"
+    style="justify-content: center; align-items: center; flex: 1; min-height: 100px; width: 100%;"
+  >
+    <p
+      style="color: rgb(235, 80, 23); font-size: 18px; font-weight: 400; padding: 20px;"
+    >
+      Something went wrong!
+    </p>
+    <div
+      data-testid="refresh-button"
+      style="padding: 6px 20px 6px 20px; justify-content: center; align-items: center; border-radius: 5px; overflow: hidden; background-color: rgb(235, 80, 23);"
+    >
+      <p
+        style="color: rgb(255, 255, 255); font-size: 16px; font-weight: 500;"
+      >
+        Retry
+      </p>
+    </div>
+  </div>
+</DocumentFragment>
+`;

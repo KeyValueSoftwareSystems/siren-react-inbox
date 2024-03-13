@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    style="justify-content: center; align-items: center; flex: 1; min-height: 100px; width: 100%;"
+  >
+    <p
+      style="color: rgb(255, 255, 255); font-size: 18px; font-weight: 400; padding: 20px;"
+    >
+      You don't have any notifications!
+    </p>
+  </div>
+</DocumentFragment>
+`;
