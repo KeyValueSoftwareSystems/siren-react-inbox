@@ -1,0 +1,46 @@
+.siren-sdk-card-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+
+.siren-sdk-card-avatar-image-container {
+  display: flex;
+  justify-content: center;
+  margin-right: 16px;
+  margin-left: 4px;
+  min-width: 10%;
+}
+
+
+.siren-sdk-card-time-icon{
+  width: 13px;
+  height: 13px;
+  margin-right: 4px;
+}
+
+.siren-sdk-card-transparent {
+  background-color: transparent !important;
+}
+
+
+.siren-sdk-card-description {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.siren-sdk-delete-button {
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+.siren-sdk-text-break {
+  word-break: break-word;
+}
+
+.siren-sdk-card-flex-container {
+  display: flex;
+}

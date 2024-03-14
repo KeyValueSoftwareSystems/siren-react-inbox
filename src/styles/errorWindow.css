@@ -1,0 +1,39 @@
+.siren-sdk-error-window-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center
+}
+
+.siren-sdk-error-icon{
+  width: 160px;
+  height: 160px;
+}
+
+.siren-sdk-error-text {
+  font-size: 14px;
+  font-weight: 600;
+  padding-top: 4px;
+  font-family: 'switzer';
+  line-height: 20px;
+  margin: 0px;
+}
+
+.siren-sdk-error-sub-text {
+  font-size: 12px;
+  font-weight: 400;
+  padding-top: 4px;
+  font-family: 'switzer';
+  color: #667185;
+  line-height: 16px;
+  margin: 0px;
+}
+
+.siren-sdk-error-button {
+  padding: 0px 5px;
+  border-radius: 5px;
+  overflow: hidden;
+  min-width: 100px;
+  text-align: center;
+  cursor: pointer;
+}

@@ -1,0 +1,27 @@
+.siren-sdk-header-container {
+    justify-content: space-between;
+    padding: 0px 15px;
+    border-bottom:  0.5px solid #D0D5DD;
+    display: flex;
+    flex-direction: row;
+    border-radius: 12px 12px 0 0;
+    border-top: 1px solid #E4E7EC;
+}
+.siren-sdk-header-right-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    min-width: 80px;
+}
+.siren-sdk-header-clear-all-text { 
+   margin-left: 2px;
+   font-weight: 500;
+   font-size: 14px;
+   line-height: 20px;
+   margin-bottom: 12px;
+}
+
+.siren-sdk-text-break {
+    word-break: break-word;
+  }
+  

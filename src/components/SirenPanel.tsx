@@ -1,0 +1,406 @@
+import React, { type FC, useCallback, useEffect, useState } from "react";
+
+import type {
+  ActionResponse,
+  MarkAsViewedResponse,
+  NotificationDataType,
+  NotificationsApiResponse,
+} from "test_notification/dist/esm/types";
+
+import "../styles/sirenPanel.css";
+import NotificationCard from "./Card";
+import EmptyList from "./EmptyList";
+import ErrorWindow from "./ErrorWindow";
+import Header from "./Header";
+import AnimatedLoader from "./Loader";
+import { useSirenContext } from "./SirenProvider";
+import type { NotificationPanelProps } from "../types";
+import {
+  filterDataProperty,
+  generateFilterParams,
+  isEmptyArray,
+  isValidResponse,
+  mergeArrays,
+  updateNotifications,
+} from "../utils/commonUtils";
+import { ERROR_TEXT, events, eventTypes } from "../utils/constants";
+import useSiren from "../utils/sirenHook";
+
+/**
+ * SirenPanel component renders a notification panel with a header, notification cards, and optional custom footer.
+ *
+ * @component
+ * @example
+ * <SirenPanel
+ *   styles={customStyles}
+ *   title="Notifications"
+ *   hideHeader={false}
+ *   cardProps={{ hideAvatar: false, showMedia: true }}
+ *   renderListEmpty={() => <div>No notifications</div>}
+ *   customFooter={<FooterComponent />}
+ *   customHeader={<CustomHeader />}
+ *   customNotificationCard={(dataItem) => <CustomNotificationCard data={dataItem} />}
+ *   onNotificationCardClick={(notification) => console.log('Notification clicked', notification)}
+ * />
+ *
+ * @param {NotificationPanelProps} props - The properties passed to the SirenWindow component.
+ * @param {Object} props.styles - Custom styles applied to the notification panel and its elements.
+ * @param {string} props.title - The title of the notification panel.
+ * @param {boolean} [props.hideHeader=false] - Whether to hide the header of the notification panel.
+ * @param {boolean} [props.hideClearAll=false] - Flag indicating if the clear all button should be hidden
+ * @param {Object} props.cardProps - Optional properties to customize the appearance of notification cards.
+ * @param {Function} props.renderListEmpty - Function to render content when the notification list is empty.
+ * @param {ReactNode} props.customFooter - Custom footer component to be rendered below the notification list.
+ * @param {ReactNode} props.customHeader - Custom header component to be rendered above the notification list.
+ * @param {Function} props.customNotificationCard - Function to render custom notification cards.
+ * @param {Function} props.onNotificationCardClick - Callback function executed when a notification card is clicked.
+ * @returns {ReactElement} The rendered SirenWindow component.
+ */
+
+type EventListenerDataType = {
+  id?: string;
+  action: string;
+  newNotifications?: NotificationDataType[];
+  unreadCount?: number;
+};
+
+const SirenPanel: FC<NotificationPanelProps> = ({
+  styles,
+  title,
+  hideHeader,
+  cardProps,
+  customFooter,
+  customHeader,
+  fullScreen,
+  listEmptyComponent,
+  noOfNotificationsPerFetch,
+  customNotificationCard,
+  onNotificationCardClick,
+  onError,
+  hideClearAll = false,
+}) => {
+  const {
+    markNotificationsAsViewed,
+    deleteNotificationsByDate,
+    deleteNotification,
+  } = useSiren();
+  const { siren } = useSirenContext();
+  const [notifications, setNotifications] = useState<NotificationDataType[]>(
+    []
+  );
+
+  const [error, setError] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [endReached, setEndReached] = useState(false);
+  const [eventListenerData, setEventListenerData] =
+    useState<EventListenerDataType | null>(null);
+
+  const notificationSubscriber = async (type: string, dataString: string) => {
+    const data = await JSON.parse(dataString);
+
+    setEventListenerData(data);
+  };
+
+  useEffect(() => {
+    PubSub.subscribe(events.NOTIFICATION_LIST_EVENT, notificationSubscriber);
+
+    return () => {
+      cleanUp();
+      setNotifications([]);
+      restartNotificationCountFetch();
+      handleMarkNotificationsAsViewed(new Date().toISOString());
+    };
+  }, []);
+
+  useEffect(() => {
+    if (eventListenerData) {
+      const updatedNotifications: NotificationDataType[] = updateNotifications(
+        eventListenerData,
+        notifications
+      );
+
+      setNotifications(updatedNotifications);
+      setEventListenerData(null);
+    }
+  }, [eventListenerData]);
+
+  useEffect(() => {
+    if (siren) {
+      siren.stopRealTimeUnviewedCountFetch();
+      fetchNotifications(true);
+    }
+  }, [siren]);
+
+  const restartNotificationCountFetch = () => {
+    try {
+      siren?.startRealTimeUnviewedCountFetch();
+    } catch (er) {
+      //  handle error if needed
+    }
+  };
+
+  const cleanUp = () => {
+    siren?.stopRealTimeNotificationFetch();
+  };
+
+  const triggerOnError = useCallback(
+    (
+      response: NotificationsApiResponse | ActionResponse | MarkAsViewedResponse
+    ) => {
+      if (response?.error && onError) onError(response.error);
+    },
+    [onError]
+  );
+
+  const resetValues = () => {
+    setNotifications([]);
+    setEndReached(false);
+    setError("");
+  };
+
+  const handleClearAllNotification = async (): Promise<void> => {
+    try {
+      if (!isEmptyArray(notifications)) {
+        const response = await deleteNotificationsByDate(
+          notifications[0].createdAt
+        );
+
+        triggerOnError(response);
+
+        if (isValidResponse(response)) {
+          resetValues();
+          setEndReached(true);
+          setIsLoading(false);
+        }
+      }
+    } catch (er) {
+      //  handle error if needed
+    }
+  };
+
+  const onRefresh = async (): Promise<void> => {
+    cleanUp();
+    resetValues();
+    setEndReached(false);
+    fetchNotifications(true);
+  };
+
+  const updateNotificationList = (
+    newNotifications: NotificationDataType[],
+    shouldMerge: boolean
+  ) => {
+    const updatedNotifications = shouldMerge
+      ? mergeArrays(notifications, newNotifications)
+      : newNotifications;
+
+    setNotifications(updatedNotifications);
+    handleMarkNotificationsAsViewed(updatedNotifications[0].createdAt);
+  };
+
+  const fetchNotifications = async (isRefresh = false) => {
+    setError("");
+    setIsLoading(true);
+
+    if (!siren) return [];
+
+    try {
+      const response = await siren.fetchAllNotifications(
+        generateFilterParams(
+          isRefresh ? [] : notifications,
+          false,
+          noOfNotificationsPerFetch
+        )
+      );
+
+      if (isValidResponse(response)) {
+        let data: NotificationDataType[] | null = null;
+
+        if (!isEmptyArray(response.data ?? [])) {
+          data = filterDataProperty(response);
+          if (!data) return [];
+          updateNotificationList(data, !isRefresh);
+        }
+        if (!data || data.length < noOfNotificationsPerFetch)
+          setEndReached(true);
+        resetRealTimeFetch(isRefresh, data);
+      } else {
+        setEndReached(true);
+        if ("error" in response) setError(response.error?.Message ?? "");
+        else setError(ERROR_TEXT);
+      }
+    } catch (error: any) {
+      setIsLoading(false);
+      if ("Message" in error) setError(error?.Message);
+      else setError(ERROR_TEXT);
+    }
+
+    setIsLoading(false);
+  };
+
+  const resetRealTimeFetch = (
+    refresh: boolean,
+    newList: NotificationDataType[] | null
+  ) => {
+    if (!refresh) return;
+
+    try {
+      siren?.startRealTimeNotificationFetch(
+        generateFilterParams(newList ?? [], true, noOfNotificationsPerFetch)
+      );
+    } catch (er) {
+      //  handle error if needed
+    }
+  };
+
+  const deleteNotificationById = useCallback(
+    async (id: string) => {
+      try {
+        const response = await deleteNotification(id);
+
+        triggerOnError(response);
+      } catch (er) {
+        //  handle error if needed
+      }
+    },
+    [deleteNotification, triggerOnError]
+  );
+
+  const onEndReached = (): void => {
+    if (!isLoading && !endReached && notifications?.length > 0)
+      fetchNotifications(false);
+  };
+
+  const handleMarkNotificationsAsViewed = async (
+    createdAt: string
+  ): Promise<void> => {
+    try {
+      const payload = {
+        unviewedCount: 0,
+        action: eventTypes.UPDATE_NOTIFICATIONS_COUNT,
+      };
+
+      PubSub.publish(events.NOTIFICATION_COUNT_EVENT, JSON.stringify(payload));
+      if (createdAt) {
+        const response = await markNotificationsAsViewed(createdAt);
+
+        triggerOnError(response);
+      }
+    } catch (er) {
+      //  handle error if needed
+    }
+  };
+
+  const handleLoadMore = (event: React.MouseEvent) => {
+    event.preventDefault();
+    onEndReached();
+  };
+
+  const renderFooter = () => {
+    if (isEmptyArray(notifications) && isLoading) return <div />;
+
+    return (
+      <div className="siren-sdk-panel-footer" data-testid="custom-footer">
+        {customFooter}
+      </div>
+    );
+  };
+
+  const renderList = () => {
+    if (isLoading && isEmptyArray(notifications))
+      return (
+        <div className="siren-sdk-list-loader-container">
+          <AnimatedLoader />
+          <AnimatedLoader />
+          <AnimatedLoader />
+          <AnimatedLoader />
+          <AnimatedLoader />
+        </div>
+      )
+
+    if (error)
+      return (
+        <ErrorWindow onRefresh={onRefresh} styles={styles} error={error} />
+      );
+
+    if (isEmptyArray(notifications))
+      return (
+        listEmptyComponent || (
+          <EmptyList data-testid="empty-list" styles={styles} />
+        )
+      );
+
+    if (customNotificationCard)
+      return notifications.map((item) => customNotificationCard(item));
+
+    return notifications.map((item) => (
+      <NotificationCard
+        notification={item}
+        cardProps={cardProps}
+        onNotificationCardClick={onNotificationCardClick}
+        deleteNotificationById={deleteNotificationById}
+        styles={styles}
+        key={item.id}
+        data-testid="notification-card"
+      />
+    ));
+  };
+
+  const renderListBottomComponent = () => {
+    if (
+      isEmptyArray(notifications) ||
+      notifications.length < noOfNotificationsPerFetch
+    )
+      return null;
+    if (isLoading && !endReached)
+      return <AnimatedLoader/>;
+    if (!isLoading && !endReached)
+      return (
+        <button
+          className="siren-sdk-panel-load-more"
+          onClick={handleLoadMore}
+          data-testid="load-more"
+          style={styles.loadMoreButton}
+        >
+          Load More
+        </button>
+      );
+
+    return null;
+  };
+
+  return (
+    <div
+      className={
+        !fullScreen ? "siren-sdk-panel-modal" : "siren-sdk-panel-container"
+      }
+      style={styles.container}
+      data-testid="siren-panel"
+    >
+      <div>
+        {!hideHeader &&
+          (customHeader || (
+            <Header
+              title={title}
+              styles={styles}
+              hideClearAll={hideClearAll}
+              enableClearAll={!isEmptyArray(notifications)}
+              handleClearAllNotification={handleClearAllNotification}
+            />
+          ))}
+        <div
+          id="contentContainer"
+          style={styles.contentContainer}
+          className={`${
+            (!notifications?.length || error) && "siren-sdk-content-container"
+          }`}
+        >
+          {renderList()}
+          {renderListBottomComponent()}
+        </div>
+      </div>
+      {renderFooter()}
+    </div>
+  );
+};
+
+export default SirenPanel;

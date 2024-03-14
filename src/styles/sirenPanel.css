@@ -1,0 +1,43 @@
+.siren-sdk-list-loader-container{
+    width: 100%;
+}
+.siren-sdk-panel-load-more {
+    width: 100%;
+    cursor: pointer;
+    border: none;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    padding-top: 15px;
+    padding-bottom: 14px;
+    font-weight: 600;
+}
+.siren-sdk-panel-modal {
+    position: absolute;
+    box-shadow: rgb(0 0 0 / 30%) 0px 8px 24px;
+    border-radius: 20px;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+.siren-sdk-panel-container {
+    width: 100% !important;
+    box-shadow: rgb(0 0 0 / 30%) 0px 8px 24px;
+    border-radius: 20px;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.siren-sdk-panel-footer {
+    bottom: 0;
+    width: 100%;
+}
+
+.siren-sdk-content-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

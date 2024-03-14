@@ -1,0 +1,29 @@
+.siren-sdk-empty-container {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.siren-sdk-empty-text {
+  font-size: 14px;
+  font-weight: 600;
+  padding-top: 4px;
+  font-family: 'switzer';
+  line-height: 20px;
+  margin: 0px;
+}
+
+.siren-sdk-empty-sub-text {
+  font-size: 12px;
+  font-weight: 400;
+  padding-top: 4px;
+  font-family: 'switzer';
+  color: #667185;
+  line-height: 16px;
+  margin: 0px;
+}
+
+.siren-sdk-empty-icon{
+  width: 160px;
+  height: 160px;
+}
