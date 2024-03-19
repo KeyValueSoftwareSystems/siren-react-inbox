@@ -1,0 +1,143 @@
+import React, { type FC, useCallback, useEffect, useState } from "react";
+
+import BellIcon from "./BellIcon";
+import { useSirenContext } from "./SirenProvider";
+import "../styles/sirenNotificationIcon.css";
+import type { SirenNotificationButtonProps } from "../types";
+import { Constants } from "../utils";
+import { BadgeType } from "../utils/constants";
+
+const { eventTypes, events } = Constants;
+
+/**
+ * SirenNotificationIcon Component
+ * @component
+ * @param {Object} props - Props for the SirenNotificationIcon component
+ * @param {ReactNode} [props.notificationIcon] - The icon for the notification
+ * @param {BadgeType} [props.badgeType=DEFAULT] - The type of badge to display
+ * @param {Object} [props.styles] - Custom styles for the component
+ * @param {Function} props.onIconClick - Click event handler for the icon
+ * @returns {JSX.Element} - SirenNotificationIcon component JSX
+ */
+
+const SirenNotificationIcon: FC<SirenNotificationButtonProps> = ({
+  notificationIcon,
+  badgeType,
+  styles,
+  onIconClick,
+  darkMode,
+}) => {
+  const { siren } = useSirenContext();
+
+  const [unviewedCount, seUnviewedCount] = useState<number>(0);
+
+  const notificationCountSubscriber = async (
+    type: string,
+    dataString: string
+  ) => {
+    const data = await JSON.parse(dataString);
+
+    if (data.action === eventTypes.UPDATE_NOTIFICATIONS_COUNT)
+      seUnviewedCount(data.unviewedCount);
+  };
+
+  useEffect(() => {
+    PubSub.subscribe(
+      events.NOTIFICATION_COUNT_EVENT,
+      notificationCountSubscriber
+    );
+
+    return () => {
+      cleanUp();
+    };
+  }, []);
+
+  useEffect(() => {
+    getUnViewedCount();
+  }, [siren]);
+
+  useEffect(() => {
+    startRealTimeDataFetch();
+  }, []);
+
+  const cleanUp = () => {
+    siren?.stopRealTimeUnviewedCountFetch();
+  };
+
+  const startRealTimeDataFetch = (): void => {
+    cleanUp();
+    siren?.startRealTimeUnviewedCountFetch();
+  };
+
+  const getUnViewedCount = async (): Promise<void> => {
+    if (!siren) return;
+    try {
+      const response = await siren.fetchUnviewedNotificationsCount();
+
+      startRealTimeDataFetch();
+      if (response && response.error) return;
+      if (response?.data) seUnviewedCount(response?.data?.unviewedCount || 0);
+    } catch (er) {
+      //  handle error if needed
+    }
+  };
+
+  const renderCount = useCallback(
+    () => (unviewedCount > 99 ? "99+" : unviewedCount),
+    [unviewedCount]
+  );
+
+  const renderBadge = () => {
+    switch (badgeType) {
+      case BadgeType.DEFAULT: {
+        return (
+          unviewedCount > 0 && (
+            <div
+              style={styles.badgeStyle}
+              className="siren-sdk-notificationIcon-badge-container"
+            >
+              <div
+                style={styles.badgeTextStyle}
+                data-testid="notification-default-badge"
+              >
+                {renderCount()}
+              </div>
+            </div>
+          )
+        );
+      }
+      case BadgeType.DOT:
+        return (
+          <span
+            className="siren-sdk-notificationIcon-badge-container"
+            data-testid="notification-dot-badge"
+          />
+        );
+
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <button
+      onClick={onIconClick}
+      className="siren-sdk-notificationIcon-container"
+      data-testid="notification-icon"
+    >
+      {notificationIcon || (
+        <BellIcon
+          size={styles.notificationIcon.size}
+          color={
+            darkMode
+              ? Constants.COLORS.dark.notificationIcon
+              : Constants.COLORS.light.notificationIcon
+          }
+        />
+      )}
+      {renderBadge()}
+    </button>
+  );
+};
+
+export default SirenNotificationIcon;
