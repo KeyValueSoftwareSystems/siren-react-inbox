@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="siren-sdk-error-window-container"
+    data-testid="error-window"
+  >
+    <div
+      class="siren-sdk-error-icon-container"
+      style="background-color: rgb(56, 56, 61);"
+    >
+      <img
+        alt="error-icon"
+        class="siren-sdk-error-icon"
+        src="[object Object]"
+        style="opacity: 0.2;"
+      />
+    </div>
+    <div
+      class="siren-sdk-error-text"
+      style="color: rgb(255, 255, 255);"
+    >
+      Oops! Something went wrong
+    </div>
+    <div
+      class="siren-sdk-error-sub-text"
+      style="color: rgb(255, 255, 255);"
+    >
+      Could not load the notifications. Please refresh the page.
+    </div>
+  </div>
+</DocumentFragment>
+`;
