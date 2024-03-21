@@ -99,6 +99,7 @@ loadMoreLabel | Text to be shown on the bottom load more component | string | "L
 hideHeader | Flag to hide or show the header |  boolean | false |
 hideClearAll | Flag to hide or show the clear all button | boolean | false |
 darkMode | Flag to enable dark mode |  boolean | false |
+itemsPerFetch | Number of notifications fetch per api request (have a max cap of 50) | number | 20 |
 windowViewOnly | Flag to enable window view |  boolean | false |
 notificationIcon | Option to use custom notification Icon |  JSX Element | null |
 noOfNotificationsPerFetch | Number of notifications to fetch per page | number | 10 |

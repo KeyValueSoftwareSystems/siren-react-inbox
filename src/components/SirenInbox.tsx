@@ -6,7 +6,7 @@ import { useSirenContext } from "./SirenProvider";
 import type { SirenProps } from "../types";
 import { Constants } from "../utils";
 import { applyTheme, calculateModalPosition } from "../utils/commonUtils";
-import { BadgeType, ThemeMode } from "../utils/constants";
+import { BadgeType, MAXIMUM_ITEMS_PER_FETCH, ThemeMode } from "../utils/constants";
 import "../styles/sirenInbox.css";
 
 const { DEFAULT_WINDOW_TITLE } = Constants;
@@ -55,8 +55,10 @@ const SirenInbox: FC<SirenProps> = ({
   customNotificationCard,
   onNotificationCardClick,
   onError,
-  noOfNotificationsPerFetch = 10,
+  itemsPerFetch = 20,
 }) => {
+  const notificationsPerPage =
+  itemsPerFetch > MAXIMUM_ITEMS_PER_FETCH ? MAXIMUM_ITEMS_PER_FETCH : itemsPerFetch;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { siren } = useSirenContext();
   const iconRef = useRef<HTMLDivElement>(null);
@@ -155,7 +157,7 @@ const SirenInbox: FC<SirenProps> = ({
           <SirenPanel
             title={title}
             styles={styles}
-            noOfNotificationsPerFetch={noOfNotificationsPerFetch}
+            noOfNotificationsPerFetch={notificationsPerPage}
             hideHeader={hideHeader}
             cardProps={cardProps}
             customFooter={customFooter}
