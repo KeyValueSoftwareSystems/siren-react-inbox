@@ -24,7 +24,7 @@ import {
   mergeArrays,
   updateNotifications,
 } from "../utils/commonUtils";
-import { ERROR_TEXT, events, eventTypes } from "../utils/constants";
+import { ERROR_TEXT, events, eventTypes, VerificationStatus } from "../utils/constants";
 import useSiren from "../utils/sirenHook";
 
 /**
@@ -94,7 +94,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
     deleteNotificationsByDate,
     deleteNotification,
   } = useSiren();
-  const { siren } = useSirenContext();
+  const { siren, verificationStatus } = useSirenContext();
   const [notifications, setNotifications] = useState<NotificationDataType[]>(
     []
   );
@@ -136,11 +136,12 @@ const SirenPanel: FC<SirenPanelProps> = ({
   }, [eventListenerData]);
 
   useEffect(() => {
-    if (siren) {
+    if (siren && verificationStatus !== VerificationStatus.PENDING) {
       siren.stopRealTimeUnviewedCountFetch();
       fetchNotifications(true);
     }
-  }, [siren]);
+  }, [siren, verificationStatus]);
+
 
   const restartNotificationCountFetch = () => {
     try {
