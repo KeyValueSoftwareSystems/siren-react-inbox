@@ -1,51 +1,32 @@
-<div>
-    <img width="50px" style="float:left;padding-right:12px;" src="https://app.dev.sirenapp.io/assets/Siren-b2f89b52.svg" >
-    <H1>Siren React Inbox</H1>
-</div>
 
-## Table of Contents
-
-<!-- MarkdownTOC -->
-
-- [Overview](#overview)
-- [Quick Start Guide](#quick-start-guide)
-  - [Install SDK](#1-install-sdk)
-  - [Siren Provider](#2-siren-provider)
-  - [Siren Inbox](#3-siren-inbox)
-  - [useSiren](#4-usesiren)
-  - [Error Codes](#5-error-codes)
-  - [Complete Code Example](#complete-code-example)
-- [I want to know more!](#i-want-to-know-more)
-
-<!-- /MarkdownTOC -->
+<H1>Siren React Inbox</H1>
 
 <a name="introduction"></a>
 
 ## Overview
 
-The @siren/react-inbox sdk is a comprehensive and customizable React UI kit for displaying and managing notifications. This documentation provides comprehensive information on how to install, configure, and use the sdk effectively.
+The `@siren/react-inbox` sdk is a comprehensive and customizable React UI kit for displaying and managing notifications. This documentation provides comprehensive information on how to install, configure, and use the sdk effectively.
 
-## Quick Start Guide
+### 1. Installation
 
-### 1. Install SDK
+You can install the react sdk from npm 
 
-To install the @siren/react-inbox sdk, you can use npm or yarn.
+```bash
+npm @siren/react-inbox
+```
+or from yarn
+
+```bash
+yarn @siren/react-inbox
+```
 
 #### Prerequisites
 
 - React v16.8+
 
-#### Steps
-
-1. Under your app's root directory, install @siren/react-inbox.
-
-```
-npm install @siren/react-inbox
-```
-
-### 2. Siren Provider
-
-The SirenProvider initializes the Siren sdk with the specified configuration, which contains important parameters like the user token and recipient ID. Wrap the SirenProvider around your App's root.
+### 2. Configuration
+#### 2.1 Initialization
+Initialize the sdk with user token and recipient id. Wrap the provider around your App's root.
 
 ```js
 import { SirenProvider } from "@siren/react-inbox";
@@ -58,66 +39,48 @@ const config = {
 <SirenProvider config={config}>{/* Your app components */}</SirenProvider>;
 ```
 
-The config is a prop for the SirenProvider component is authenticate and initialize sdk.
+#### 2.2 Configure notification inbox
+Once the provider is configured, next step is to configure the notification inbox
 
-```js
-type config = {
-  userToken: string,
-  recipientId: string,
-};
-```
-
-### 3. Siren Inbox
-
-SirenInbox is a paginated list view with notification Icon for displaying notifications.
+Inbox is a paginated list view for displaying notifications.
 
 ```js
 import { SirenInbox } from '@siren/react-inbox';
 
-<SirenInbox
-    theme={customTheme}
-    title="Notifications"
-    windowViewOnly={false}
-    hideHeader={false}
-    darkMode={true}
-    noOfNotificationsPerFetch={10}
-    cardProps={hideAvatar: false}
-    onError={(error) => console.log(error)}
-/>
+<SirenInbox />
 
 ```
 
-#### Siren Inbox Props
+#### Props for the notification inbox
 
-Given below are all props of inbox component.
+Below are optional props available for the inbox component:
 
 Prop | Description | Type | Default value |
 --- | --- | --- | --- |
-theme | Theme object for custom styling |  Theme | {} |
+theme | Object for custom themes |  Theme | {} |
 title |  Title of the notification inbox |  string | "Notifications" |
-loadMoreLabel | Text to be shown on the bottom load more component | string | "Load More"
-hideHeader | Flag to hide or show the header |  boolean | false |
-hideClearAll | Flag to hide or show the clear all button | boolean | false |
-darkMode | Flag to enable dark mode |  boolean | false |
+loadMoreLabel | Text shown on the load more component | string | "Load More"
+hideHeader | Toggle to hide or show the header section |  boolean | false |
+hideClearAll | Toggle to hide or show the clear all button | boolean | false |
+darkMode | Toggle to enable dark mode |  boolean | false |
 itemsPerFetch | Number of notifications fetch per api request (have a max cap of 50) | number | 20 |
-windowViewOnly | Flag to enable window view |  boolean | false |
+windowViewOnly | Toggle to enable fit-to-screen window or modal view |  boolean | false |
 notificationIcon | Option to use custom notification Icon |  JSX Element | null |
-noOfNotificationsPerFetch | Number of notifications to fetch per page | number | 10 |
-cardProps | Props for customizing the notification cards | CardProps | null |
-customNotificationCard | Custom function for rendering notification cards | (notification)=> JSX Element | null |
-onNotificationCardClick | Props for customizing the notification cards | (notification)=> void | ()=>null |
-listEmptyComponent | Custom component to display when the notification list is empty | JSX Element | null |
+cardProps | Props for customizing the notification cards | { hideAvatar: boolean } | { hideAvatar: false } |
+customNotificationCard | Function for rendering custom notification cards | (notification)=> JSX Element | null |
+onNotificationCardClick | Custom click handler for notification cards | (notification)=> void | ()=>null |
+listEmptyComponent | Custom component for empty notification list | JSX Element | null |
 customHeader | Custom header component | JSX Element | null |
 customFooter | Custom footer component | JSX Element | null |
-customLoader | Custom Loader component | JSX Element | null |
-loadMoreComponent | Custom Load More component | JSX Element | null |
+customLoader | Custom loader component | JSX Element | null |
+loadMoreComponent | Custom load more component | JSX Element | null |
 customErrorWindow | Custom error window | JSX Element | null |
-
 onError | Callback for handling errors | (error:  SirenErrorType)=> void | null |
 
-#### Theming options
+### 3. Customization
+#### 3.1 Themes
 
-Customizable UI option for notification inbox, with dark and light theme options.
+Here are the available theme options:
 
 ```js
 type Theme = {
@@ -170,9 +133,11 @@ type ThemeProps = {
   }
 };
 ```
-#### Style options
+#### 3.2 Style options
 
-Customize the styles for siren inbox
+Here are the custom style options for the notification inbox
+
+Please note that the badgeStyle, window shadow and border props are only applicable for modal view
 
 ```js
  type CustomStyle = {
@@ -223,10 +188,10 @@ Customize the styles for siren inbox
   }
 }
 ```
-Note : badStyle, window shadow and border props are only applicable only for modal view
-### 4. useSiren
 
-This is a hook that provides utility functions for modifying notifications.
+### 4. Hooks
+
+useSiren is a hook that provides utility functions for modifying notifications.
 
 ```js
 import { useSiren } from "@siren/react-inbox";
@@ -268,36 +233,34 @@ function MyComponent() {
 
 #### useSiren functions
 
-| Function name                 | Parameters type   | Description                                                 |
-| ----------------------------- | ----------------- | ----------------------------------------------------------- |
-| markNotificationsAsReadByDate | startDate: string | Set all notification read status to true until given date   |
-| markAsRead                    | id: string        | Set read status of a specific notification to true          |
-| deleteNotification            | id: string        | Delete a specific notification by id                        |
-| deleteNotificationsByDate     | startDate: string | Delete all notifications until given date                   |
-| markNotificationsAsViewed     | startDate: string | Set all notification viewed status to true until given date |
+| Functions                 | Parameters    | Type  | Description                                                 |
+| ----------------------------- | ----------------- |---------| ----------------------------------------------------------- |
+| markNotificationsAsReadByDate | startDate | ISO date string | Sets the read status of notifications to true until the given date.   |
+| markAsRead                    | id  | string        | Set read status of a notification to true          |
+| deleteNotification            | id  | string        | Delete a notification by id                        |
+| deleteNotificationsByDate     | startDate | ISO date string| Delete all notifications until given date                   |
+| markNotificationsAsViewed     | startDate | ISO date string | Sets the viewed status  of notifications to true until the given date |
 
 ### 5. Error codes
 
 Given below are all possible error codes thrown by sdk.
 
-| Error code                | Message                               | Description                                            |
-| ------------------------- | ------------------------------------- | ------------------------------------------------------ |
-| INVALID_TOKEN             | Invalid token                         | Token passed in provider is invalid                    |
-| INVALID_RECIPIENT_ID      | Invalid recipient id                  | Recipient id in provider is invalid                    |
-| TOKEN_VERIFICATION_FAILED | This operation requires a valid token | Failed to verify token and initialize sdk              |
-| INVALID_ERROR_FUNCTION    | Invalid error function                | Error function is invalid                              |
-| GENERIC_API_ERROR         | Api error                             | Failed to call a internal api                          |
-| SIREN_OBJECT_NOT_FOUND    | Siren Object Not found                | Was failed to initialize sdk, Siren object not created |
-| MISSING_PARAMETER         | Missing Parameter                     | A parameter is missing in function call                |
+| Error code                | Message                               | Description                                                       |
+| ------------------------- | ------------------------------------- | ------------------------------------------------------------------|
+| INVALID_TOKEN             | Invalid token                         | The token passed in the provider is invalid                       |
+| INVALID_RECIPIENT_ID      | Invalid recipient id                  | The recipient id passed in the provider is invalid                |
+| TOKEN_VERIFICATION_FAILED | This operation requires a valid token | Verification of the given tokens has failed                                 |
+| GENERIC_API_ERROR         | Api error                             | Occurrence of an unexpected api error                             |
+| SIREN_OBJECT_NOT_FOUND    | Siren Object Not found                | Attempting to invoke the functions outside the siren inbox context|
+| MISSING_PARAMETER         | Missing Parameter                     | The required parameter is missing                |
 
-### Complete Code Example
+### Example
 
-Here's a runnable code example that covers everything in this quick start guide.
+Here's a basic example to help you get started.
 
 ```js
 
 import React from 'react';
-import {SafeAreaView} from 'react';
 import {SirenInbox,SirenProvider} from '@siren/react-inbox';
 
 function App(): React.JSX.Element {
@@ -316,26 +279,16 @@ function App(): React.JSX.Element {
 
 export default App;
 
-function MyContainer(): React.JSX.Element {
+export function MyContainer(): React.JSX.Element {
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <div>
       <SirenInbox
         title="Notifications"
         hideHeader={false}
         darkMode={false}
         cardProps={{hideAvatar: false}}
       />
-    </SafeAreaView>
+    </div>
   );
 }
-
-export default MyContainer;
-
-```
-
-### I want to know more!
-
-No worries, here are some links that you will find useful:
-
-- **[Advanced React Guide](https://react.dev/learn/installation)**
