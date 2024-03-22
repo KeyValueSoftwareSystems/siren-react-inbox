@@ -9,15 +9,6 @@
   grid-template-columns: auto max-content;
 }
 
-.siren-sdk-card-time-icon{
-  width: 13px;
-  height: 13px;
-}
-
-.siren-sdk-card-transparent {
-  background-color: transparent;
-}
-
 .siren-sdk-delete-button {
   cursor: pointer;
   padding-right: 10px;
