@@ -356,6 +356,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
         deleteNotificationById={deleteNotificationById}
         styles={styles}
         key={item.id}
+        darkMode={darkMode}
         data-testid="notification-card"
       />
     ));

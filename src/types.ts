@@ -55,6 +55,7 @@ export type NotificationCardProps = {
   onNotificationCardClick: SirenInboxProps["onNotificationCardClick"];
   styles: SirenStyleProps;
   deleteNotificationById: (id: string) => void;
+  darkMode: boolean;
 };
 
 export type SirenNotificationButtonProps = {
