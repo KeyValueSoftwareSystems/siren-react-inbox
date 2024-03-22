@@ -43,7 +43,7 @@ const SirenInbox: FC<SirenProps> = ({
   title = DEFAULT_WINDOW_TITLE,
   windowViewOnly = false,
   hideHeader,
-  hideBadge = true,
+  hideBadge = false,
   hideClearAll = false,
   darkMode = false,
   cardProps,
