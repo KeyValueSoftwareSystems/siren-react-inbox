@@ -251,7 +251,7 @@ Given below are all possible error codes thrown by sdk.
 | INVALID_RECIPIENT_ID      | Invalid recipient id                  | The recipient id passed in the provider is invalid                |
 | TOKEN_VERIFICATION_FAILED | This operation requires a valid token | Verification of the given tokens has failed                                 |
 | GENERIC_API_ERROR         | Api error                             | Occurrence of an unexpected api error                             |
-| SIREN_OBJECT_NOT_FOUND    | Siren Object Not found                | Attempting to invoke the functions outside the siren inbox context|
+| OUTSIDE_SIREN_CONTEXT    | Siren Object Not found                | Attempting to invoke the functions outside the siren inbox context|
 | MISSING_PARAMETER         | Missing Parameter                     | The required parameter is missing                |
 
 ### Example
