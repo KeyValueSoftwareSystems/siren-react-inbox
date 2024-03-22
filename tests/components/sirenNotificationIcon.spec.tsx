@@ -27,6 +27,7 @@ test("matches snapshot", () => {
       badgeType="default"
       onIconClick={mockClickFn}
       darkMode={false}
+      hideBadge={false}
     />
   );
 
@@ -41,6 +42,7 @@ test("should render notification icon only", () => {
       notificationIcon={<div />}
       badgeType="none"
       darkMode={true}
+      hideBadge={false}
     />
   );
   const badge = component.queryByTestId("notification-default-badge");
@@ -56,6 +58,7 @@ test("should notification icon with a dot badge", () => {
       notificationIcon={<div />}
       badgeType="dot"
       darkMode={true}
+      hideBadge={false}
     />
   );
   const badge = component.queryByTestId("notification-dot-badge");
@@ -70,6 +73,7 @@ test("should render the passed notification icon", () => {
       badgeType="default"
       notificationIcon={<div data-testid="custom-notification-icon" />}
       darkMode={true}
+      hideBadge={false}
     />
   );
   const button = component.getByTestId("custom-notification-icon"); // Assuming count is displayed as button text
@@ -85,6 +89,7 @@ test("should call onClick handler on button click", () => {
       notificationIcon={<div />}
       badgeType="dot"
       darkMode={true}
+      hideBadge={false}
     />
   );
   const button = component.getByTestId("notification-icon");
@@ -102,6 +107,7 @@ it("does not render badge with count if unviewed count is 0", () => {
       onIconClick={mockClickFn}
       notificationIcon={<div />}
       darkMode={true}
+      hideBadge={false}
     />
   );
   const badge = queryByTestId("notification-default-badge");
@@ -117,6 +123,7 @@ it("renders badge without count for DOT badge type", () => {
       notificationIcon={<div />}
       badgeType="dot"
       darkMode={true}
+      hideBadge={false}
     />
   );
   const badge = getByTestId("notification-dot-badge");
@@ -133,6 +140,7 @@ it("calls onClick handler when icon is clicked", () => {
       notificationIcon={<div />}
       badgeType="dot"
       darkMode={true}
+      hideBadge={false}
     />
   );
   const icon = getByTestId("notification-icon");
@@ -149,6 +157,7 @@ test("should not render badge with count if unviewed count is 0", () => {
       onIconClick={mockClickFn}
       notificationIcon={<div />}
       darkMode={true}
+      hideBadge={false}
     />
   );
   const badge = queryByTestId("notification-default-badge");
@@ -164,6 +173,7 @@ test("should hide badge if unviewed count is 0 and badge type is default", () =>
       badgeType="default"
       notificationIcon={<div />}
       darkMode={true}
+      hideBadge={false}
     />
   );
   const badge = queryByTestId("notification-default-badge");
@@ -179,6 +189,7 @@ test("should hide badge if badge type is set to none", () => {
       badgeType="none"
       notificationIcon={<div />}
       darkMode={true}
+      hideBadge={false}
     />
   );
   const badge = queryByTestId("notification-default-badge");
@@ -194,6 +205,7 @@ test("calls PubSub.subscribe with correct arguments", () => {
       badgeType="default"
       onIconClick={mockClickFn}
       darkMode={true}
+      hideBadge={false}
     />,
     {
       wrapper: ({ children }) => (

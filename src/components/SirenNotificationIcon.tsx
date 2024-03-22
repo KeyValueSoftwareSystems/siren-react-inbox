@@ -17,6 +17,7 @@ const { eventTypes, events } = Constants;
  * @param {BadgeType} [props.badgeType=DEFAULT] - The type of badge to display
  * @param {Object} [props.styles] - Custom styles for the component
  * @param {Function} props.onIconClick - Click event handler for the icon
+ * @param {boolean} [props.hideBadge] - Flag indicating if the badge should be hidden
  * @returns {JSX.Element} - SirenNotificationIcon component JSX
  */
 
@@ -26,6 +27,7 @@ const SirenNotificationIcon: FC<SirenNotificationButtonProps> = ({
   styles,
   onIconClick,
   darkMode,
+  hideBadge,
 }) => {
   const { siren } = useSirenContext();
 
@@ -42,23 +44,28 @@ const SirenNotificationIcon: FC<SirenNotificationButtonProps> = ({
   };
 
   useEffect(() => {
-    PubSub.subscribe(
-      events.NOTIFICATION_COUNT_EVENT,
-      notificationCountSubscriber
-    );
+    if(!hideBadge) {
+      PubSub.subscribe(
+        events.NOTIFICATION_COUNT_EVENT,
+        notificationCountSubscriber
+      );
 
-    return () => {
-      cleanUp();
-    };
+      return () => {
+        cleanUp();
+      };
+    }
   }, []);
 
   useEffect(() => {
-    getUnViewedCount();
-  }, [siren]);
+    if(!hideBadge) 
+      getUnViewedCount();
+    
+  }, [siren, hideBadge]);
 
   useEffect(() => {
-    startRealTimeDataFetch();
-  }, []);
+    if(!hideBadge)
+      startRealTimeDataFetch();
+  }, [hideBadge]);
 
   const cleanUp = () => {
     siren?.stopRealTimeUnviewedCountFetch();
@@ -135,7 +142,7 @@ const SirenNotificationIcon: FC<SirenNotificationButtonProps> = ({
           }
         />
       )}
-      {renderBadge()}
+      {!hideBadge && renderBadge()}
     </button>
   );
 };
