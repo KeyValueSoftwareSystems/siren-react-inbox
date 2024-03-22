@@ -77,7 +77,7 @@ const SirenProvider: React.FC<SirenProvider> = ({ config, children }) => {
       sendResetDataEvents();
       initialize();
     }
-    if(retryCount > 3) 
+    if(retryCount > MAXIMUM_RETRY_COUNT) 
       stopRealTimeFetch();
     
   }, [config]);
