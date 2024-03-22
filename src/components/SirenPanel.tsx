@@ -238,8 +238,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
         resetRealTimeFetch(isRefresh, data);
       } else {
         setEndReached(true);
-        if (response && "error" in response) setError(response.error?.Message ?? "");
-        else setError(ERROR_TEXT);
+        setError(ERROR_TEXT);
       }
     } catch (error: any) {
       setIsLoading(false);
