@@ -1,8 +1,6 @@
 
 <H1>Siren React Inbox</H1>
 
-<a name="introduction"></a>
-
 ## Overview
 
 The `@siren/react-inbox` sdk is a comprehensive and customizable React UI kit for displaying and managing notifications. This documentation provides comprehensive information on how to install, configure, and use the sdk effectively.
@@ -251,7 +249,7 @@ Given below are all possible error codes thrown by sdk.
 | INVALID_RECIPIENT_ID      | Invalid recipient id                  | The recipient id passed in the provider is invalid                |
 | TOKEN_VERIFICATION_FAILED | This operation requires a valid token | Verification of the given tokens has failed                                 |
 | GENERIC_API_ERROR         | Api error                             | Occurrence of an unexpected api error                             |
-| OUTSIDE_SIREN_CONTEXT    | Siren Object Not found                | Attempting to invoke the functions outside the siren inbox context|
+| OUTSIDE_SIREN_CONTEXT     | Trying to invoke function outside the siren context          | Attempting to invoke the functions outside the siren inbox context|
 | MISSING_PARAMETER         | Missing Parameter                     | The required parameter is missing                |
 
 ### Example
