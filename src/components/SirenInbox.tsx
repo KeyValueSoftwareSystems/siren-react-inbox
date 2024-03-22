@@ -19,6 +19,7 @@ const { DEFAULT_WINDOW_TITLE } = Constants;
  * @param {boolean} [props.windowViewOnly=false] - Flag indicating if the window is view-only
  * @param {boolean} [props.hideHeader] - Flag indicating if the header should be hidden
  * @param {boolean} [props.hideClearAll] - Flag indicating if the clear all button should be hidden
+ * @param {boolean} [props.hideBadge] - Flag indicating if the badge should be hidden
  * @param {boolean} [props.darkMode] - Flag indicating if the component is in dark mode
  * @param {CardProps} [props.cardProps] - Additional props for the card component
  * @param {ReactNode} [props.notificationIcon] - The notification icon for the window
@@ -42,6 +43,7 @@ const SirenInbox: FC<SirenProps> = ({
   title = DEFAULT_WINDOW_TITLE,
   windowViewOnly = false,
   hideHeader,
+  hideBadge = true,
   hideClearAll = false,
   darkMode = false,
   cardProps,
@@ -133,6 +135,7 @@ const SirenInbox: FC<SirenProps> = ({
             onIconClick={onIconClick}
             badgeType={isModalOpen ? BadgeType.NONE : BadgeType.DEFAULT}
             darkMode={darkMode}
+            hideBadge={hideBadge}
           />
         </div>
       )}
@@ -159,6 +162,7 @@ const SirenInbox: FC<SirenProps> = ({
             styles={styles}
             noOfNotificationsPerFetch={notificationsPerPage}
             hideHeader={hideHeader}
+            hideBadge={hideBadge}
             cardProps={cardProps}
             customFooter={customFooter}
             customHeader={customHeader}

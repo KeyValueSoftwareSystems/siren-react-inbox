@@ -60,6 +60,7 @@ title |  Title of the notification inbox |  string | "Notifications" |
 loadMoreLabel | Text shown on the load more component | string | "Load More"
 hideHeader | Toggle to hide or show the header section |  boolean | false |
 hideClearAll | Toggle to hide or show the clear all button | boolean | false |
+hideBadge | Toggle to hide or show the badge       |   boolean  |   false  |
 darkMode | Toggle to enable dark mode |  boolean | false |
 itemsPerFetch | Number of notifications fetch per api request (have a max cap of 50) | number | 20 |
 windowViewOnly | Toggle to enable fit-to-screen window or modal view |  boolean | false |

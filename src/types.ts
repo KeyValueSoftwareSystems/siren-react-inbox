@@ -12,6 +12,7 @@ export type SirenInboxProps = {
   loadMoreLabel?: string,
   hideHeader?: boolean;
   hideClearAll?: boolean;
+  hideBadge?: boolean;
   darkMode?: boolean;
   itemsPerFetch?: number;
   cardProps?: CardProps;
@@ -62,12 +63,14 @@ export type SirenNotificationButtonProps = {
   styles: SirenStyleProps;
   badgeType: BadgeType;
   darkMode: boolean;
+  hideBadge: boolean;
   notificationIcon?: JSX.Element;
   onIconClick: () => void;
 };
 export type SirenPanelProps = Pick<
   SirenInboxProps,
   | "hideHeader"
+  | "hideBadge"
   | "cardProps"
   | "customFooter"
   | "customHeader"

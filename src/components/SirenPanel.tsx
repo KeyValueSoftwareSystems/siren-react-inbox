@@ -49,6 +49,7 @@ import useSiren from "../utils/sirenHook";
  * @param {string} props.title - The title of the notification panel.
  * @param {boolean} props.hideHeader=false] - Whether to hide the header of the notification panel.
  * @param {boolean} props.hideClearAll=false] - Flag indicating if the clear all button should be hidden
+ * @param {boolean} [props.hideBadge] - Flag indicating if the badge should be hidden
  * @param {string} props.loadMoreLabel - Label for load more button  
  * @param {Object} props.cardProps - Optional properties to customize the appearance of notification cards.
  * @param {Function} props.renderListEmpty - Function to render content when the notification list is empty.
@@ -74,6 +75,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
   title,
   loadMoreLabel,
   hideHeader,
+  hideBadge,
   darkMode,
   cardProps,
   customFooter,
@@ -117,10 +119,10 @@ const SirenPanel: FC<SirenPanelProps> = ({
     return () => {
       cleanUp();
       setNotifications([]);
-      restartNotificationCountFetch();
+      !hideBadge && restartNotificationCountFetch();
       handleMarkNotificationsAsViewed(new Date().toISOString());
     };
-  }, []);
+  }, [hideBadge]);
 
   useEffect(() => {
     if (eventListenerData) {
@@ -137,10 +139,10 @@ const SirenPanel: FC<SirenPanelProps> = ({
 
   useEffect(() => {
     if (siren && verificationStatus !== VerificationStatus.PENDING) {
-      siren.stopRealTimeUnviewedCountFetch();
+      !hideBadge && siren.stopRealTimeUnviewedCountFetch();
       fetchNotifications(true);
     }
-  }, [siren, verificationStatus]);
+  }, [siren, verificationStatus, hideBadge]);
 
 
   const restartNotificationCountFetch = () => {
