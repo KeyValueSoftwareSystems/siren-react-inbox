@@ -13,8 +13,7 @@ jest.mock("../../src/styles/loader.css", () => ({}));
 jest.mock("../../src/styles/emptyList.css", () => ({}));
 jest.mock("../../src/styles/errorWindow.css", () => ({}));
 jest.mock("../../src/styles/sirenPanel.css", () => ({}));
-jest.mock('../../src/styles/showMore.css', () => ({}));
-
+jest.mock("../../src/styles/showMore.css", () => ({}));
 
 const mockErrorFn = jest.fn();
 const style = applyTheme();
@@ -33,7 +32,7 @@ const props = {
   noOfNotificationsPerFetch: 10,
   fullScreen: false,
   setModalVisible: jest.fn(),
-  darkMode: false
+  darkMode: false,
 };
 
 test("matches snapshot", () => {
@@ -42,9 +41,9 @@ test("matches snapshot", () => {
   expect(asFragment()).toMatchSnapshot();
 });
 
-it('renders title when provided', () => {
+it("renders title when provided", () => {
   const { getByText } = render(<SirenPanel {...props} title="Notifications" />);
-  const title = getByText('Notifications');
+  const title = getByText("Notifications");
 
   expect(title).toBeTruthy();
 });
@@ -68,15 +67,19 @@ it("renders custom header when provided", () => {
 
 it("calls onError callback if an error occurs", async () => {
   // Mocking an error response from the server
-  jest.spyOn(global, 'fetch').mockRejectedValueOnce({
+  jest.spyOn(global, "fetch").mockRejectedValueOnce({
     json: async () => ({
-      Code: "SIREN_OBJECT_NOT_FOUND",
-      Message: "Siren Object Not found",
-      Type: "ERROR"
-    })
+      Code: "OUTSIDE_SIREN_CONTEXT",
+      Message: "Trying to invoke function outside the siren context",
+      Type: "ERROR",
+    }),
   });
   render(<SirenPanel {...props} />);
   await waitFor(() => {
-    expect(mockErrorFn).toHaveBeenCalledWith({"Code": "SIREN_OBJECT_NOT_FOUND", "Message": "Siren Object Not found", "Type": "ERROR"});
+    expect(mockErrorFn).toHaveBeenCalledWith({
+      Code: "OUTSIDE_SIREN_CONTEXT",
+      Message: "Trying to invoke function outside the siren context",
+      Type: "ERROR",
+    });
   });
 });
