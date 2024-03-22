@@ -1,11 +1,10 @@
-
-<H1>Siren React Inbox</H1>
+# Siren React Inbox
 
 ## Overview
 
 The `@siren/react-inbox` sdk is a comprehensive and customizable React UI kit for displaying and managing notifications. This documentation provides comprehensive information on how to install, configure, and use the sdk effectively.
 
-### 1. Installation
+## 1. Installation
 
 You can install the react sdk from npm 
 
@@ -22,8 +21,8 @@ yarn @siren/react-inbox
 
 - React v16.8+
 
-### 2. Configuration
-#### 2.1 Initialization
+## 2. Configuration
+### 2.1 Initialization
 Initialize the sdk with user token and recipient id. Wrap the provider around your App's root.
 
 ```js
@@ -37,7 +36,7 @@ const config = {
 <SirenProvider config={config}>{/* Your app components */}</SirenProvider>;
 ```
 
-#### 2.2 Configure notification inbox
+### 2.2 Configure notification inbox
 Once the provider is configured, next step is to configure the notification inbox
 
 Inbox is a paginated list view for displaying notifications.
@@ -75,8 +74,8 @@ loadMoreComponent | Custom load more component | JSX Element | null |
 customErrorWindow | Custom error window | JSX Element | null |
 onError | Callback for handling errors | (error:  SirenErrorType)=> void | null |
 
-### 3. Customization
-#### 3.1 Themes
+## 3. Customization
+### 3.1 Themes
 
 Here are the available theme options:
 
@@ -131,7 +130,7 @@ type ThemeProps = {
   }
 };
 ```
-#### 3.2 Style options
+### 3.2 Style options
 
 Here are the custom style options for the notification inbox
 
@@ -187,9 +186,9 @@ Please note that the badgeStyle, window shadow and border props are only applica
 }
 ```
 
-### 4. Hooks
+## 4. Hooks
 
-useSiren is a hook that provides utility functions for modifying notifications.
+`useSiren` is a hook that provides utility functions for modifying notifications.
 
 ```js
 import { useSiren } from "@siren/react-inbox";
@@ -239,22 +238,22 @@ function MyComponent() {
 | deleteNotificationsByDate     | startDate | ISO date string| Delete all notifications until given date                   |
 | markNotificationsAsViewed     | startDate | ISO date string | Sets the viewed status  of notifications to true until the given date |
 
-### 5. Error codes
+## 5. Error codes
 
 Given below are all possible error codes thrown by sdk.
 
-| Error code                | Message                               | Description                                                       |
-| ------------------------- | ------------------------------------- | ------------------------------------------------------------------|
-| INVALID_TOKEN             | Invalid token                         | The token passed in the provider is invalid                       |
-| INVALID_RECIPIENT_ID      | Invalid recipient id                  | The recipient id passed in the provider is invalid                |
-| TOKEN_VERIFICATION_FAILED | This operation requires a valid token | Verification of the given tokens has failed                                 |
-| GENERIC_API_ERROR         | Api error                             | Occurrence of an unexpected api error                             |
-| OUTSIDE_SIREN_CONTEXT     | Trying to invoke function outside the siren context          | Attempting to invoke the functions outside the siren inbox context|
-| MISSING_PARAMETER         | Missing Parameter                     | The required parameter is missing                |
+| Error code                | Description                                                       |
+| ------------------------- | ------------------------------------------------------------------|
+| INVALID_TOKEN             | The token passed in the provider is invalid                       |
+| INVALID_RECIPIENT_ID      | The recipient id passed in the provider is invalid                |
+| TOKEN_VERIFICATION_FAILED | Verification of the given tokens has failed                       |
+| GENERIC_API_ERROR         | Occurrence of an unexpected api error                             |
+| OUTSIDE_SIREN_CONTEXT     | Attempting to invoke the functions outside the siren inbox context|
+| MISSING_PARAMETER         | The required parameter is missing                |
 
-### Example
+## Example
 
-Here's a basic example to help you get started.
+Here's a basic example to help you get started
 
 ```js
 
