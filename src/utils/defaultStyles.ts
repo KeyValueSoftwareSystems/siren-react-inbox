@@ -38,13 +38,13 @@ const defaultStyles = {
     textSize: 10,
   },
   deleteIcon:{
-    size: 14
+    size: 16
   },
   timerIcon:{
-    size: 14
+    size: 12
   },
   clearAllIcon:{
-    size: 14
+    size: 18
   }
 }
 
