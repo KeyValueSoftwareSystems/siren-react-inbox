@@ -7,6 +7,7 @@ export default {
   transform: {
     "^.+\\.[t|j]sx?$": "ts-jest",
     "^.+\\.svg?$": "<rootDir>/transform.js",
+    "^.+\\.png?$": "<rootDir>/transform.js",
     "^.+\\.scss?$": "<rootDir>/transform.js"
   },
 };

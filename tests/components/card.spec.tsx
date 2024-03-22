@@ -40,6 +40,7 @@ test("matches snapshot", () => {
       onNotificationCardClick={mockOnNotificationCardClick}
       cardProps={{}}
       styles={style}
+      darkMode={false}
     />
   );
 
@@ -53,6 +54,7 @@ test("renders notification card with basic content", () => {
       onNotificationCardClick={mockOnNotificationCardClick}
       cardProps={{}}
       styles={style}
+      darkMode={false}
     />
   );
 
@@ -67,6 +69,7 @@ test("triggers delete notification callback on delete button click", () => {
       onNotificationCardClick={mockOnNotificationCardClick}
       cardProps={{}}
       styles={style}
+      darkMode={false}
     />
   );
   const deleteButton = screen.getByTestId("delete-1");
@@ -83,6 +86,7 @@ test("triggers notification card click callback on card click", () => {
       onNotificationCardClick={mockOnNotificationCardClick}
       cardProps={{ hideAvatar: true }}
       styles={style}
+      darkMode={false}
     />
   );
 
@@ -100,6 +104,7 @@ test("renders header, subheader, and body", () => {
       onNotificationCardClick={mockOnNotificationCardClick}
       cardProps={{}}
       styles={style}
+      darkMode={false}
     />
   );
 
@@ -120,6 +125,7 @@ test("does not render avatar if hideAvatar is true", () => {
       onNotificationCardClick={mockOnNotificationCardClick}
       cardProps={{ hideAvatar: true }}
       styles={style}
+      darkMode={false}
     />
   );
 
