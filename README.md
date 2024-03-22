@@ -23,13 +23,13 @@
 
 ## Overview
 
-The @siren/react-inbox sdk is a comprehensive and customizable React UI kit for displaying and managing notifications. This documentation provides comprehensive information on how to install, configure, and use the sdk effectively.
+The `@siren/react-inbox` sdk is a comprehensive and customizable React UI kit for displaying and managing notifications. This documentation provides comprehensive information on how to install, configure, and use the sdk effectively.
 
 ## Quick Start Guide
 
 ### 1. Install SDK
 
-To install the @siren/react-inbox sdk, you can use npm or yarn.
+To install the `@siren/react-inbox` sdk, you can use npm or yarn.
 
 #### Prerequisites
 
@@ -37,10 +37,15 @@ To install the @siren/react-inbox sdk, you can use npm or yarn.
 
 #### Steps
 
-1. Under your app's root directory, install @siren/react-inbox.
+1. Under your app's root directory, install `@siren/react-inbox`.
 
+Using npm:
 ```
 npm install @siren/react-inbox
+```
+Using yarn:
+```
+yarn add @siren/react-inbox
 ```
 
 ### 2. Siren Provider
@@ -58,7 +63,7 @@ const config = {
 <SirenProvider config={config}>{/* Your app components */}</SirenProvider>;
 ```
 
-The config is a prop for the SirenProvider component is authenticate and initialize sdk.
+The `config` prop for the `SirenProvider` component is used to authenticate and initialize the SDK
 
 ```js
 type config = {
@@ -69,7 +74,7 @@ type config = {
 
 ### 3. Siren Inbox
 
-SirenInbox is a paginated list view with notification Icon for displaying notifications.
+SirenInbox is a paginated list view with notification icon for displaying notifications.
 
 ```js
 import { SirenInbox } from '@siren/react-inbox';
@@ -112,7 +117,6 @@ customFooter | Custom footer component | JSX Element | null |
 customLoader | Custom Loader component | JSX Element | null |
 loadMoreComponent | Custom Load More component | JSX Element | null |
 customErrorWindow | Custom error window | JSX Element | null |
-
 onError | Callback for handling errors | (error:  SirenErrorType)=> void | null |
 
 #### Theming options
@@ -172,7 +176,7 @@ type ThemeProps = {
 ```
 #### Style options
 
-Customize the styles for siren inbox
+Customize the styles for Siren inbox
 
 ```js
  type CustomStyle = {
@@ -270,7 +274,7 @@ function MyComponent() {
 
 | Function name                 | Parameters type   | Description                                                 |
 | ----------------------------- | ----------------- | ----------------------------------------------------------- |
-| markNotificationsAsReadByDate | startDate: string | Set all notification read status to true until given date   |
+| markNotificationsAsReadByDate | startDate: string | Sets the read status of all notifications to true up until the specified date.   |
 | markAsRead                    | id: string        | Set read status of a specific notification to true          |
 | deleteNotification            | id: string        | Delete a specific notification by id                        |
 | deleteNotificationsByDate     | startDate: string | Delete all notifications until given date                   |
@@ -287,17 +291,16 @@ Given below are all possible error codes thrown by sdk.
 | TOKEN_VERIFICATION_FAILED | This operation requires a valid token | Failed to verify token and initialize sdk              |
 | INVALID_ERROR_FUNCTION    | Invalid error function                | Error function is invalid                              |
 | GENERIC_API_ERROR         | Api error                             | Failed to call a internal api                          |
-| SIREN_OBJECT_NOT_FOUND    | Siren Object Not found                | Was failed to initialize sdk, Siren object not created |
+| SIREN_OBJECT_NOT_FOUND    | Siren Object Not found                | Failed to initialize sdk, Siren object not created |
 | MISSING_PARAMETER         | Missing Parameter                     | A parameter is missing in function call                |
 
 ### Complete Code Example
 
-Here's a runnable code example that covers everything in this quick start guide.
+Here's a working code example that covers everything in this quick start guide.
 
 ```js
 
 import React from 'react';
-import {SafeAreaView} from 'react';
 import {SirenInbox,SirenProvider} from '@siren/react-inbox';
 
 function App(): React.JSX.Element {
@@ -316,21 +319,20 @@ function App(): React.JSX.Element {
 
 export default App;
 
-function MyContainer(): React.JSX.Element {
+export function MyContainer(): React.JSX.Element {
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <div>
       <SirenInbox
         title="Notifications"
         hideHeader={false}
         darkMode={false}
         cardProps={{hideAvatar: false}}
       />
-    </SafeAreaView>
+    </div>
   );
 }
 
-export default MyContainer;
 
 ```
 

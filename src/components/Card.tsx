@@ -55,7 +55,7 @@ const Card: FC<NotificationCardProps> = ({
     event.stopPropagation();
   };
 
-  const cardConatinerStyle: CSSProperties = isRead
+  const cardContainerStyle: CSSProperties = isRead
     ? {
       ...styles.defaultCardContainer,
       borderLeft: "4px transparent solid",
@@ -68,7 +68,7 @@ const Card: FC<NotificationCardProps> = ({
 
   return (
     <div
-      style={cardConatinerStyle}
+      style={cardContainerStyle}
       className={`${
         cardProps?.hideAvatar
           ? "siren-sdk-hide-avatar-card-container"
