@@ -7,7 +7,7 @@
 
 The `@siren/react-inbox` sdk is a comprehensive and customizable React UI kit for displaying and managing notifications. This documentation provides comprehensive information on how to install, configure, and use the sdk effectively.
 
-## 1. Installation
+### 1. Installation
 
 You can install the react sdk from npm 
 
