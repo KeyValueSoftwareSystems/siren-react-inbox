@@ -3,7 +3,8 @@ import React, { type FC } from "react";
 
 import CloseIcon from "./CloseIcon";
 import TimerIcon from "./TimerIcon";
-import DefaultAvatar from "../assets/defaultAvatar.svg";
+import defaultAvatarDark from "../assets/dark/defaultAvatarDark.png";
+import defaultAvatarLight from "../assets/light/defaultAvatarLight.png";
 import type { NotificationCardProps } from "../types";
 import { generateElapsedTimeText } from "../utils/commonUtils";
 import "../styles/card.css";
@@ -44,6 +45,7 @@ const Card: FC<NotificationCardProps> = ({
   notification,
   cardProps,
   styles,
+  darkMode,
   onNotificationCardClick,
   deleteNotificationById,
 }) => {
@@ -55,7 +57,8 @@ const Card: FC<NotificationCardProps> = ({
     event.stopPropagation();
   };
 
-  const cardConatinerStyle: CSSProperties = isRead
+  const defaultAvatar = darkMode ? defaultAvatarDark : defaultAvatarLight;
+  const cardContainerStyle: CSSProperties = isRead
     ? {
       ...styles.defaultCardContainer,
       borderLeft: "4px transparent solid",
@@ -68,7 +71,7 @@ const Card: FC<NotificationCardProps> = ({
 
   return (
     <div
-      style={cardConatinerStyle}
+      style={cardContainerStyle}
       className={`${
         cardProps?.hideAvatar
           ? "siren-sdk-hide-avatar-card-container"
@@ -80,10 +83,13 @@ const Card: FC<NotificationCardProps> = ({
       data-testid={`card-${notification.id}`}
     >
       {!cardProps?.hideAvatar && (
-        <img
-          src={avatar?.imageUrl || DefaultAvatar}
-          alt=""
-          style={styles.cardIconRound}
+        <div
+          style={{
+            ...styles.cardIconRound,
+            backgroundImage: `url(${avatar?.imageUrl || defaultAvatar})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
         />
       )}
       <div className="siren-sdk-card-content-wrapper">
