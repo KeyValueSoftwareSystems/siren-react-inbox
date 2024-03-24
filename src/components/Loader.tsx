@@ -13,6 +13,7 @@ const Loader = ({styles}: {styles: SirenStyleProps}) => {
         <div className="siren-sdk-skeleton-body siren-sdk-skeleton" style={styles.loader}/>
         <div className="siren-sdk-skeleton-icon  siren-sdk-skeleton" style={styles.loader}/>
         <div className="siren-sdk-skeleton-footer  siren-sdk-skeleton" style={styles.loader} />
+        <div className="siren-sdk-skeleton-close  siren-sdk-skeleton" style={styles.loader} />
       </div>
     </div>
   );
