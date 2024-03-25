@@ -163,7 +163,7 @@ const App: React.FC = () => {
                 )
               )}
               {renderButton(
-                `${showCustomHeader ? "Hide" : "Show"}-Header`,
+                `${hideHeader ? "Show" : "Hide"}-Header`,
                 () => setHideHeader((hideHeader) => !hideHeader)
               )}
               {renderButton(
