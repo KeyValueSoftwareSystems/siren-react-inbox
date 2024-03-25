@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SirenInbox, useSiren } from "@siren/react-inbox";
+import { SirenInbox, useSiren } from "@sirenapp/react-inbox";
 
 const windowThemes = [
   undefined,
