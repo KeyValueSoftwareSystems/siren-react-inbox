@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "description": "React SDK designed to simplify the implementation and management of in-app notification inboxes",
   "files": [
-    "dist"
+    "./dist",
+    "license",
+    "readme"
   ],
   "types": "dist/index.d.ts",
   "type": "module",
