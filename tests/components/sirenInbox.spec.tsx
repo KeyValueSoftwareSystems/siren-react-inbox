@@ -1,7 +1,6 @@
 import React from "react";
 
 import { fireEvent, render } from "@testing-library/react";
-import type { Siren } from "test_notification";
 
 import SirenInbox from "../../src/components/SirenInbox";
 

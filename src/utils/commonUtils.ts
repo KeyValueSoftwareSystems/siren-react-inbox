@@ -4,10 +4,9 @@ import type {
   ActionResponse,
   NotificationDataType,
   NotificationsApiResponse,
-} from "test_notification/dist/esm/types";
+} from "@sirenapp/js-sdk/dist/esm/types";
 
-import { defaultBadgeStyle, eventTypes, LogLevel } from "./constants";
-import { ThemeMode } from "./constants";
+import { defaultBadgeStyle, eventTypes, LogLevel, ThemeMode } from "./constants";
 import type {
   CustomStyle,
   DimensionValue,

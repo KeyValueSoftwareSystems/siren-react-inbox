@@ -10,8 +10,8 @@ const root = ReactDOM.createRoot(
 root.render(
   <SirenProvider
     config={{
-      userToken: 'YOUR_USER_TOKEN_HERE',
-      recipientId: 'YOUR_RECIPIENT_ID'
+      userToken: "YOUR_USER_TOKEN_HERE",
+      recipientId: "YOUR_RECIPIENT_ID",
     }}
   >
     <App />
