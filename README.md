@@ -2,19 +2,19 @@
 
 ## Overview
 
-The `@siren/react-inbox` sdk is a comprehensive and customizable React UI kit for displaying and managing notifications. This documentation provides comprehensive information on how to install, configure, and use the sdk effectively.
+The `@sirenapp/react-inbox` sdk is a comprehensive and customizable React UI kit for displaying and managing notifications. This documentation provides comprehensive information on how to install, configure, and use the sdk effectively.
 
 ## 1. Installation
 
 You can install the react sdk from npm 
 
 ```bash
-npm @siren/react-inbox
+npm @sirenapp/react-inbox
 ```
 or from yarn
 
 ```bash
-yarn @siren/react-inbox
+yarn @sirenapp/react-inbox
 ```
 
 #### Prerequisites
@@ -26,7 +26,7 @@ yarn @siren/react-inbox
 Initialize the sdk with user token and recipient id. Wrap the provider around your App's root.
 
 ```js
-import { SirenProvider } from "@siren/react-inbox";
+import { SirenProvider } from "@sirenapp/react-inbox";
 
 const config = {
   userToken: "your_user_token",
@@ -42,7 +42,7 @@ Once the provider is configured, next step is to configure the notification inbo
 Inbox is a paginated list view for displaying notifications.
 
 ```js
-import { SirenInbox } from '@siren/react-inbox';
+import { SirenInbox } from '@sirenapp/react-inbox';
 
 <SirenInbox />
 
@@ -192,7 +192,7 @@ Please note that the badgeStyle, window shadow and border props are only applica
 `useSiren` is a hook that provides utility functions for modifying notifications.
 
 ```js
-import { useSiren } from "@siren/react-inbox";
+import { useSiren } from "@sirenapp/react-inbox";
 
 function MyComponent() {
   const {
@@ -259,7 +259,7 @@ Here's a basic example to help you get started
 ```js
 
 import React from 'react';
-import {SirenInbox,SirenProvider} from '@siren/react-inbox';
+import {SirenInbox,SirenProvider} from '@sirenapp/react-inbox';
 
 function App(): React.JSX.Element {
 

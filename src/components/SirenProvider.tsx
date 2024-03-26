@@ -1,20 +1,22 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-import PubSub from 'pubsub-js';
-import { Siren } from 'test_notification';
+import { Siren } from '@sirenapp/js-sdk';
 import type {
   InitConfigType,
   NotificationsApiResponse,
   SirenErrorType,
   UnviewedCountApiResponse,
-} from 'test_notification/dist/esm/types';
+} from '@sirenapp/js-sdk/dist/esm/types';
+import PubSub from 'pubsub-js';
 
 import type { SirenProviderConfigProps } from '../types';
 import { logger } from '../utils/commonUtils';
-import { events, eventTypes,  
+import {
+  events, eventTypes,
   IN_APP_RECIPIENT_UNAUTHENTICATED,
   MAXIMUM_RETRY_COUNT,
-  VerificationStatus } from '../utils/constants';
+  VerificationStatus
+} from '../utils/constants';
 
 
 type SirenContextProp = {

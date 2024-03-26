@@ -5,7 +5,7 @@ import type {
   MarkAsViewedResponse,
   NotificationDataType,
   NotificationsApiResponse,
-} from "test_notification/dist/esm/types";
+} from "@sirenapp/js-sdk/dist/esm/types";
 
 import "../styles/sirenPanel.css";
 import NotificationCard from "./Card";
