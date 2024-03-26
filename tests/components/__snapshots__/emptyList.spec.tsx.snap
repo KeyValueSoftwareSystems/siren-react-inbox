@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="siren-sdk-empty-container"
+  >
+    <div
+      class="siren-sdk-empty-icon-container"
+      style="background-color: rgb(56, 56, 61);"
+    >
+      <img
+        alt="empty-icon"
+        class="siren-sdk-empty-icon"
+        src="[object Object]"
+      />
+    </div>
+    <div
+      class="siren-sdk-empty-text"
+      style="color: rgb(255, 255, 255);"
+    >
+      No new notifications
+    </div>
+    <div
+      class="siren-sdk-empty-sub-text"
+      style="color: rgb(255, 255, 255);"
+    >
+      Check back later for updates and alerts.
+    </div>
+  </div>
+</DocumentFragment>
+`;

@@ -1,0 +1,16 @@
+.siren-sdk-panel-load-more {
+    width: 100%;
+    cursor: pointer;
+    border: none;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    padding-top: 15px;
+    padding-bottom: 14px;
+    font-weight: 600;
+}
+
+.siren-sdk-panel-load-more-custom {
+    cursor: pointer;
+    border: none;
+}

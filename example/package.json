@@ -1,0 +1,30 @@
+{
+    "name": "react-client",
+    "version": "1.0.0",
+    "private": true,
+    "dependencies": {
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-scripts": "^5.0.1",
+        "@sirenapp/react-inbox": "^1.0.0"
+    },
+    "scripts": {
+        "dev": "PORT=9902 react-scripts start",
+        "lint": "eslint src"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app"
+        ]
+    },
+    "browserslist": {
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "devDependencies": {
+        "@types/react-dom": "^18.2.19"
+    }
+}

@@ -1,0 +1,78 @@
+{
+  "name": "@sirenapp/react-inbox",
+  "version": "0.0.1",
+  "description": "React SDK designed to simplify the implementation and management of in-app notification inbox",
+  "files": [
+    "./dist",
+    "license",
+    "readme"
+  ],
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "lint": "eslint src",
+    "format": "prettier --write .",
+    "pre-commit": "lint-staged",
+    "build": "rm -rf dist && rollup -c",
+    "prepare": "husky",
+    "test": "npx jest",
+    "coverage": "npm run test -- --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KeyValueSoftwareSystems/siren-react-inbox.git"
+  },
+  "keywords": [
+    "react",
+    "siren",
+    "notifications",
+    "sdk"
+  ],
+  "author": "KeyValue Software Systems",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/KeyValueSoftwareSystems/siren-react-inbox/issues"
+  },
+  "homepage": "https://github.com/KeyValueSoftwareSystems/siren-react-inbox#readme",
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.23.9",
+    "@babel/core": "^7.23.9",
+    "@babel/plugin-transform-runtime": "^7.23.9",
+    "@babel/preset-env": "^7.23.9",
+    "@babel/preset-react": "^7.23.3",
+    "@babel/preset-typescript": "^7.23.3",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-image": "^3.0.3",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@testing-library/jest-dom": "^6.4.2",
+    "@testing-library/react": "^14.2.1",
+    "@types/jest": "^29.5.12",
+    "@types/pubsub-js": "^1.8.6",
+    "@types/react": "^18.2.48",
+    "@typescript-eslint/eslint-plugin": "^7.0.2",
+    "@typescript-eslint/parser": "^7.0.2",
+    "eslint": "^8.56.0",
+    "eslint-plugin-import": "^2.29.1",
+    "husky": "^9.0.11",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "prop-types": "^15.8.1",
+    "rollup": "^4.9.6",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-typescript2": "^0.36.0",
+    "ts-jest": "^29.1.2",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "pubsub-js": "^1.9.4",
+    "@sirenapp/js-sdk": "^1.0.0"
+  }
+}

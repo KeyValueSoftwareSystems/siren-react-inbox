@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="siren-sdk-card-container"
+    data-testid="card-1"
+    style="background-color: rgb(46, 45, 48); padding: 10px; border-bottom: 0.5px solid; border-color: #344054; border-left: 4px solid #F56630;"
+  >
+    <div
+      style="width: 40px; height: 40px; border-radius: 20px; overflow: hidden; background-color: rgb(52, 64, 84); background-size: cover; background-position: center;"
+    />
+    <div
+      class="siren-sdk-card-content-wrapper"
+    >
+      <div
+        class="siren-sdk-card-text-break"
+        style="color: rgb(255, 255, 255); font-size: 16px; font-weight: 600;"
+      >
+        New Message
+      </div>
+      <div
+        class="siren-sdk-card-text-break"
+        style="color: rgb(255, 255, 255); font-size: 14px; font-weight: 400;"
+      >
+        New post
+      </div>
+      <div
+        class="siren-sdk-card-text-break siren-sdk-card-msg-body"
+        style="color: rgb(255, 255, 255); font-size: 14px; font-weight: 400;"
+      >
+        You have a new message.
+      </div>
+      <div
+        class="siren-sdk-card-date-container"
+      >
+        <svg
+          fill="none"
+          height="12"
+          viewBox="0 0 14 13"
+          width="12"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M6.99723 0.0807266C3.45907 0.0807266 0.580566 2.95923 0.580566 6.49739C0.580566 10.0356 3.45907 12.9141 6.99723 12.9141C10.5354 12.9141 13.4139 10.0356 13.4139 6.49739C13.4139 2.95923 10.5354 0.0807266 6.99723 0.0807266ZM6.99723 11.7474C4.1025 11.7474 1.74723 9.39213 1.74723 6.49739C1.74723 3.60266 4.1025 1.24739 6.99723 1.24739C9.89197 1.24739 12.2472 3.60266 12.2472 6.49739C12.2472 9.39213 9.89197 11.7474 6.99723 11.7474Z"
+            fill="#98A2B3"
+          />
+          <path
+            d="M10.1553 7.90104C10.0588 8.11837 9.84542 8.2474 9.62211 8.24768C9.54293 8.24768 9.46261 8.23145 9.38541 8.19698L6.76041 7.03031C6.54993 6.93689 6.41406 6.72782 6.41406 6.4974V2.9974C6.41406 2.67525 6.67525 2.41406 6.9974 2.41406C7.31954 2.41406 7.58073 2.67525 7.58073 2.9974V6.11829L9.85937 7.13114C10.1536 7.26188 10.2863 7.60653 10.1553 7.90104Z"
+            fill="#98A2B3"
+          />
+        </svg>
+        <div
+          style="color: rgb(152, 162, 179); font-size: 12px; line-height: 16px;"
+        >
+          NaN years ago
+        </div>
+      </div>
+    </div>
+    <div
+      class="siren-sdk-delete-button"
+      data-testid="delete-1"
+    >
+      <svg
+        fill="none"
+        height="16"
+        viewBox="0 0 20 20"
+        width="16"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M5 15L15 5M5 5L15 15"
+          stroke="#D0D5DD"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+        />
+      </svg>
+    </div>
+  </div>
+</DocumentFragment>
+`;
