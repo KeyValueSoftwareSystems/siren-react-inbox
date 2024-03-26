@@ -1,7 +1,7 @@
 {
   "name": "@sirenapp/react-inbox",
   "version": "0.0.1",
-  "description": "React SDK designed to simplify the implementation and management of in-app notification inboxes",
+  "description": "React SDK designed to simplify the implementation and management of in-app notification inbox",
   "files": [
     "dist"
   ],
