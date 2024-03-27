@@ -9,12 +9,12 @@ The `@sirenapp/react-inbox` sdk is a comprehensive and customizable React UI kit
 You can install the react sdk from npm 
 
 ```bash
-npm @sirenapp/react-inbox
+npm install @sirenapp/react-inbox
 ```
 or from yarn
 
 ```bash
-yarn @sirenapp/react-inbox
+yarn add @sirenapp/react-inbox
 ```
 
 #### Prerequisites
