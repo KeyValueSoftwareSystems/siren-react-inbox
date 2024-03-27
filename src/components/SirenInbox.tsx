@@ -152,7 +152,7 @@ const SirenInbox: FC<SirenProps> = ({
             position:
               windowViewOnly || window.innerWidth < 500
                 ? "initial"
-                : "absolute",
+                : "fixed",
             ...modalPosition,
           }}
           data-testid="siren-panel"
