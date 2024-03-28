@@ -10,8 +10,11 @@ export type SirenInboxProps = {
   customStyles?: CustomStyle,
   title?: string;
   loadMoreLabel?: string,
-  hideHeader?: boolean;
-  hideClearAll?: boolean;
+  inboxHeaderProps?: {
+    hideHeader?: boolean;
+    hideClearAll?: boolean;
+    customHeader?: JSX.Element;
+  }
   hideBadge?: boolean;
   darkMode?: boolean;
   itemsPerFetch?: number;
@@ -19,7 +22,6 @@ export type SirenInboxProps = {
   listEmptyComponent?: JSX.Element;
   loadMoreComponent?:JSX.Element;
   customFooter?: JSX.Element;
-  customHeader?: JSX.Element;
   customLoader?: JSX.Element;
   customErrorWindow?: JSX.Element;
   customNotificationCard?: (notification: NotificationDataType) => JSX.Element;
@@ -48,6 +50,7 @@ export type SirenProps = SirenInboxProps &
 export type CardProps = {
   hideAvatar?: boolean;
   showMedia?: boolean;
+  disableAutoMarkAsRead?: boolean;
 };
 
 export type NotificationCardProps = {
@@ -69,14 +72,12 @@ export type SirenNotificationButtonProps = {
 };
 export type SirenPanelProps = Pick<
   SirenInboxProps,
-  | "hideHeader"
   | "hideBadge"
   | "cardProps"
   | "customFooter"
-  | "customHeader"
   | "customNotificationCard"
   | "onNotificationCardClick"
-  | "hideClearAll"
+  | "inboxHeaderProps"
   | "customLoader"
   | "loadMoreComponent"
   | "loadMoreLabel"

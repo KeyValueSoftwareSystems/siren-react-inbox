@@ -47,14 +47,12 @@ import useSiren from "../utils/sirenHook";
  * @param {SirenPanelProps} props - The properties passed to the SirenWindow component.
  * @param {Object} props.styles - Custom styles applied to the notification panel and its elements.
  * @param {string} props.title - The title of the notification panel.
- * @param {boolean} props.hideHeader=false] - Whether to hide the header of the notification panel.
- * @param {boolean} props.hideClearAll=false] - Flag indicating if the clear all button should be hidden
  * @param {boolean} [props.hideBadge] - Flag indicating if the badge should be hidden
  * @param {string} props.loadMoreLabel - Label for load more button  
+ * @param {Object} props.inboxHeaderProps - Object containing props related to the inbox header.
  * @param {Object} props.cardProps - Optional properties to customize the appearance of notification cards.
  * @param {Function} props.renderListEmpty - Function to render content when the notification list is empty.
  * @param {ReactNode} props.customFooter - Custom footer component to be rendered below the notification list.
- * @param {ReactNode} props.customHeader - Custom header component to be rendered above the notification list.
  * @param {ReactNode} pros.customLoader - Custom Loader component to be rendered while fetching notification list for the first time
  * @param {ReactNode} pros.loadMoreComponent -Custom load more component to be rendered 
  * @param {ReactNode} props.customErrorWindow -Custom error window component to be rendered when there is an error
@@ -74,12 +72,11 @@ const SirenPanel: FC<SirenPanelProps> = ({
   styles,
   title,
   loadMoreLabel,
-  hideHeader,
   hideBadge,
   darkMode,
+  inboxHeaderProps,
   cardProps,
   customFooter,
-  customHeader,
   loadMoreComponent,
   fullScreen,
   customLoader,
@@ -89,7 +86,6 @@ const SirenPanel: FC<SirenPanelProps> = ({
   customNotificationCard,
   onNotificationCardClick,
   onError,
-  hideClearAll = false,
 }) => {
   const {
     markNotificationsAsViewed,
@@ -97,6 +93,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
     deleteNotification,
   } = useSiren();
   const { siren, verificationStatus } = useSirenContext();
+  const {hideHeader = false, hideClearAll = false, customHeader} = inboxHeaderProps ?? {};
   const [notifications, setNotifications] = useState<NotificationDataType[]>(
     []
   );
@@ -131,7 +128,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
         notifications
       );
 
-      if(!isEmptyArray(updatedNotifications)) handleMarkNotificationsAsViewed(updatedNotifications[0]?.createdAt);
+      if(!isEmptyArray(eventListenerData?.newNotifications)) handleMarkNotificationsAsViewed(updatedNotifications[0]?.createdAt);
       setNotifications(updatedNotifications);
       setEventListenerData(null);
     }

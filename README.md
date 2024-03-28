@@ -57,18 +57,18 @@ Prop | Description | Type | Default value |
 theme | Object for custom themes |  Theme | {} |
 title |  Title of the notification inbox |  string | "Notifications" |
 loadMoreLabel | Text shown on the load more component | string | "Load More"
-hideHeader | Toggle to hide or show the header section |  boolean | false |
-hideClearAll | Toggle to hide or show the clear all button | boolean | false |
 hideBadge | Toggle to hide or show the badge       |   boolean  |   false  |
 darkMode | Toggle to enable dark mode |  boolean | false |
 itemsPerFetch | Number of notifications fetch per api request (have a max cap of 50) | number | 20 |
 windowViewOnly | Toggle to enable fit-to-screen window or modal view |  boolean | false |
 notificationIcon | Option to use custom notification Icon |  JSX Element | null |
+inboxHeaderProps | Props for customizing the header | { hideHeader: boolean } | { hideClearAll: false } |
+{customHeader: JSX Element} |
 cardProps | Props for customizing the notification cards | { hideAvatar: boolean } | { hideAvatar: false } |
+{ disableAutoMarkAsRead: false }  |
 customNotificationCard | Function for rendering custom notification cards | (notification)=> JSX Element | null |
 onNotificationCardClick | Custom click handler for notification cards | (notification)=> void | ()=>null |
 listEmptyComponent | Custom component for empty notification list | JSX Element | null |
-customHeader | Custom header component | JSX Element | null |
 customFooter | Custom footer component | JSX Element | null |
 customLoader | Custom loader component | JSX Element | null |
 loadMoreComponent | Custom load more component | JSX Element | null |
@@ -285,7 +285,10 @@ export function MyContainer(): React.JSX.Element {
         title="Notifications"
         hideHeader={false}
         darkMode={false}
-        cardProps={{hideAvatar: false}}
+        cardProps={{
+          hideAvatar: false,
+          disableAutoMarkAsRead: false,
+        }}
       />
     </div>
   );
