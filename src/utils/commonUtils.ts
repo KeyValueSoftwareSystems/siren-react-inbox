@@ -379,14 +379,14 @@ export const calculateModalPosition = (
     else if (typeof containerWidth === "number") modalWidth = containerWidth;
 
     const topPosition = iconRect.bottom;
-    const leftPosition = screenWidth / 2 - modalWidth / 2;
+    const leftPosition = iconRect.left + iconRect.width / 2 - modalWidth / 2;
 
     if (
       spaceLeft < modalWidth &&
       spaceRight < modalWidth &&
       screenWidth > modalWidth
     ) {
-      return { top: `${topPosition}px`, left: `-${leftPosition}px` };
+      return { top: `${topPosition}px`, left: `${leftPosition}px` };
     } else {
       const rightPosition = spaceRight < modalWidth + 30 ? "30px" : null;
 
