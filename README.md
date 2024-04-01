@@ -62,10 +62,8 @@ darkMode | Toggle to enable dark mode |  boolean | false |
 itemsPerFetch | Number of notifications fetch per api request (have a max cap of 50) | number | 20 |
 windowViewOnly | Toggle to enable fit-to-screen window or modal view |  boolean | false |
 notificationIcon | Option to use custom notification Icon |  JSX Element | null |
-inboxHeaderProps | Props for customizing the header | { hideHeader: boolean } | { hideClearAll: false } |
-{customHeader: JSX Element} |
-cardProps | Props for customizing the notification cards | { hideAvatar: boolean } | { hideAvatar: false } |
-{ disableAutoMarkAsRead: false }  |
+inboxHeaderProps | Props for customizing the header | InboxHeaderProps | { hideHeader: false, hideClearAll: false, customHeader: null } |
+cardProps | Props for customizing the notification cards | CardProps | { hideAvatar: false, disableAutoMarkAsRead: false } |
 customNotificationCard | Function for rendering custom notification cards | (notification)=> JSX Element | null |
 onNotificationCardClick | Custom click handler for notification cards | (notification)=> void | ()=>null |
 listEmptyComponent | Custom component for empty notification list | JSX Element | null |
@@ -185,6 +183,22 @@ Please note that the badgeStyle, window shadow and border props are only applica
     size?: number
   }
 }
+```
+#### CardProps
+```js
+    type CardProps = {
+      hideAvatar?: boolean;
+      disableAutoMarkAsRead?: boolean;
+    };
+```
+
+#### InboxHeaderProps
+```js
+    type InboxHeaderProps = {
+      hideHeader?: boolean;
+      hideClearAll?: boolean;
+      customHeader?: JSX.Element | null;
+    };
 ```
 
 ## 4. Hooks

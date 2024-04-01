@@ -73,6 +73,11 @@ const Card: FC<NotificationCardProps> = ({
       backgroundColor: styles.activeCardMarker.backgroundColor,
     };
 
+  const handleNotificationClick = () => {
+    onNotificationCardClick && onNotificationCardClick(notification);
+    !disableAutoMarkAsRead && markAsRead(notification.id);
+  }
+
   return (
     <div
       style={cardContainerStyle}
@@ -81,11 +86,7 @@ const Card: FC<NotificationCardProps> = ({
           ? "siren-sdk-hide-avatar-card-container"
           : "siren-sdk-card-container"
       }`}
-      onClick={() => {
-        onNotificationCardClick && onNotificationCardClick(notification);
-        !disableAutoMarkAsRead && markAsRead(notification.id);
-      }
-      }
+      onClick={handleNotificationClick}
       data-testid={`card-${notification.id}`}
     >
       {!hideAvatar && (
