@@ -6,11 +6,12 @@ The `@sirenapp/react-inbox` sdk is a comprehensive and customizable React UI kit
 
 ## 1. Installation
 
-You can install the react sdk from npm 
+You can install the react sdk from npm
 
 ```bash
 npm @sirenapp/react-inbox
 ```
+
 or from yarn
 
 ```bash
@@ -22,7 +23,9 @@ yarn @sirenapp/react-inbox
 - React v16.8+
 
 ## 2. Configuration
+
 ### 2.1 Initialization
+
 Initialize the sdk with user token and recipient id. Wrap the provider around your App's root.
 
 ```js
@@ -37,15 +40,15 @@ const config = {
 ```
 
 ### 2.2 Configure notification inbox
+
 Once the provider is configured, next step is to configure the notification inbox
 
 Inbox is a paginated list view for displaying notifications.
 
 ```js
-import { SirenInbox } from '@sirenapp/react-inbox';
+import { SirenInbox } from "@sirenapp/react-inbox";
 
 <SirenInbox />
-
 ```
 
 #### Props for the notification inbox
@@ -56,7 +59,7 @@ Prop | Description | Type | Default value |
 --- | --- | --- | --- |
 theme | Object for custom themes |  Theme | {} |
 title |  Title of the notification inbox |  string | "Notifications" |
-loadMoreLabel | Text shown on the load more component | string | "Load More"
+loadMoreLabel | Text shown on the load more component | string | "Load More" |
 hideBadge | Toggle to hide or show the badge       |   boolean  |   false  |
 darkMode | Toggle to enable dark mode |  boolean | false |
 itemsPerFetch | Number of notifications fetch per api request (have a max cap of 50) | number | 20 |
@@ -74,6 +77,7 @@ customErrorWindow | Custom error window | JSX Element | null |
 onError | Callback for handling errors | (error:  SirenErrorType)=> void | null |
 
 ## 3. Customization
+
 ### 3.1 Themes
 
 Here are the available theme options:
@@ -99,7 +103,7 @@ type ThemeProps = {
     timerIcon?: string,
     clearAllIcon?: string,
     infiniteLoader?: string,
-    windowShadowColor?: string
+    windowShadowColor?: string,
   },
   badgeStyle?: {
     color?: string,
@@ -126,9 +130,10 @@ type ThemeProps = {
   loadMoreButton: {
     color?: string,
     background?: string,
-  }
+  },
 };
 ```
+
 ### 3.2 Style options
 
 Here are the custom style options for the notification inbox
@@ -184,20 +189,23 @@ Please note that the badgeStyle, window shadow and border props are only applica
   }
 }
 ```
+
 #### CardProps
+
 ```js
     type CardProps = {
-      hideAvatar?: boolean;
-      disableAutoMarkAsRead?: boolean;
+      hideAvatar?: boolean,
+      disableAutoMarkAsRead?: boolean,
     };
 ```
 
 #### InboxHeaderProps
+
 ```js
     type InboxHeaderProps = {
-      hideHeader?: boolean;
-      hideClearAll?: boolean;
-      customHeader?: JSX.Element | null;
+      hideHeader?: boolean,
+      hideClearAll?: boolean,
+      customHeader?: JSX.Element | null,
     };
 ```
 
@@ -243,43 +251,40 @@ function MyComponent() {
 }
 ```
 
-#### useSiren functions
+### useSiren functions
 
-| Functions                 | Parameters    | Type  | Description                                                 |
-| ----------------------------- | ----------------- |---------| ----------------------------------------------------------- |
-| markNotificationsAsReadByDate | startDate | ISO date string | Sets the read status of notifications to true until the given date.   |
-| markAsRead                    | id  | string        | Set read status of a notification to true          |
-| deleteNotification            | id  | string        | Delete a notification by id                        |
-| deleteNotificationsByDate     | startDate | ISO date string| Delete all notifications until given date                   |
-| markNotificationsAsViewed     | startDate | ISO date string | Sets the viewed status  of notifications to true until the given date |
+Functions                 | Parameters    | Type  | Description                                                 |----------------------------- | ----------------- |---------| ----------------------------------------------------------- |
+markNotificationsAsReadByDate | startDate | ISO date string | Sets the read status of notifications to true until the given date.   |
+markAsRead                    | id  | string        | Set read status of a notification to true          |
+deleteNotification            | id  | string        | Delete a notification by id                        |
+deleteNotificationsByDate     | startDate | ISO date string| Delete all notifications until given date                   |
+markNotificationsAsViewed     | startDate | ISO date string | Sets the viewed status  of notifications to true until the given date |
 
 ## 5. Error codes
 
 Given below are all possible error codes thrown by sdk.
 
-| Error code                | Description                                                       |
-| ------------------------- | ------------------------------------------------------------------|
-| INVALID_TOKEN             | The token passed in the provider is invalid                       |
-| INVALID_RECIPIENT_ID      | The recipient id passed in the provider is invalid                |
-| TOKEN_VERIFICATION_FAILED | Verification of the given tokens has failed                       |
-| GENERIC_API_ERROR         | Occurrence of an unexpected api error                             |
-| OUTSIDE_SIREN_CONTEXT     | Attempting to invoke the functions outside the siren inbox context|
-| MISSING_PARAMETER         | The required parameter is missing                |
+Error code                | Description                                                       |
+------------------------- | ------------------------------------------------------------------|
+INVALID_TOKEN             | The token passed in the provider is invalid                       |
+INVALID_RECIPIENT_ID      | The recipient id passed in the provider is invalid                |
+TOKEN_VERIFICATION_FAILED | Verification of the given tokens has failed                       |
+GENERIC_API_ERROR         | Occurrence of an unexpected api error                             |
+OUTSIDE_SIREN_CONTEXT     | Attempting to invoke the functions outside the siren inbox context|
+MISSING_PARAMETER         | The required parameter is missing                |
 
 ## Example
 
 Here's a basic example to help you get started
 
 ```js
-
-import React from 'react';
-import {SirenInbox,SirenProvider} from '@sirenapp/react-inbox';
+import React from "react";
+import { SirenInbox, SirenProvider } from "@sirenapp/react-inbox";
 
 function App(): React.JSX.Element {
-
   const config = {
-    userToken: 'your_user_token',
-    recipientId: 'your_recipient_id',
+    userToken: "your_user_token",
+    recipientId: "your_recipient_id",
   };
 
   return (
@@ -292,7 +297,6 @@ function App(): React.JSX.Element {
 export default App;
 
 export function MyContainer(): React.JSX.Element {
-
   return (
     <div>
       <SirenInbox
@@ -307,3 +311,4 @@ export function MyContainer(): React.JSX.Element {
     </div>
   );
 }
+```
