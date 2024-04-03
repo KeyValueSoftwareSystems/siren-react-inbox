@@ -65,6 +65,7 @@ import useSiren from "../utils/sirenHook";
  * @param {ReactNode} props.customErrorWindow -Custom error window component to be rendered when there is an error
  * @param {Function} props.customNotificationCard - Function to render custom notification cards.
  * @param {Function} props.onNotificationCardClick - Callback function executed when a notification card is clicked.
+ * @param {Function} props.modalWidth - The width of the notification panel.
  * @returns {ReactElement} The rendered SirenInbox component.
  */
 

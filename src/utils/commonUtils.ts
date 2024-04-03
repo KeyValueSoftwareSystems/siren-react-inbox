@@ -376,25 +376,33 @@ export const calculateModalPosition = (
     const screenWidth = window.outerWidth;
     const spaceRight = screenWidth - iconRect.x;
     const spaceLeft = iconRect.x;
-    const modalWidth = calculateModalWidth(containerWidth);
-    const topPosition = iconRect.bottom;
+    let modalWidth = calculateModalWidth(containerWidth);
 
-    if (
-      screenWidth < modalWidth ||
-      (spaceLeft < modalWidth && spaceRight < modalWidth)
-    ) {
-      return { top: `${topPosition}px` };
-    } 
-    else if(spaceLeft > modalWidth) {
+    const centerPosition =
+      Math.min(spaceLeft, spaceRight) + Math.abs(spaceLeft - spaceRight) / 2;
+
+    if (window.outerWidth <= modalWidth) modalWidth = window.outerWidth - 40;
+
+    if (spaceRight > modalWidth) {
+      return {
+        left: `0px`,
+      };
+    } else if (spaceLeft > modalWidth) {
       const rightPosition = spaceRight < modalWidth ? "30px" : null;
 
       return {
-        top: `${topPosition}px`,
         ...(rightPosition && { right: rightPosition }),
       };
+    } else if (
+      spaceLeft < modalWidth &&
+      spaceRight < modalWidth &&
+      spaceLeft > spaceRight
+    ) {
+      return { right: "30px" };
+    } else {
+      return { left: `-${centerPosition - 40}px` };
     }
   }
-
 };
 
 export const calculateModalWidth = (containerWidth: DimensionValue): number => {
