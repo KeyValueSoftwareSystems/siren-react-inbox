@@ -127,7 +127,6 @@ export const applyTheme = (
 
   return {
     container: {
-      width: customStyle.window?.width || DefaultStyle.window.width,
       maxWidth: customStyle.window?.width || "100",
     },
     windowShadow: {

@@ -24,7 +24,12 @@ import {
   mergeArrays,
   updateNotifications,
 } from "../utils/commonUtils";
-import { ERROR_TEXT, events, eventTypes, VerificationStatus } from "../utils/constants";
+import {
+  ERROR_TEXT,
+  events,
+  eventTypes,
+  VerificationStatus,
+} from "../utils/constants";
 import useSiren from "../utils/sirenHook";
 
 /**
@@ -50,13 +55,13 @@ import useSiren from "../utils/sirenHook";
  * @param {boolean} props.hideHeader=false] - Whether to hide the header of the notification panel.
  * @param {boolean} props.hideClearAll=false] - Flag indicating if the clear all button should be hidden
  * @param {boolean} [props.hideBadge] - Flag indicating if the badge should be hidden
- * @param {string} props.loadMoreLabel - Label for load more button  
+ * @param {string} props.loadMoreLabel - Label for load more button
  * @param {Object} props.cardProps - Optional properties to customize the appearance of notification cards.
  * @param {Function} props.renderListEmpty - Function to render content when the notification list is empty.
  * @param {ReactNode} props.customFooter - Custom footer component to be rendered below the notification list.
  * @param {ReactNode} props.customHeader - Custom header component to be rendered above the notification list.
  * @param {ReactNode} pros.customLoader - Custom Loader component to be rendered while fetching notification list for the first time
- * @param {ReactNode} pros.loadMoreComponent -Custom load more component to be rendered 
+ * @param {ReactNode} pros.loadMoreComponent -Custom load more component to be rendered
  * @param {ReactNode} props.customErrorWindow -Custom error window component to be rendered when there is an error
  * @param {Function} props.customNotificationCard - Function to render custom notification cards.
  * @param {Function} props.onNotificationCardClick - Callback function executed when a notification card is clicked.
@@ -90,6 +95,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
   onNotificationCardClick,
   onError,
   hideClearAll = false,
+  modalWidth,
 }) => {
   const {
     markNotificationsAsViewed,
@@ -131,7 +137,8 @@ const SirenPanel: FC<SirenPanelProps> = ({
         notifications
       );
 
-      if(!isEmptyArray(updatedNotifications)) handleMarkNotificationsAsViewed(updatedNotifications[0]?.createdAt);
+      if (!isEmptyArray(updatedNotifications))
+        handleMarkNotificationsAsViewed(updatedNotifications[0]?.createdAt);
       setNotifications(updatedNotifications);
       setEventListenerData(null);
     }
@@ -143,7 +150,6 @@ const SirenPanel: FC<SirenPanelProps> = ({
       fetchNotifications(true);
     }
   }, [siren, verificationStatus, hideBadge]);
-
 
   const restartNotificationCountFetch = () => {
     try {
@@ -178,7 +184,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
         const response = await deleteNotificationsByDate(
           notifications[0].createdAt
         );
-      
+
         response && triggerOnError(response);
 
         if (response && isValidResponse(response)) {
@@ -202,7 +208,8 @@ const SirenPanel: FC<SirenPanelProps> = ({
 
     setNotifications(updatedNotifications);
 
-    if(isRefresh)handleMarkNotificationsAsViewed(updatedNotifications[0].createdAt);
+    if (isRefresh)
+      handleMarkNotificationsAsViewed(updatedNotifications[0].createdAt);
   };
 
   const fetchNotifications = async (isRefresh = false) => {
@@ -226,17 +233,15 @@ const SirenPanel: FC<SirenPanelProps> = ({
         if (!isEmptyArray(response.data ?? [])) {
           data = filterDataProperty(response);
           if (!data) return [];
-          if(response?.meta) { 
+          if (response?.meta) {
+            const isLastPage = response?.meta?.last === "true";
 
-            const isLastPage = response?.meta?.last === 'true';
-
-            if(isLastPage) setEndReached(true);
+            if (isLastPage) setEndReached(true);
             else setEndReached(false);
           }
           updateNotificationList(data, isRefresh);
         }
-        if (!data)
-          setEndReached(true);
+        if (!data) setEndReached(true);
         resetRealTimeFetch(isRefresh, data);
       } else {
         setEndReached(true);
@@ -323,26 +328,33 @@ const SirenPanel: FC<SirenPanelProps> = ({
     if (isLoading && isEmptyArray(notifications))
       return (
         <div className="siren-sdk-list-loader-container">
-          {customLoader || 
-          <>
-            <AnimatedLoader styles={styles}/>
-            <AnimatedLoader styles={styles}/>
-            <AnimatedLoader styles={styles}/>
-            <AnimatedLoader styles={styles}/>
-            <AnimatedLoader styles={styles}/>
-          </>}
+          {customLoader || (
+            <>
+              <AnimatedLoader styles={styles} />
+              <AnimatedLoader styles={styles} />
+              <AnimatedLoader styles={styles} />
+              <AnimatedLoader styles={styles} />
+              <AnimatedLoader styles={styles} />
+            </>
+          )}
         </div>
       );
 
     if (error)
       return (
-        customErrorWindow || <ErrorWindow styles={styles} error={error} darkMode={darkMode}  />
+        customErrorWindow || (
+          <ErrorWindow styles={styles} error={error} darkMode={darkMode} />
+        )
       );
 
     if (isEmptyArray(notifications))
       return (
         listEmptyComponent || (
-          <EmptyList data-testid="empty-list" styles={styles} darkMode={darkMode} />
+          <EmptyList
+            data-testid="empty-list"
+            styles={styles}
+            darkMode={darkMode}
+          />
         )
       );
 
@@ -364,19 +376,24 @@ const SirenPanel: FC<SirenPanelProps> = ({
   };
 
   const renderListBottomComponent = () => {
-    if (
-      isEmptyArray(notifications) 
-    )
-      return null;
-    if (isLoading && !endReached) 
+    if (isEmptyArray(notifications)) return null;
+    if (isLoading && !endReached)
       return (
-        <div className="siren-sdk-panel-infinite-loader-container" >
-          <div className="siren-sdk-panel-infinite-loader" style={styles.infiniteLoader} />
+        <div className="siren-sdk-panel-infinite-loader-container">
+          <div
+            className="siren-sdk-panel-infinite-loader"
+            style={styles.infiniteLoader}
+          />
         </div>
-      )
+      );
     if (!isLoading && !endReached)
       return (
-        <ShowMoreButton styles={styles} customComponent={loadMoreComponent} onClick={handleLoadMore} loadMoreLabel={loadMoreLabel} />
+        <ShowMoreButton
+          styles={styles}
+          customComponent={loadMoreComponent}
+          onClick={handleLoadMore}
+          loadMoreLabel={loadMoreLabel}
+        />
       );
 
     return null;
@@ -393,7 +410,12 @@ const SirenPanel: FC<SirenPanelProps> = ({
       className={
         !fullScreen ? "siren-sdk-panel-modal" : "siren-sdk-panel-container"
       }
-      style={{...(!fullScreen && styles.windowTopBorder),...(!fullScreen &&styles.windowBottomBorder),...styles.container}}
+      style={{
+        ...(!fullScreen && styles.windowTopBorder),
+        ...(!fullScreen && { width: `${modalWidth}px` }),
+        ...(!fullScreen && styles.windowBottomBorder),
+        ...styles.container,
+      }}
       data-testid="siren-panel"
     >
       <div>
@@ -409,11 +431,17 @@ const SirenPanel: FC<SirenPanelProps> = ({
             />
           ))}
         <div
-          style={{...(!fullScreen && styles.windowBottomBorder),...styles.contentContainer}}
+          style={{
+            ...(!fullScreen && styles.windowBottomBorder),
+            ...styles.contentContainer,
+          }}
         >
           <div
             id="contentContainer"
-            style={{...(!fullScreen && styles.windowBottomBorder),...styles.body}}
+            style={{
+              ...(!fullScreen && styles.windowBottomBorder),
+              ...styles.body,
+            }}
             className={containerClassNames}
           >
             {renderList()}
