@@ -5,7 +5,7 @@ exports[`matches snapshot 1`] = `
   <div
     class="siren-sdk-panel-modal"
     data-testid="siren-panel"
-    style="border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; width: 500px; max-width: 100;"
+    style="border-top-left-radius: 10px; border-top-right-radius: 10px; width: 500px; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; max-width: 100;"
   >
     <div>
       <div

@@ -33,6 +33,7 @@ const props = {
   fullScreen: false,
   setModalVisible: jest.fn(),
   darkMode: false,
+  modalWidth: 500,
 };
 
 test("matches snapshot", () => {
