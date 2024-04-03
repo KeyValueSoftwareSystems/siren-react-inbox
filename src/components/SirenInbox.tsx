@@ -5,7 +5,7 @@ import SirenPanel from "./SirenPanel";
 import { useSirenContext } from "./SirenProvider";
 import type { SirenProps } from "../types";
 import { Constants } from "../utils";
-import { applyTheme, calculateModalPosition } from "../utils/commonUtils";
+import { applyTheme, calculateModalPosition, calculateModalWidth, debounce } from "../utils/commonUtils";
 import { BadgeType, MAXIMUM_ITEMS_PER_FETCH, ThemeMode } from "../utils/constants";
 import "../styles/sirenInbox.css";
 
@@ -66,11 +66,10 @@ const SirenInbox: FC<SirenProps> = ({
   const iconRef = useRef<HTMLDivElement>(null);
   //ref for the modal
   const modalRef = useRef<HTMLDivElement>(null);
+  const [isModalFullscreen, setIsModalFullscreen] = useState(false);
   const [modalPosition, setModalPosition] = useState<{
-    top: string;
     right?: string;
-  }>({ top: "0" });
-
+  }>();
   const styles = useMemo(
     () =>
       applyTheme(
@@ -95,18 +94,25 @@ const SirenInbox: FC<SirenProps> = ({
   }, []);
 
   useEffect(() => {
-    const updateModalPosition = () => {
-      const containerWidth = styles.container.width || 400;
-
+    const updateWindowViewMode = () => {
+      const containerWidth = styles.container.width || 500;
+      const modalWidth = calculateModalWidth(containerWidth);
+  
+      if (window.outerWidth < modalWidth) 
+        setIsModalFullscreen(true);
+      else 
+        setIsModalFullscreen(false);
+      
+  
       setModalPosition(calculateModalPosition(iconRef, window, containerWidth));
     };
-
-    updateModalPosition(); // Initial calculation
-    window.addEventListener("resize", updateModalPosition); // Event listener for window resize
-
-    return () => {
-      window.removeEventListener("resize", updateModalPosition);
-    };
+  
+    const debouncedUpdate = debounce(updateWindowViewMode, 200);
+  
+    updateWindowViewMode();
+    window.addEventListener("resize", debouncedUpdate);
+  
+    return () => window.removeEventListener("resize", debouncedUpdate);
   }, [styles.container.width]);
 
   const onMouseUp = (event: Event): void => {
@@ -122,12 +128,14 @@ const SirenInbox: FC<SirenProps> = ({
     setIsModalOpen((prevState: boolean) => !prevState);
   };
 
+  const isWindowViewOnly = windowViewOnly || isModalFullscreen;
+
   return (
     <div
       ref={modalRef}
-      className={`${!windowViewOnly && "siren-sdk-inbox-container"}`}
+      className={`${!isWindowViewOnly && "siren-sdk-inbox-container"}`}
     >
-      {!windowViewOnly && (
+      {!isWindowViewOnly&& (
         <div ref={iconRef}>
           <NotificationButton
             notificationIcon={notificationIcon}
@@ -140,19 +148,19 @@ const SirenInbox: FC<SirenProps> = ({
         </div>
       )}
 
-      {(isModalOpen || windowViewOnly) && (
+      {(isModalOpen || isWindowViewOnly) && (
         <div
           style={{
             ...styles.container,
-            ...(!windowViewOnly && styles.windowShadow),
-            width:
-              windowViewOnly || window.innerWidth < 500
-                ? "100%"
-                : styles.container.width,
+            ...(!isWindowViewOnly && styles.windowShadow),
             position:
-              windowViewOnly || window.innerWidth < 500
-                ? "initial"
-                : "fixed",
+            isWindowViewOnly
+              ? "initial"
+              : "absolute",
+            width:
+            isWindowViewOnly
+              ? "100%"
+              : styles.container.width,
             ...modalPosition,
           }}
           data-testid="siren-panel"
@@ -170,7 +178,7 @@ const SirenInbox: FC<SirenProps> = ({
             onNotificationCardClick={onNotificationCardClick}
             onError={onError}
             listEmptyComponent={listEmptyComponent}
-            fullScreen={windowViewOnly}
+            fullScreen={isWindowViewOnly}
             hideClearAll={hideClearAll}
             customLoader={customLoader}
             loadMoreComponent={loadMoreComponent}

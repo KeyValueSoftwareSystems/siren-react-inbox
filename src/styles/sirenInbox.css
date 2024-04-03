@@ -1,3 +1,4 @@
 .siren-sdk-inbox-container {
     width: fit-content;
+    position: relative;
 }
