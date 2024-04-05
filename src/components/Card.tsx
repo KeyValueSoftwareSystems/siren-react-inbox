@@ -51,6 +51,7 @@ const Card: FC<NotificationCardProps> = ({
 }) => {
   const { id, createdAt, message, isRead } = notification;
   const { avatar, header, subHeader, body } = message;
+  const { hideAvatar, hideDelete } = cardProps ?? {};
 
   const onDelete = (event: React.MouseEvent) => {
     deleteNotificationById(id);
@@ -82,7 +83,7 @@ const Card: FC<NotificationCardProps> = ({
       }
       data-testid={`card-${notification.id}`}
     >
-      {!cardProps?.hideAvatar && (
+      {!hideAvatar && (
         <div
           style={{
             ...styles.cardIconRound,
@@ -118,16 +119,18 @@ const Card: FC<NotificationCardProps> = ({
           </div>
         </div>
       </div>
-      <div
-        data-testid={`delete-${notification.id}`}
-        className="siren-sdk-delete-button"
-        onClick={onDelete}
-      >
-        <CloseIcon
-          color={styles?.deleteIcon.color}
-          size={styles.deleteIcon.size}
-        />
-      </div>
+      {!hideDelete && (
+        <div
+          data-testid={`delete-${notification.id}`}
+          className="siren-sdk-delete-button"
+          onClick={onDelete}
+        >
+          <CloseIcon
+            color={styles?.deleteIcon.color}
+            size={styles.deleteIcon.size}
+          />
+        </div>
+      )}
     </div>
   );
 };
