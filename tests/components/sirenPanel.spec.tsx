@@ -42,7 +42,7 @@ test("matches snapshot", () => {
 });
 
 it("renders title when provided", () => {
-  const { getByText } = render(<SirenPanel {...props} title="Notifications" />);
+  const { getByText } = render(<SirenPanel {...props} inboxHeaderProps={{title: "Notifications"}} />);
   const title = getByText("Notifications");
 
   expect(title).toBeTruthy();
