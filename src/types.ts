@@ -90,6 +90,7 @@ export type SirenPanelProps = Pick<
   noOfNotificationsPerFetch: number;
   fullScreen: boolean;
   darkMode: boolean;
+  modalWidth: DimensionValue;
 };
 
 export type HeaderProps = {

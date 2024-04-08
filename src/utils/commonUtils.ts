@@ -6,7 +6,12 @@ import type {
   NotificationsApiResponse,
 } from "@sirenapp/js-sdk/dist/esm/types";
 
-import { defaultBadgeStyle, eventTypes, LogLevel, ThemeMode } from "./constants";
+import {
+  defaultBadgeStyle,
+  eventTypes,
+  LogLevel,
+  ThemeMode,
+} from "./constants";
 import type {
   CustomStyle,
   DimensionValue,
@@ -122,7 +127,6 @@ export const applyTheme = (
 
   return {
     container: {
-      width: customStyle.window?.width || DefaultStyle.window.width,
       maxWidth: customStyle.window?.width || "100",
     },
     windowShadow: {
@@ -369,38 +373,64 @@ export const calculateModalPosition = (
 ) => {
   if (iconRef.current) {
     const iconRect = iconRef.current.getBoundingClientRect();
-    const screenWidth = window.innerWidth;
+    const screenWidth = window.outerWidth;
     const spaceRight = screenWidth - iconRect.x;
     const spaceLeft = iconRect.x;
-    let modalWidth = 400;
+    let modalWidth = calculateModalWidth(containerWidth);
 
-    if (typeof containerWidth === "string")
-      modalWidth = parseInt(containerWidth.slice(0, -2));
-    else if (typeof containerWidth === "number") modalWidth = containerWidth;
+    const centerPosition =
+      Math.min(spaceLeft, spaceRight) + Math.abs(spaceLeft - spaceRight) / 2;
 
-    const topPosition = iconRect.bottom;
-    const leftPosition = screenWidth / 2 - modalWidth / 2;
+    if (window.outerWidth <= modalWidth) modalWidth = window.outerWidth - 40;
 
-    if (
-      spaceLeft < modalWidth &&
-      spaceRight < modalWidth &&
-      screenWidth > modalWidth
-    ) {
-      return { top: `${topPosition}px`, left: `-${leftPosition}px` };
-    } else {
-      const rightPosition = spaceRight < modalWidth + 30 ? "30px" : null;
+    if (spaceRight > modalWidth) {
+      return {
+        left: `0px`,
+      };
+    } else if (spaceLeft > modalWidth) {
+      const rightPosition = spaceRight < modalWidth ? "30px" : null;
 
       return {
-        top: `${topPosition}px`,
         ...(rightPosition && { right: rightPosition }),
       };
+    } else if (
+      spaceLeft < modalWidth &&
+      spaceRight < modalWidth &&
+      spaceLeft > spaceRight
+    ) {
+      return { right: "30px" };
+    } else {
+      return { left: `-${centerPosition - 40}px` };
     }
   }
-
-  return { top: "0" };
 };
+
+export const calculateModalWidth = (containerWidth: DimensionValue): number => {
+  let modalWidth = 500;
+
+  if (typeof containerWidth === "string")
+    modalWidth = parseInt(containerWidth.slice(0, -2)) + 40;
+  else if (typeof containerWidth === "number") modalWidth = containerWidth + 40;
+
+  return modalWidth;
+};
+
 export const hexToRgba = (hex: string, alpha: number) => {
   const [r, g, b] = hex.match(/\w\w/g)?.map((x) => parseInt(x, 16)) ?? [];
 
   return `rgba(${r},${g},${b},${alpha})`;
+};
+
+export const debounce = <F extends (...args: any[]) => void>(
+  func: F,
+  delay: number
+) => {
+  let timerId: ReturnType<typeof setTimeout>;
+
+  return (...args: Parameters<F>): void => {
+    clearTimeout(timerId);
+    timerId = setTimeout(() => {
+      func(...args);
+    }, delay);
+  };
 };
