@@ -109,7 +109,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
   );
 
   const [error, setError] = useState<string>("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [endReached, setEndReached] = useState(false);
   const [eventListenerData, setEventListenerData] =
     useState<EventListenerDataType | null>(null);
