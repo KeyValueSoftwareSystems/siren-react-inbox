@@ -14,7 +14,8 @@ jest.mock("../../src/styles/sirenNotificationIcon.css", () => ({}));
 
 const mockSirenContextValue = {
   siren: null,
-  verificationStatus: VerificationStatus.SUCCESS
+  verificationStatus: VerificationStatus.SUCCESS,
+  id: ''
 };
 
 const style = applyTheme();
