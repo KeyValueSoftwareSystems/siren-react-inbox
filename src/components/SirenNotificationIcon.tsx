@@ -29,7 +29,7 @@ const SirenNotificationIcon: FC<SirenNotificationButtonProps> = ({
   darkMode,
   hideBadge,
 }) => {
-  const { siren } = useSirenContext();
+  const { siren, id } = useSirenContext();
 
   const [unviewedCount, seUnviewedCount] = useState<number>(0);
 
@@ -39,14 +39,14 @@ const SirenNotificationIcon: FC<SirenNotificationButtonProps> = ({
   ) => {
     const data = await JSON.parse(dataString);
 
-    if (data.action === eventTypes.UPDATE_NOTIFICATIONS_COUNT)
+    if (data.action === `${eventTypes.UPDATE_NOTIFICATIONS_COUNT}${id}`)
       seUnviewedCount(data.unviewedCount);
   };
 
   useEffect(() => {
     if(!hideBadge) {
       PubSub.subscribe(
-        events.NOTIFICATION_COUNT_EVENT,
+        `${events.NOTIFICATION_COUNT_EVENT}${id}`,
         notificationCountSubscriber
       );
 

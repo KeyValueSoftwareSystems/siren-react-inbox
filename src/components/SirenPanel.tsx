@@ -96,13 +96,13 @@ const SirenPanel: FC<SirenPanelProps> = ({
     deleteNotificationsByDate,
     deleteNotification,
   } = useSiren();
-  const { siren, verificationStatus } = useSirenContext();
+  const { siren, verificationStatus, id } = useSirenContext();
   const [notifications, setNotifications] = useState<NotificationDataType[]>(
     []
   );
 
   const [error, setError] = useState<string>("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [endReached, setEndReached] = useState(false);
   const [eventListenerData, setEventListenerData] =
     useState<EventListenerDataType | null>(null);
@@ -111,10 +111,10 @@ const SirenPanel: FC<SirenPanelProps> = ({
     const data = await JSON.parse(dataString);
 
     setEventListenerData(data);
-  };
+  };  
 
   useEffect(() => {
-    PubSub.subscribe(events.NOTIFICATION_LIST_EVENT, notificationSubscriber);
+    PubSub.subscribe(`${events.NOTIFICATION_LIST_EVENT}${id}`, notificationSubscriber);
 
     return () => {
       cleanUp();
@@ -128,7 +128,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
     if (eventListenerData) {
       const updatedNotifications: NotificationDataType[] = updateNotifications(
         eventListenerData,
-        notifications
+        notifications,
       );
 
       if(!isEmptyArray(updatedNotifications)) handleMarkNotificationsAsViewed(updatedNotifications[0]?.createdAt);
@@ -290,10 +290,10 @@ const SirenPanel: FC<SirenPanelProps> = ({
     try {
       const payload = {
         unviewedCount: 0,
-        action: eventTypes.UPDATE_NOTIFICATIONS_COUNT,
+        action: `${eventTypes.UPDATE_NOTIFICATIONS_COUNT}${id}`,
       };
 
-      PubSub.publish(events.NOTIFICATION_COUNT_EVENT, JSON.stringify(payload));
+      PubSub.publish(`${events.NOTIFICATION_COUNT_EVENT}${id}`, JSON.stringify(payload));
       if (createdAt) {
         const response = await markNotificationsAsViewed(createdAt);
 

@@ -4,7 +4,7 @@ import { errorMap, events, eventTypes } from "./constants";
 import { useSirenContext } from "../components/SirenProvider";
 
 const useSiren = () => {
-  const { siren } = useSirenContext();
+  const { siren, id: providerInstanceId } = useSirenContext();
 
   const markAsRead = async (id: string) => {
     if (siren)
@@ -15,7 +15,7 @@ const useSiren = () => {
           const payload = { id, action: eventTypes.MARK_ITEM_AS_READ };
 
           PubSub.publish(
-            events.NOTIFICATION_LIST_EVENT,
+            `${events.NOTIFICATION_LIST_EVENT}${providerInstanceId}`,
             JSON.stringify(payload)
           );
         }
@@ -35,7 +35,7 @@ const useSiren = () => {
       if (response && response.data) {
         const payload = { action: eventTypes.MARK_ALL_AS_READ };
 
-        PubSub.publish(events.NOTIFICATION_LIST_EVENT, JSON.stringify(payload));
+        PubSub.publish(`${events.NOTIFICATION_LIST_EVENT}${providerInstanceId}`, JSON.stringify(payload));
       }
 
       return response;
@@ -52,7 +52,7 @@ const useSiren = () => {
           const payload = { id, action: eventTypes.DELETE_ITEM };
 
           PubSub.publish(
-            events.NOTIFICATION_LIST_EVENT,
+            `${events.NOTIFICATION_LIST_EVENT}${providerInstanceId}`,
             JSON.stringify(payload)
           );
         }
@@ -72,7 +72,7 @@ const useSiren = () => {
       if (response && response.data) {
         const payload = { action: eventTypes.DELETE_ALL_ITEM };
 
-        PubSub.publish(events.NOTIFICATION_LIST_EVENT, JSON.stringify(payload));
+        PubSub.publish(`${events.NOTIFICATION_LIST_EVENT}${providerInstanceId}`, JSON.stringify(payload));
       }
 
       return response;
@@ -88,11 +88,11 @@ const useSiren = () => {
       if (response && response.data) {
         const payload = {
           notificationsCount: 0,
-          action: eventTypes.UPDATE_NOTIFICATIONS_COUNT,
+          action: `${eventTypes.UPDATE_NOTIFICATIONS_COUNT}${providerInstanceId}`,
         };
 
         PubSub.publish(
-          events.NOTIFICATION_COUNT_EVENT,
+          `${events.NOTIFICATION_COUNT_EVENT}${providerInstanceId}`,
           JSON.stringify(payload)
         );
       }
