@@ -60,7 +60,7 @@ exports[`matches snapshot 1`] = `
               class="siren-sdk-skeleton-container"
             >
               <div
-                class="siren-sdk-skeleton-grid"
+                class="siren-sdk-skeleton-grid-with-avatar"
               >
                 <div
                   class="siren-sdk-skeleton-avatar siren-sdk-skeleton"
@@ -96,7 +96,7 @@ exports[`matches snapshot 1`] = `
               class="siren-sdk-skeleton-container"
             >
               <div
-                class="siren-sdk-skeleton-grid"
+                class="siren-sdk-skeleton-grid-with-avatar"
               >
                 <div
                   class="siren-sdk-skeleton-avatar siren-sdk-skeleton"
@@ -132,7 +132,7 @@ exports[`matches snapshot 1`] = `
               class="siren-sdk-skeleton-container"
             >
               <div
-                class="siren-sdk-skeleton-grid"
+                class="siren-sdk-skeleton-grid-with-avatar"
               >
                 <div
                   class="siren-sdk-skeleton-avatar siren-sdk-skeleton"
@@ -168,7 +168,7 @@ exports[`matches snapshot 1`] = `
               class="siren-sdk-skeleton-container"
             >
               <div
-                class="siren-sdk-skeleton-grid"
+                class="siren-sdk-skeleton-grid-with-avatar"
               >
                 <div
                   class="siren-sdk-skeleton-avatar siren-sdk-skeleton"
@@ -204,7 +204,7 @@ exports[`matches snapshot 1`] = `
               class="siren-sdk-skeleton-container"
             >
               <div
-                class="siren-sdk-skeleton-grid"
+                class="siren-sdk-skeleton-grid-with-avatar"
               >
                 <div
                   class="siren-sdk-skeleton-avatar siren-sdk-skeleton"
