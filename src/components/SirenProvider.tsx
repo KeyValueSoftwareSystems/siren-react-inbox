@@ -42,7 +42,8 @@ export const SirenContext = createContext<SirenContextProp>({
  * @example
  * const {
  *   siren,
- *   verificationStatus
+ *   verificationStatus,
+ *   id
  * } = useSirenContext();
  *
  * @returns {SirenContextProp} The Siren notifications context.
