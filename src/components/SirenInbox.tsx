@@ -4,7 +4,13 @@ import NotificationButton from "./SirenNotificationIcon";
 import SirenPanel from "./SirenPanel";
 import { useSirenContext } from "./SirenProvider";
 import type { SirenProps } from "../types";
-import { applyTheme, calculateModalPosition } from "../utils/commonUtils";
+import { DefaultStyle } from "../utils";
+import {
+  applyTheme,
+  calculateModalPosition,
+  calculateModalWidth,
+  debounce,
+} from "../utils/commonUtils";
 import {
   BadgeType,
   MAXIMUM_ITEMS_PER_FETCH,
@@ -68,10 +74,12 @@ const SirenInbox: FC<SirenProps> = ({
   //ref for the modal
   const modalRef = useRef<HTMLDivElement>(null);
   const [modalPosition, setModalPosition] = useState<{
-    top: string;
     right?: string;
-  }>({ top: "0" });
-
+    left?: string;
+  }>();
+  const initialModalWidth =
+    customStyles?.window?.width || DefaultStyle.window.width;
+  const [updatedModalWidth, setUpdatedModalWidth] = useState(initialModalWidth);
   const styles = useMemo(
     () =>
       applyTheme(
@@ -96,18 +104,26 @@ const SirenInbox: FC<SirenProps> = ({
   }, []);
 
   useEffect(() => {
-    const updateModalPosition = () => {
-      const containerWidth = styles.container.width || 400;
+    const modalWidth = calculateModalWidth(initialModalWidth);
 
+    if (window.outerWidth <= modalWidth)
+    // Subtract 40 pixels to account for padding within the window container
+      setUpdatedModalWidth(window.outerWidth - 40);
+    else setUpdatedModalWidth(initialModalWidth);
+  }, [window.outerWidth, initialModalWidth]);
+
+  useEffect(() => {
+    const containerWidth = styles.container.width || DefaultStyle.window.width;
+    const updateWindowViewMode = () => {
       setModalPosition(calculateModalPosition(iconRef, window, containerWidth));
     };
 
-    updateModalPosition(); // Initial calculation
-    window.addEventListener("resize", updateModalPosition); // Event listener for window resize
+    const debouncedUpdate = debounce(updateWindowViewMode, 200);
 
-    return () => {
-      window.removeEventListener("resize", updateModalPosition);
-    };
+    updateWindowViewMode();
+    window.addEventListener("resize", debouncedUpdate);
+
+    return () => window.removeEventListener("resize", debouncedUpdate);
   }, [styles.container.width]);
 
   const onMouseUp = (event: Event): void => {
@@ -124,59 +140,56 @@ const SirenInbox: FC<SirenProps> = ({
   };
 
   return (
-    <div
-      ref={modalRef}
-      className={`${!windowViewOnly && "siren-sdk-inbox-container"}`}
-    >
-      {!windowViewOnly && (
-        <div ref={iconRef}>
-          <NotificationButton
-            notificationIcon={notificationIcon}
-            styles={styles}
-            onIconClick={onIconClick}
-            badgeType={isModalOpen ? BadgeType.NONE : BadgeType.DEFAULT}
-            darkMode={darkMode}
-            hideBadge={hideBadge}
-          />
-        </div>
-      )}
+    <div className={!windowViewOnly? 'siren-sdk-inbox-root' : ''}>
+      <div
+        ref={modalRef}
+        className={`${!windowViewOnly && "siren-sdk-inbox-container"}`}
+      >
+        {!windowViewOnly && (
+          <div ref={iconRef}>
+            <NotificationButton
+              notificationIcon={notificationIcon}
+              styles={styles}
+              onIconClick={onIconClick}
+              badgeType={isModalOpen ? BadgeType.NONE : BadgeType.DEFAULT}
+              darkMode={darkMode}
+              hideBadge={hideBadge}
+            />
+          </div>
+        )}
 
-      {(isModalOpen || windowViewOnly) && (
-        <div
-          style={{
-            ...styles.container,
-            ...(!windowViewOnly && styles.windowShadow),
-            width:
-              windowViewOnly || window.innerWidth < 500
-                ? "100%"
-                : styles.container.width,
-            position:
-              windowViewOnly || window.innerWidth < 500
-                ? "initial"
-                : "absolute",
-            ...modalPosition,
-          }}
-          data-testid="siren-panel"
-        >
-          <SirenPanel
-            styles={styles}
-            noOfNotificationsPerFetch={notificationsPerPage}
-            hideBadge={hideBadge}
-            inboxHeaderProps={inboxHeaderProps}
-            cardProps={cardProps}
-            customFooter={customFooter}
-            customNotificationCard={customNotificationCard}
-            onNotificationCardClick={onNotificationCardClick}
-            onError={onError}
-            listEmptyComponent={listEmptyComponent}
-            fullScreen={windowViewOnly}
-            customLoader={customLoader}
-            loadMoreComponent={loadMoreComponent}
-            darkMode={darkMode}
-            customErrorWindow={customErrorWindow}
-          />
-        </div>
-      )}
+        {(isModalOpen || windowViewOnly) && (
+          <div
+            style={{
+              ...styles.container,
+              ...(!windowViewOnly && styles.windowShadow),
+              position: windowViewOnly ? "initial" : "absolute",
+              width: windowViewOnly ? "100%" : updatedModalWidth,
+              ...modalPosition,
+            }}
+            data-testid="siren-panel"
+          >
+            <SirenPanel
+              styles={styles}
+              noOfNotificationsPerFetch={notificationsPerPage}
+              hideBadge={hideBadge}
+              inboxHeaderProps={inboxHeaderProps}
+              cardProps={cardProps}
+              customFooter={customFooter}
+              customNotificationCard={customNotificationCard}
+              onNotificationCardClick={onNotificationCardClick}
+              onError={onError}
+              listEmptyComponent={listEmptyComponent}
+              fullScreen={windowViewOnly}
+              customLoader={customLoader}
+              loadMoreComponent={loadMoreComponent}
+              darkMode={darkMode}
+              customErrorWindow={customErrorWindow}
+              modalWidth={updatedModalWidth}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 };
