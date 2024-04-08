@@ -315,20 +315,22 @@ const SirenPanel: FC<SirenPanelProps> = ({
   };
 
   const renderList = () => {
-    if (isLoading && isEmptyArray(notifications))
+    if (isLoading && isEmptyArray(notifications)) {
+      const hideAvatar = cardProps?.hideAvatar || false;
+      
       return (
         <div className="siren-sdk-list-loader-container">
-          {customLoader || (
-            <>
-              <AnimatedLoader styles={styles} />
-              <AnimatedLoader styles={styles} />
-              <AnimatedLoader styles={styles} />
-              <AnimatedLoader styles={styles} />
-              <AnimatedLoader styles={styles} />
-            </>
-          )}
+          {customLoader || 
+          <>
+            <AnimatedLoader styles={styles} hideAvatar={hideAvatar}/>
+            <AnimatedLoader styles={styles} hideAvatar={hideAvatar}/>
+            <AnimatedLoader styles={styles} hideAvatar={hideAvatar}/>
+            <AnimatedLoader styles={styles} hideAvatar={hideAvatar}/>
+            <AnimatedLoader styles={styles} hideAvatar={hideAvatar}/>
+          </>}
         </div>
       );
+    }
 
     if (error)
       return (

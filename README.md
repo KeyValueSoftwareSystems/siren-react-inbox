@@ -64,8 +64,8 @@ darkMode | Toggle to enable dark mode |  boolean | false |
 itemsPerFetch | Number of notifications fetch per api request (have a max cap of 50) | number | 20 |
 windowViewOnly | Toggle to enable fit-to-screen window or modal view |  boolean | false |
 notificationIcon | Option to use custom notification Icon |  JSX Element | null |
-inboxHeaderProps | Props for customizing the header.<br> title - Title of the notification inbox<br> hideHeader - Toggle to hide or show the header section.<br> hideClearAll - Toggle to hide or show the clear all button.<br> customHeader - Custom header component. | InboxHeaderProps| { title: '', hideHeader: false, hideClearAll: false, customHeader: null } |
-cardProps | Props for customizing the notification cards..<br> hideAvatar - Toggle to hide or show the avatar.<br> disableAutoMarkAsRead - Toggle to disable or enable the markAsRead functionality on card click | CardProps | { hideAvatar: false, disableAutoMarkAsRead: false } |
+inboxHeaderProps | Props for customizing the header.<br> title - Title of the notification inbox<br> hideHeader - Toggle to hide or show the header section.<br> hideClearAll - Toggle to hide or show the clear all button.<br> customHeader - Custom header component. | InboxHeaderProps| { title: 'Notifications', <br>hideHeader: false,<br> hideClearAll: false, <br>customHeader: null } |
+cardProps | Props for customizing the notification cards. <br>hideDelete - Toggle to hide or show delete icon<br> hideAvatar - Toggle to hide or show the avatar.<br> disableAutoMarkAsRead - Toggle to disable or enable the markAsRead functionality on card click | CardProps | { hideDelete: false,<br> hideAvatar: false,<br> disableAutoMarkAsRead: false } |
 customNotificationCard | Function for rendering custom notification cards | (notification)=> JSX Element | null |
 onNotificationCardClick | Custom click handler for notification cards | (notification)=> void | ()=>null |
 listEmptyComponent | Custom component for empty notification list | JSX Element | null |
@@ -193,6 +193,7 @@ Please note that the badgeStyle, window shadow and border props are only applica
 
 ```js
     type CardProps = {
+      hideDelete?: boolean;
       hideAvatar?: boolean,
       disableAutoMarkAsRead?: boolean,
     };
@@ -301,10 +302,13 @@ export function MyContainer(): React.JSX.Element {
   return (
     <div>
       <SirenInbox
-        title="Notifications"
-        hideHeader={false}
+        inboxHeaderProps={
+          title: "Notifications",
+          hideHeader: false
+        }
         darkMode={false}
         cardProps={{
+          hideDelete: false,
           hideAvatar: false,
           disableAutoMarkAsRead: false,
         }}

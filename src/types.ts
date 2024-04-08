@@ -50,6 +50,7 @@ export type SirenProps = SirenInboxProps &
 export type CardProps = {
   hideAvatar?: boolean;
   showMedia?: boolean;
+  hideDelete?: boolean;
   disableAutoMarkAsRead?: boolean;
 };
 
@@ -100,6 +101,11 @@ export type HeaderProps = {
   fullScreen: boolean;
   handleClearAllNotification: () => void;
 };
+
+export type LoaderProps = {
+  styles: SirenStyleProps;
+  hideAvatar: boolean;
+}
 
 type BadgeType = "none" | "dot" | "default";
 

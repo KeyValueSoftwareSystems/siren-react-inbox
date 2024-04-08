@@ -15,7 +15,7 @@
   }
 }
 
-.siren-sdk-skeleton-grid {
+.siren-sdk-skeleton-grid-with-avatar {
   display: grid;
   grid-template-columns: 70px 10px auto auto auto auto 25px;
   grid-template-areas:
@@ -23,6 +23,17 @@
   'avatar subheader subheader subheader subheader subheader close'
   'avatar body body body body body close'
   'avatar icon footer footer footer footer close';
+  gap:8px ;
+}
+
+.siren-sdk-skeleton-grid-without-avatar {
+  display: grid;
+  grid-template-columns: 10px auto auto auto auto 25px;
+  grid-template-areas:
+  'header header header header header close'
+  'subheader subheader subheader subheader subheader close'
+  'body body body body body close'
+  'icon footer footer footer footer close';
   gap:8px ;
 }
 
