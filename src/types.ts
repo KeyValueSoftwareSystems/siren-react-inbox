@@ -8,9 +8,9 @@ import type {
 export type SirenInboxProps = {
   theme?: Theme;
   customStyles?: CustomStyle,
-  title?: string;
   loadMoreLabel?: string,
   inboxHeaderProps?: {
+    title?: string;
     hideHeader?: boolean;
     hideClearAll?: boolean;
     customHeader?: JSX.Element;
@@ -86,7 +86,6 @@ export type SirenPanelProps = Pick<
   styles: SirenStyleProps;
   onError?: (error: SirenErrorType) => void;
   listEmptyComponent?: JSX.Element;
-  title: string;
   noOfNotificationsPerFetch: number;
   fullScreen: boolean;
   darkMode: boolean;

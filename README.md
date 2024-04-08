@@ -58,14 +58,13 @@ Below are optional props available for the inbox component:
 Prop | Description | Type | Default value |
 --- | --- | --- | --- |
 theme | Object for custom themes |  Theme | {} |
-title |  Title of the notification inbox |  string | "Notifications" |
 loadMoreLabel | Text shown on the load more component | string | "Load More" |
 hideBadge | Toggle to hide or show the badge       |   boolean  |   false  |
 darkMode | Toggle to enable dark mode |  boolean | false |
 itemsPerFetch | Number of notifications fetch per api request (have a max cap of 50) | number | 20 |
 windowViewOnly | Toggle to enable fit-to-screen window or modal view |  boolean | false |
 notificationIcon | Option to use custom notification Icon |  JSX Element | null |
-inboxHeaderProps | Props for customizing the header.<br> hideHeader - Toggle to hide or show the header section.<br> hideClearAll - Toggle to hide or show the clear all button.<br> customHeader - Custom header component. | InboxHeaderProps| { hideHeader: false, hideClearAll: false, customHeader: null } |
+inboxHeaderProps | Props for customizing the header.<br> title - Title of the notification inbox<br> hideHeader - Toggle to hide or show the header section.<br> hideClearAll - Toggle to hide or show the clear all button.<br> customHeader - Custom header component. | InboxHeaderProps| { title: '', hideHeader: false, hideClearAll: false, customHeader: null } |
 cardProps | Props for customizing the notification cards..<br> hideAvatar - Toggle to hide or show the avatar.<br> disableAutoMarkAsRead - Toggle to disable or enable the markAsRead functionality on card click | CardProps | { hideAvatar: false, disableAutoMarkAsRead: false } |
 customNotificationCard | Function for rendering custom notification cards | (notification)=> JSX Element | null |
 onNotificationCardClick | Custom click handler for notification cards | (notification)=> void | ()=>null |
@@ -203,6 +202,7 @@ Please note that the badgeStyle, window shadow and border props are only applica
 
 ```js
     type InboxHeaderProps = {
+      title?: string;
       hideHeader?: boolean,
       hideClearAll?: boolean,
       customHeader?: JSX.Element | null,

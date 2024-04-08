@@ -248,9 +248,9 @@ const App: React.FC = () => {
 
   return (
     <div>
-      <SirenInbox
-        title="Siren Notifications"
+      <SirenInbox       
         inboxHeaderProps={{
+          title:"Siren Notifications",
           hideHeader: hideHeader,
           customHeader: showCustomHeader ? renderCustomHeader() : undefined
         }}

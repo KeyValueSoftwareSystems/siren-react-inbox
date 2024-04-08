@@ -24,7 +24,7 @@ import {
   mergeArrays,
   updateNotifications,
 } from "../utils/commonUtils";
-import { ERROR_TEXT, events, eventTypes, VerificationStatus } from "../utils/constants";
+import { DEFAULT_WINDOW_TITLE, ERROR_TEXT, events, eventTypes, VerificationStatus } from "../utils/constants";
 import useSiren from "../utils/sirenHook";
 
 /**
@@ -46,7 +46,6 @@ import useSiren from "../utils/sirenHook";
  *
  * @param {SirenPanelProps} props - The properties passed to the SirenWindow component.
  * @param {Object} props.styles - Custom styles applied to the notification panel and its elements.
- * @param {string} props.title - The title of the notification panel.
  * @param {boolean} [props.hideBadge] - Flag indicating if the badge should be hidden
  * @param {string} props.loadMoreLabel - Label for load more button  
  * @param {Object} props.inboxHeaderProps - Object containing props related to the inbox header.
@@ -70,7 +69,6 @@ type EventListenerDataType = {
 
 const SirenPanel: FC<SirenPanelProps> = ({
   styles,
-  title,
   loadMoreLabel,
   hideBadge,
   darkMode,
@@ -93,7 +91,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
     deleteNotification,
   } = useSiren();
   const { siren, verificationStatus } = useSirenContext();
-  const {hideHeader = false, hideClearAll = false, customHeader} = inboxHeaderProps ?? {};
+  const {hideHeader = false, hideClearAll = false, customHeader, title = DEFAULT_WINDOW_TITLE} = inboxHeaderProps ?? {};
   const [notifications, setNotifications] = useState<NotificationDataType[]>(
     []
   );

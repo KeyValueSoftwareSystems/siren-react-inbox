@@ -4,7 +4,6 @@ import NotificationButton from "./SirenNotificationIcon";
 import SirenPanel from "./SirenPanel";
 import { useSirenContext } from "./SirenProvider";
 import type { SirenProps } from "../types";
-import { Constants } from "../utils";
 import { applyTheme, calculateModalPosition } from "../utils/commonUtils";
 import {
   BadgeType,
@@ -13,12 +12,10 @@ import {
 } from "../utils/constants";
 import "../styles/sirenInbox.css";
 
-const { DEFAULT_WINDOW_TITLE } = Constants;
 /**
  * SirenInbox Component
  * @param {Object} props - Props for the SirenInbox component
  * @param {Theme} props.theme - The theme for the SirenInbox component
- * @param {string} props.title - The title of the notification panel.
  * @param {string} [props.title] - The title for the SirenInbox component
  * @param {boolean} [props.windowViewOnly=false] - Flag indicating if the window is view-only
  * @param {boolean} [props.hideBadge] - Flag indicating if the badge should be hidden
@@ -42,7 +39,6 @@ const { DEFAULT_WINDOW_TITLE } = Constants;
 const SirenInbox: FC<SirenProps> = ({
   theme,
   customStyles,
-  title = DEFAULT_WINDOW_TITLE,
   windowViewOnly = false,
   hideBadge = false,
   darkMode = false,
@@ -163,7 +159,6 @@ const SirenInbox: FC<SirenProps> = ({
           data-testid="siren-panel"
         >
           <SirenPanel
-            title={title}
             styles={styles}
             noOfNotificationsPerFetch={notificationsPerPage}
             hideBadge={hideBadge}
