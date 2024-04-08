@@ -37,7 +37,7 @@ const App: React.FC = () => {
   const [showCustomNotificationCard, setShowCustomNotificationCard] =
     useState(false);
 
-    const { markNotificationsAsReadByDate, markAsRead } = useSiren();
+    const { markNotificationsAsReadByDate } = useSiren();
 
   const renderListEmpty = () => {
     return (
@@ -248,9 +248,12 @@ const App: React.FC = () => {
 
   return (
     <div>
-      <SirenInbox
-        title="Siren Notifications"
-        hideHeader={hideHeader}
+      <SirenInbox       
+        inboxHeaderProps={{
+          title:"Siren Notifications",
+          hideHeader: hideHeader,
+          customHeader: showCustomHeader ? renderCustomHeader() : undefined
+        }}
         darkMode={sdkDarkModeEnabled}
         cardProps={{ hideAvatar: hideAvatar, showMedia: true }}
         theme={windowThemes[windowThemeIndex]}
@@ -258,15 +261,13 @@ const App: React.FC = () => {
         listEmptyComponent={
           showCustomEmptyComponent ? renderListEmpty() : undefined
         }
-        customHeader={showCustomHeader ? renderCustomHeader() : undefined}
         customNotificationCard={
           showCustomNotificationCard
             ? (notification: any) => renderCustomNotificationCard(notification)
             : undefined
         }
-        onNotificationCardClick={(notification: { id: any; }) => {
+        onNotificationCardClick={() => {
           console.log("click on notification");
-          markAsRead(notification.id);
         }}
         onError={(error: any) => {
           console.log(`error: ${error}`);

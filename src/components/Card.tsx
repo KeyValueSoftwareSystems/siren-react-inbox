@@ -8,6 +8,7 @@ import defaultAvatarLight from "../assets/light/defaultAvatarLight.png";
 import type { NotificationCardProps } from "../types";
 import { generateElapsedTimeText } from "../utils/commonUtils";
 import "../styles/card.css";
+import useSiren from "../utils/sirenHook";
 
 /**
  * Card component represents an individual notification card in the notification list.
@@ -51,7 +52,10 @@ const Card: FC<NotificationCardProps> = ({
 }) => {
   const { id, createdAt, message, isRead } = notification;
   const { avatar, header, subHeader, body } = message;
-
+  const { hideAvatar, disableAutoMarkAsRead } =  cardProps ?? {};
+  const {
+    markAsRead
+  } = useSiren();
   const onDelete = (event: React.MouseEvent) => {
     deleteNotificationById(id);
     event.stopPropagation();
@@ -69,20 +73,23 @@ const Card: FC<NotificationCardProps> = ({
       backgroundColor: styles.activeCardMarker.backgroundColor,
     };
 
+  const handleNotificationCardClick = () => {
+    onNotificationCardClick && onNotificationCardClick(notification);
+    !disableAutoMarkAsRead && markAsRead(notification.id);
+  }
+
   return (
     <div
       style={cardContainerStyle}
       className={`${
-        cardProps?.hideAvatar
+        hideAvatar
           ? "siren-sdk-hide-avatar-card-container"
           : "siren-sdk-card-container"
       }`}
-      onClick={() =>
-        onNotificationCardClick && onNotificationCardClick(notification)
-      }
+      onClick={handleNotificationCardClick}
       data-testid={`card-${notification.id}`}
     >
-      {!cardProps?.hideAvatar && (
+      {!hideAvatar && (
         <div
           style={{
             ...styles.cardIconRound,
