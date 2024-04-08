@@ -111,12 +111,13 @@ const SirenInbox: FC<SirenProps> = ({
     const modalWidth = calculateModalWidth(initialModalWidth);
 
     if (window.outerWidth <= modalWidth)
+    // Subtract 40 pixels to account for padding within the window container
       setUpdatedModalWidth(window.outerWidth - 40);
     else setUpdatedModalWidth(initialModalWidth);
   }, [window.outerWidth, initialModalWidth]);
 
   useEffect(() => {
-    const containerWidth = styles.container.width || 500;
+    const containerWidth = styles.container.width || DefaultStyle.window.width;
     const updateWindowViewMode = () => {
       setModalPosition(calculateModalPosition(iconRef, window, containerWidth));
     };
@@ -143,7 +144,7 @@ const SirenInbox: FC<SirenProps> = ({
   };
 
   return (
-    <div className="siren-sdk-inbox-root">
+    <div className={!windowViewOnly? 'siren-sdk-inbox-root' : ''}>
       <div
         ref={modalRef}
         className={`${!windowViewOnly && "siren-sdk-inbox-container"}`}

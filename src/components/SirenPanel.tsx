@@ -65,7 +65,7 @@ import useSiren from "../utils/sirenHook";
  * @param {ReactNode} props.customErrorWindow -Custom error window component to be rendered when there is an error
  * @param {Function} props.customNotificationCard - Function to render custom notification cards.
  * @param {Function} props.onNotificationCardClick - Callback function executed when a notification card is clicked.
- * @param {Function} props.modalWidth - The width of the notification panel.
+ * @param {DimensionValue} props.modalWidth - The width of the notification panel.
  * @returns {ReactElement} The rendered SirenInbox component.
  */
 
@@ -406,17 +406,19 @@ const SirenPanel: FC<SirenPanelProps> = ({
     "siren-sdk-content-container"
   } ${customFooter ? "siren-sdk-panel-no-border" : ""}`;
 
+  const panelStyle = {
+    ...(!fullScreen && styles.windowTopBorder),
+    ...(!fullScreen && { width: `${modalWidth}px` }),
+    ...(!fullScreen && styles.windowBottomBorder),
+    ...styles.container,
+  };
+
   return (
     <div
       className={
         !fullScreen ? "siren-sdk-panel-modal" : "siren-sdk-panel-container"
       }
-      style={{
-        ...(!fullScreen && styles.windowTopBorder),
-        ...(!fullScreen && { width: `${modalWidth}px` }),
-        ...(!fullScreen && styles.windowBottomBorder),
-        ...styles.container,
-      }}
+      style={panelStyle}
       data-testid="siren-panel"
     >
       <div>
