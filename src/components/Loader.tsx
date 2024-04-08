@@ -10,7 +10,7 @@ const Loader : FC<LoaderProps> = ({
 }) =>  {
   return (
     <div className="siren-sdk-skeleton-container">
-      <div className="siren-sdk-skeleton-grid">
+      <div className={`${!hideAvatar ? 'siren-sdk-skeleton-grid-with-avatar' : 'siren-sdk-skeleton-grid-without-avatar' }`}>
         {!hideAvatar && (<div className="siren-sdk-skeleton-avatar siren-sdk-skeleton" style={styles.loader} />)}
         <div className="siren-sdk-skeleton-head siren-sdk-skeleton" style={styles.loader} />
         <div className="siren-sdk-skeleton-subtitle siren-sdk-skeleton" style={styles.loader} />
