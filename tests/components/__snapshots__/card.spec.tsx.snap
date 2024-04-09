@@ -3,7 +3,7 @@
 exports[`matches snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="siren-sdk-card-container"
+    class="siren-sdk-card-container siren-sdk-card-common-container"
     data-testid="card-1"
     style="background-color: rgb(46, 45, 48); padding: 10px; border-bottom: 0.5px solid; border-color: #344054; border-left: 4px solid #F56630;"
   >
