@@ -52,6 +52,7 @@ export type CardProps = {
   showMedia?: boolean;
   hideDelete?: boolean;
   disableAutoMarkAsRead?: boolean;
+  onAvatarClick?: (notification: NotificationDataType) => void;
 };
 
 export type NotificationCardProps = {

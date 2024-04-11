@@ -52,7 +52,7 @@ const Card: FC<NotificationCardProps> = ({
 }) => {
   const { id, createdAt, message, isRead } = notification;
   const { avatar, header, subHeader, body } = message;
-  const { hideAvatar, hideDelete, disableAutoMarkAsRead } =  cardProps ?? {};
+  const { hideAvatar, hideDelete, disableAutoMarkAsRead, onAvatarClick } =  cardProps ?? {};
   const {
     markAsRead
   } = useSiren();
@@ -85,6 +85,11 @@ const Card: FC<NotificationCardProps> = ({
     !disableAutoMarkAsRead && markAsRead(notification.id);
   }
 
+  const handleAvatarClick = (event: React.MouseEvent) => {
+    onAvatarClick && onAvatarClick(notification);
+    event.stopPropagation();
+  };
+
   return (
     <div
       style={cardContainerStyle}
@@ -103,7 +108,9 @@ const Card: FC<NotificationCardProps> = ({
             backgroundImage: `url(${avatar?.imageUrl || defaultAvatar})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
+            ...(onAvatarClick && { cursor: 'pointer' })
           }}
+          onClick={handleAvatarClick}
         />
       )}
       <div className="siren-sdk-card-content-wrapper">

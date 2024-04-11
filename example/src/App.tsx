@@ -255,7 +255,7 @@ const App: React.FC = () => {
           customHeader: showCustomHeader ? renderCustomHeader() : undefined
         }}
         darkMode={sdkDarkModeEnabled}
-        cardProps={{ hideAvatar: hideAvatar, showMedia: true }}
+        cardProps={{ hideAvatar: hideAvatar, showMedia: true, onAvatarClick: () => console.log('avatar click') }}
         theme={windowThemes[windowThemeIndex]}
         customFooter={showCustomFooter ? renderCustomFooter() : undefined}
         listEmptyComponent={
