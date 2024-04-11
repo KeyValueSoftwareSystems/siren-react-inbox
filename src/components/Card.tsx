@@ -56,8 +56,15 @@ const Card: FC<NotificationCardProps> = ({
   const {
     markAsRead
   } = useSiren();
+
   const onDelete = (event: React.MouseEvent) => {
-    deleteNotificationById(id);
+    const cardElement = event.currentTarget.closest(".siren-sdk-card-common-container");
+
+    cardElement?.classList.add("siren-sdk-delete-animation");
+    setTimeout(() => {
+      deleteNotificationById(id);
+    }, 200); 
+    
     event.stopPropagation();
   };
 
@@ -85,7 +92,7 @@ const Card: FC<NotificationCardProps> = ({
         hideAvatar
           ? "siren-sdk-hide-avatar-card-container"
           : "siren-sdk-card-container"
-      }`}
+      } siren-sdk-card-common-container`}
       onClick={handleNotificationCardClick}
       data-testid={`card-${notification.id}`}
     >

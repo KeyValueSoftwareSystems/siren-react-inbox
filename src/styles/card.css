@@ -1,11 +1,13 @@
-.siren-sdk-card-container {
+.siren-sdk-card-common-container{
   display: grid;
-  grid-template-columns: max-content auto max-content;
   gap: 15px;
 }
+
+.siren-sdk-card-container {
+  grid-template-columns: max-content auto max-content;
+}
+
 .siren-sdk-hide-avatar-card-container {
-  display: grid;
-  gap: 15px;
   grid-template-columns: auto max-content;
 }
 
@@ -37,4 +39,17 @@
 .siren-sdk-card-msg-body{
   margin-top: 5px;
   margin-bottom: 5px;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.siren-sdk-delete-animation {
+  animation: fadeOut 0.2s ease forwards;
 }

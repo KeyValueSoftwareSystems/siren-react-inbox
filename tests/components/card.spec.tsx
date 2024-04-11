@@ -1,6 +1,6 @@
 import React from "react";
 
-import { fireEvent, render } from "@testing-library/react";
+import { act, fireEvent, render } from "@testing-library/react";
 
 import Card from "../../src/components/Card";
 import { applyTheme } from "../../src/utils/commonUtils";
@@ -62,6 +62,9 @@ test("renders notification card with basic content", () => {
 });
 
 test("triggers delete notification callback on delete button click", () => {
+
+  jest.useFakeTimers();
+
   const screen = render(
     <Card
       notification={mockNotification}
@@ -72,10 +75,18 @@ test("triggers delete notification callback on delete button click", () => {
       darkMode={false}
     />
   );
+
   const deleteButton = screen.getByTestId("delete-1");
 
   fireEvent.click(deleteButton);
+
+  act(() => {
+    jest.advanceTimersByTime(200);
+  });
+
   expect(mockDeleteNotificationById).toHaveBeenCalledWith("1");
+
+  jest.useRealTimers();
 });
 
 test("triggers notification card click callback on card click", () => {
