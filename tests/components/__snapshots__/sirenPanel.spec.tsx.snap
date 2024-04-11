@@ -5,7 +5,7 @@ exports[`matches snapshot 1`] = `
   <div
     class="siren-sdk-panel-modal"
     data-testid="siren-panel"
-    style="border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; width: 500px; max-width: 100;"
+    style="border-top-left-radius: 10px; border-top-right-radius: 10px; width: 500px; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; max-width: 100;"
   >
     <div>
       <div
@@ -60,7 +60,7 @@ exports[`matches snapshot 1`] = `
               class="siren-sdk-skeleton-container"
             >
               <div
-                class="siren-sdk-skeleton-grid"
+                class="siren-sdk-skeleton-grid-with-avatar"
               >
                 <div
                   class="siren-sdk-skeleton-avatar siren-sdk-skeleton"
@@ -96,7 +96,7 @@ exports[`matches snapshot 1`] = `
               class="siren-sdk-skeleton-container"
             >
               <div
-                class="siren-sdk-skeleton-grid"
+                class="siren-sdk-skeleton-grid-with-avatar"
               >
                 <div
                   class="siren-sdk-skeleton-avatar siren-sdk-skeleton"
@@ -132,7 +132,7 @@ exports[`matches snapshot 1`] = `
               class="siren-sdk-skeleton-container"
             >
               <div
-                class="siren-sdk-skeleton-grid"
+                class="siren-sdk-skeleton-grid-with-avatar"
               >
                 <div
                   class="siren-sdk-skeleton-avatar siren-sdk-skeleton"
@@ -168,7 +168,7 @@ exports[`matches snapshot 1`] = `
               class="siren-sdk-skeleton-container"
             >
               <div
-                class="siren-sdk-skeleton-grid"
+                class="siren-sdk-skeleton-grid-with-avatar"
               >
                 <div
                   class="siren-sdk-skeleton-avatar siren-sdk-skeleton"
@@ -204,7 +204,7 @@ exports[`matches snapshot 1`] = `
               class="siren-sdk-skeleton-container"
             >
               <div
-                class="siren-sdk-skeleton-grid"
+                class="siren-sdk-skeleton-grid-with-avatar"
               >
                 <div
                   class="siren-sdk-skeleton-avatar siren-sdk-skeleton"
