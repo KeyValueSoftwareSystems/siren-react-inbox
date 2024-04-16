@@ -131,6 +131,7 @@ const SirenNotificationIcon: FC<SirenNotificationButtonProps> = ({
       onClick={onIconClick}
       className="siren-sdk-notificationIcon-container"
       data-testid="notification-icon"
+      aria-label="siren-notification-icon"
     >
       {notificationIcon || (
         <BellIcon

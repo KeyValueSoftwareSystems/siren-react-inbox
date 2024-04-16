@@ -52,19 +52,20 @@ const Card: FC<NotificationCardProps> = ({
 }) => {
   const { id, createdAt, message, isRead } = notification;
   const { avatar, header, subHeader, body } = message;
-  const { hideAvatar, hideDelete, disableAutoMarkAsRead, onAvatarClick } =  cardProps ?? {};
-  const {
-    markAsRead
-  } = useSiren();
+  const { hideAvatar, hideDelete, disableAutoMarkAsRead, onAvatarClick } =
+    cardProps ?? {};
+  const { markAsRead } = useSiren();
 
   const onDelete = (event: React.MouseEvent) => {
-    const cardElement = event.currentTarget.closest(".siren-sdk-card-common-container");
+    const cardElement = event.currentTarget.closest(
+      ".siren-sdk-card-common-container"
+    );
 
     cardElement?.classList.add("siren-sdk-delete-animation");
     setTimeout(() => {
       deleteNotificationById(id);
-    }, 200); 
-    
+    }, 200);
+
     event.stopPropagation();
   };
 
@@ -83,7 +84,7 @@ const Card: FC<NotificationCardProps> = ({
   const handleNotificationCardClick = () => {
     onNotificationCardClick && onNotificationCardClick(notification);
     !disableAutoMarkAsRead && markAsRead(notification.id);
-  }
+  };
 
   const handleAvatarClick = (event: React.MouseEvent) => {
     onAvatarClick && onAvatarClick(notification);
@@ -99,6 +100,7 @@ const Card: FC<NotificationCardProps> = ({
           : "siren-sdk-card-container"
       } siren-sdk-card-common-container`}
       onClick={handleNotificationCardClick}
+      aria-label={`siren-notification-card-${notification.id}`}
       data-testid={`card-${notification.id}`}
     >
       {!hideAvatar && (
@@ -106,10 +108,11 @@ const Card: FC<NotificationCardProps> = ({
           style={{
             ...styles.cardIconRound,
             backgroundImage: `url(${avatar?.imageUrl || defaultAvatar})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            ...(onAvatarClick && { cursor: 'pointer' })
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            ...(onAvatarClick && { cursor: "pointer" }),
           }}
+          aria-label={`siren-notification-avatar-${notification.id}`}
           onClick={handleAvatarClick}
         />
       )}
@@ -144,6 +147,7 @@ const Card: FC<NotificationCardProps> = ({
           data-testid={`delete-${notification.id}`}
           className="siren-sdk-delete-button"
           onClick={onDelete}
+          aria-label={`siren-notification-delete-${notification.id}`}
         >
           <CloseIcon
             color={styles?.deleteIcon.color}

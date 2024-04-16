@@ -334,20 +334,24 @@ const SirenPanel: FC<SirenPanelProps> = ({
 
     if (error)
       return (
-        customErrorWindow || (
-          <ErrorWindow styles={styles} error={error} darkMode={darkMode} />
-        )
+        <div aria-label="siren-error-state">
+          { customErrorWindow || (
+            <ErrorWindow styles={styles} error={error} darkMode={darkMode} />
+          )}
+        </div>
       );
 
     if (isEmptyArray(notifications))
       return (
-        listEmptyComponent || (
-          <EmptyList
-            data-testid="empty-list"
-            styles={styles}
-            darkMode={darkMode}
-          />
-        )
+        <div aria-label="siren-empty-state">
+          {listEmptyComponent || (
+            <EmptyList
+              data-testid="empty-list"
+              styles={styles}
+              darkMode={darkMode}
+            />)
+          }
+        </div>     
       );
 
     if (customNotificationCard)
@@ -437,6 +441,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
               ...styles.body,
             }}
             className={containerClassNames}
+            aria-label="siren-notification-list"
           >
             {renderList()}
             {renderListBottomComponent()}

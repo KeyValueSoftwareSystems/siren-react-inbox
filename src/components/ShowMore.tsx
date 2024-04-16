@@ -23,6 +23,7 @@ const ShowMoreButton = (props: LoadMoreProps) => {
       onClick={onClick}
       data-testid="load-more"
       style={styles.loadMoreButton}
+      aria-label="siren-load-more"
     >
       {loadMoreLabel || 'Load More'}
     </button>
