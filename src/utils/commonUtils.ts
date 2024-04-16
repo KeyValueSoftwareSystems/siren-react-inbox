@@ -165,9 +165,8 @@ export const applyTheme = (
         theme.windowHeader?.background ||
         theme.colors?.neutralColor ||
         DefaultTheme[mode].windowHeader.background,
-      borderBottom: `0.5px solid ${
-        theme.colors?.borderColor || DefaultTheme[mode].colors.borderColor
-      }`,
+      borderBottom: `${customStyle.windowHeader?.borderWidth || DefaultStyle.windowHeader.borderWidth} solid`,
+      borderColor: theme.colors?.borderColor || DefaultTheme[mode].colors.borderColor,
       height:
         customStyle.windowHeader?.height || DefaultStyle.windowHeader.height,
     },
@@ -310,8 +309,8 @@ export const applyTheme = (
       minWidth: customStyle.badgeStyle?.size || defaultBadgeStyle.size,
       height: customStyle.badgeStyle?.size || defaultBadgeStyle.size,
       backgroundColor: theme.badgeStyle?.color || defaultBadgeStyle.color,
-      top: `${customStyle.badgeStyle?.top}px` || defaultBadgeStyle.top,
-      left: `${customStyle.badgeStyle?.left}px` || defaultBadgeStyle.left,
+      top:  customStyle?.badgeStyle?.top ? `${customStyle.badgeStyle.top}px` : defaultBadgeStyle.top,
+      right:  customStyle?.badgeStyle?.right ? `${customStyle.badgeStyle.right}px` : defaultBadgeStyle.right,    
     },
     badgeTextStyle: {
       color: theme.badgeStyle?.textColor || defaultBadgeStyle.textColor,
