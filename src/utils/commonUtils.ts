@@ -421,7 +421,7 @@ export const hexToRgba = (hex: string, alpha: number) => {
   return `rgba(${r},${g},${b},${alpha})`;
 };
 
-export const debounce = <F extends (...args: any[]) => void>(
+export const debounce = <F extends (...args: unknown[]) => void>(
   func: F,
   delay: number
 ) => {
