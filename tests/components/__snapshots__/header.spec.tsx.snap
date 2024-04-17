@@ -5,11 +5,11 @@ exports[`matches snapshot 1`] = `
   <div
     class="siren-sdk-header-container"
     data-testid="header"
-    style="border-top-left-radius: 10px; border-top-right-radius: 10px; background-color: rgb(35, 35, 38); border-bottom: 0.5px solid #344054; height: 64px;"
+    style="border-top-left-radius: 10px; border-top-right-radius: 10px; align-items: center; display: flex; margin: 0px; line-height: 28px; background-color: rgb(35, 35, 38); border-bottom: 0.5px solid #344054; height: 50px;"
   >
     <p
       class="siren-sdk-text-break"
-      style="align-items: center; display: flex; margin: 0px; line-height: 28px; color: rgb(255, 255, 255); font-size: 20px; font-weight: 600; padding-left: 0px;"
+      style="color: rgb(255, 255, 255); font-size: 18px; font-weight: 600; padding-left: 0px;"
     >
       dummy-title
     </p>
