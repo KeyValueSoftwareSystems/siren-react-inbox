@@ -164,6 +164,9 @@ export type CustomStyle = {
     avatarSize?: number;
     titleFontWeight?: TextStyle["fontWeight"];
     titleSize?: number;
+    subTitleFontWeight?: TextStyle['fontWeight'];
+    subTitleSize?: number
+    descriptionFontWeight?: TextStyle['fontWeight'];
     descriptionSize?: number;
     dateSize?: number;
   };
@@ -213,6 +216,7 @@ type NotificationCardThemeProps = {
   borderColor?: string;
   background?: string;
   titleColor?: string;
+  subTitleColor?: string;
   descriptionColor?: string;
 };
 type LoadMoreButtonProps = {
@@ -233,6 +237,7 @@ export type SirenStyleProps = {
   defaultCardContainer: CSSProperties;
   cardIconRound: CSSProperties;
   cardTitle: CSSProperties;
+  cardSubTitle: CSSProperties;
   activeCardMarker: CSSProperties;
   cardDescription: CSSProperties;
   dateStyle: CSSProperties;

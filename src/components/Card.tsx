@@ -118,7 +118,7 @@ const Card: FC<NotificationCardProps> = ({
           {header}
         </div>
         <div
-          style={styles.cardDescription}
+          style={styles.cardSubTitle}
           className="siren-sdk-card-text-break"
         >
           {subHeader}

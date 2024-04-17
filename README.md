@@ -124,6 +124,7 @@ type ThemeProps = {
     borderColor?: string,
     background?: string,
     titleColor?: string,
+    subTitleColor?: string,
     descriptionColor?: string,
   },
   loadMoreButton: {
@@ -164,6 +165,9 @@ Please note that the badgeStyle, window shadow and border props are only applica
     avatarSize?: number,
     titleFontWeight?: TextStyle["fontWeight"],
     titleSize?: number,
+    subTitleFontWeight?: TextStyle['fontWeight'];
+    subTitleSize?: number
+    descriptionFontWeight?: TextStyle['fontWeight'];
     descriptionSize?: number,
     dateSize?: number,
   },

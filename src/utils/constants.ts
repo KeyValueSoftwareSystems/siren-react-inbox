@@ -1,6 +1,6 @@
 export const COLORS = {
   light: {
-    primaryColor: "#F56630",
+    primaryColor: "#FA9874",
     highlightedCardColor: "#FFECE5",
     textColor: "#344054",
     neutralColor: "#FFFFFF",
@@ -14,7 +14,7 @@ export const COLORS = {
     notificationIcon: "#232326",
   },
   dark: {
-    primaryColor: "#F56630",
+    primaryColor: "#FA9874",
     highlightedCardColor: "#2E2D30",
     textColor: "#FFFFFF",
     neutralColor: "#232326",
