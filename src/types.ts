@@ -52,6 +52,7 @@ export type CardProps = {
   showMedia?: boolean;
   hideDelete?: boolean;
   disableAutoMarkAsRead?: boolean;
+  deleteIcon?: JSX.Element;
   onAvatarClick?: (notification: NotificationDataType) => void;
 };
 

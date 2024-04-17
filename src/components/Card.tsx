@@ -52,7 +52,7 @@ const Card: FC<NotificationCardProps> = ({
 }) => {
   const { id, createdAt, message, isRead } = notification;
   const { avatar, header, subHeader, body } = message;
-  const { hideAvatar, hideDelete, disableAutoMarkAsRead, onAvatarClick } =  cardProps ?? {};
+  const { hideAvatar, hideDelete, disableAutoMarkAsRead, deleteIcon = null, onAvatarClick } =  cardProps ?? {};
   const {
     markAsRead
   } = useSiren();
@@ -139,7 +139,7 @@ const Card: FC<NotificationCardProps> = ({
           </div>
         </div>
       </div>
-      {!hideDelete && (
+      {!hideDelete && (deleteIcon || (
         <div
           data-testid={`delete-${notification.id}`}
           className="siren-sdk-delete-button"
@@ -150,7 +150,7 @@ const Card: FC<NotificationCardProps> = ({
             size={styles.deleteIcon.size}
           />
         </div>
-      )}
+      ))}
     </div>
   );
 };
