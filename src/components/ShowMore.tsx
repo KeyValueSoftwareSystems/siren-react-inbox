@@ -4,18 +4,16 @@ import "../styles/showMore.css";
 import type { LoadMoreProps } from "../types";
 
 const ShowMoreButton = (props: LoadMoreProps) => {
-  const {styles, customComponent, onClick, loadMoreLabel } = props;
+  const { styles, customComponent, onClick, loadMoreLabel } = props;
 
-  if(customComponent) 
-    return (
-      <button
-        className="siren-sdk-panel-load-more-custom"
-        onClick={onClick}
-        data-testid="load-more"
-      >
-        {customComponent}
-      </button>
-    )
+  if (customComponent) {
+    const CustomComponentWithClick = React.cloneElement(customComponent, {
+      onClick: onClick,
+      "data-testid": "load-more",
+    });
+
+    return CustomComponentWithClick;
+  }
 
   return (
     <button
@@ -24,7 +22,7 @@ const ShowMoreButton = (props: LoadMoreProps) => {
       data-testid="load-more"
       style={styles.loadMoreButton}
     >
-      {loadMoreLabel || 'Load More'}
+      {loadMoreLabel || "Load More"}
     </button>
   );
 };
