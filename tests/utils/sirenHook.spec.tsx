@@ -1,4 +1,4 @@
-import type { Siren } from "@sirenapp/js-sdk";
+import type { Siren } from "test_notification";
 
 import { useSiren } from "../../src";
 import * as sirenProvider from "../../src/components/SirenProvider";
@@ -85,7 +85,7 @@ const MarkAsViewedResponse = {
 
 describe("useSiren hook", () => {
   const mockSirenCore: Pick<Siren, keyof Siren> = {
-    markNotificationAsReadById: jest.fn(async () => Response),
+    markAsReadById: jest.fn(async () => Response),
     markAsReadByDate: jest.fn(async () => ActionResponse),
     deleteById: jest.fn(async () => ActionResponse),
     deleteByDate: jest.fn(async () => ActionResponse),
@@ -93,13 +93,11 @@ describe("useSiren hook", () => {
     verifyToken: jest.fn(),
     fetchUnviewedNotificationsCount: jest.fn(),
     fetchAllNotifications: jest.fn(),
-    startRealTimeNotificationFetch: jest.fn(),
-    stopRealTimeNotificationFetch: jest.fn(),
-    startRealTimeUnviewedCountFetch: jest.fn(),
-    stopRealTimeUnviewedCountFetch: jest.fn(),
+    startRealTimeFetch: jest.fn(),
+    stopRealTimeFetch: jest.fn(),
   };
 
-  it("should call siren.markNotificationAsReadById and return error", async () => {
+  it("should call siren.markAsReadById and return error", async () => {
     jest.spyOn(sirenProvider, "useSirenContext").mockReturnValue({
       siren: mockSirenCore as Siren,
       verificationStatus: VerificationStatus.SUCCESS
@@ -108,16 +106,16 @@ describe("useSiren hook", () => {
     const { markAsRead } = useSiren();
     const response = await markAsRead("xyz");
 
-    expect(mockSirenCore.markNotificationAsReadById).toHaveBeenCalledWith(
+    expect(mockSirenCore.markAsReadById).toHaveBeenCalledWith(
       "xyz"
     );
     expect(response).toEqual(Response);
   });
 
-  it("should call siren.markNotificationAsReadById and update notifications list when siren exists and id is not empty", async () => {
+  it("should call siren.markAsReadById and update notifications list when siren exists and id is not empty", async () => {
     const mockCore: Pick<Siren, keyof Siren> = {
       ...mockSirenCore,
-      markNotificationAsReadById: jest.fn(async () => ({
+      markAsReadById: jest.fn(async () => ({
         data: null,
         error: { Type: "ERROR", Code: "API_ERROR", Message: "Api error" },
       })),
@@ -133,7 +131,7 @@ describe("useSiren hook", () => {
     const { markAsRead } = useSiren();
     const response = await markAsRead("xyz");
 
-    expect(mockSirenCore.markNotificationAsReadById).toHaveBeenCalledWith(
+    expect(mockSirenCore.markAsReadById).toHaveBeenCalledWith(
       "xyz"
     );
     expect(response).toEqual({

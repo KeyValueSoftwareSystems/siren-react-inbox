@@ -1,5 +1,7 @@
 import React, { type FC, useEffect, useMemo, useRef, useState } from "react";
 
+import { EventType } from "test_notification/dist/esm/constants/generic";
+
 import NotificationButton from "./SirenNotificationIcon";
 import SirenPanel from "./SirenPanel";
 import { useSirenContext } from "./SirenProvider";
@@ -16,7 +18,9 @@ import {
   MAXIMUM_ITEMS_PER_FETCH,
   ThemeMode,
 } from "../utils/constants";
+
 import "../styles/sirenInbox.css";
+
 
 /**
  * SirenInbox Component
@@ -98,8 +102,8 @@ const SirenInbox: FC<SirenProps> = ({
     }
 
     return () => {
-      siren?.stopRealTimeNotificationFetch();
-      siren?.stopRealTimeUnviewedCountFetch();
+      siren?.stopRealTimeFetch(EventType.NOTIFICATION);
+      siren?.stopRealTimeFetch(EventType.UNVIEWED_COUNT);
     };
   }, []);
 

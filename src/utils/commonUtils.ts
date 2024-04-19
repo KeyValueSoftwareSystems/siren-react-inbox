@@ -4,7 +4,7 @@ import type {
   ActionResponse,
   NotificationDataType,
   NotificationsApiResponse,
-} from "@sirenapp/js-sdk/dist/esm/types";
+} from "test_notification/dist/esm/types";
 
 import {
   defaultBadgeStyle,

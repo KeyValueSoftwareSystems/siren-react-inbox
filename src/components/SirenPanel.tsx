@@ -1,11 +1,12 @@
 import React, { type FC, useCallback, useEffect, useState } from "react";
 
+import { EventType } from "test_notification/dist/esm/constants/generic";
 import type {
   ActionResponse,
   MarkAsViewedResponse,
   NotificationDataType,
   NotificationsApiResponse,
-} from "@sirenapp/js-sdk/dist/esm/types";
+} from "test_notification/dist/esm/types";
 
 import "../styles/sirenPanel.css";
 import NotificationCard from "./Card";
@@ -26,6 +27,8 @@ import {
 } from "../utils/commonUtils";
 import { DEFAULT_WINDOW_TITLE, ERROR_TEXT, events, eventTypes, VerificationStatus } from "../utils/constants";
 import useSiren from "../utils/sirenHook";
+
+
 
 /**
  * SirenPanel component renders a notification panel with a header, notification cards, and optional custom footer.
@@ -136,21 +139,21 @@ const SirenPanel: FC<SirenPanelProps> = ({
 
   useEffect(() => {
     if (siren && verificationStatus !== VerificationStatus.PENDING) {
-      !hideBadge && siren.stopRealTimeUnviewedCountFetch();
+      !hideBadge && siren.stopRealTimeFetch(EventType.UNVIEWED_COUNT);
       fetchNotifications(true);
     }
   }, [siren, verificationStatus, hideBadge]);
 
   const restartNotificationCountFetch = () => {
     try {
-      siren?.startRealTimeUnviewedCountFetch();
+      siren?.startRealTimeFetch({eventType: EventType.UNVIEWED_COUNT});
     } catch (er) {
       //  handle error if needed
     }
   };
 
   const cleanUp = () => {
-    siren?.stopRealTimeNotificationFetch();
+    siren?.stopRealTimeFetch(EventType.NOTIFICATION);
   };
 
   const triggerOnError = useCallback(
@@ -253,8 +256,8 @@ const SirenPanel: FC<SirenPanelProps> = ({
     if (!refresh) return;
 
     try {
-      siren?.startRealTimeNotificationFetch(
-        generateFilterParams(newList ?? [], true, noOfNotificationsPerFetch)
+      siren?.startRealTimeFetch(
+        {eventType: EventType.NOTIFICATION, params:   generateFilterParams(newList ?? [], true, noOfNotificationsPerFetch)}   
       );
     } catch (er) {
       //  handle error if needed

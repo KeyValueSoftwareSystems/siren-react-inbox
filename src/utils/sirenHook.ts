@@ -9,7 +9,7 @@ const useSiren = () => {
   const markAsRead = async (id: string) => {
     if (siren)
       if (id?.length > 0) {
-        const response = await siren?.markNotificationAsReadById(id);
+        const response = await siren?.markAsReadById(id);
 
         if (response && response.data) {
           const payload = { id, action: eventTypes.MARK_ITEM_AS_READ };
