@@ -21,12 +21,12 @@ const style = applyTheme();
 const props = {
   styles: style,
   title: "Notifications",
-  inboxHeaderProps: { hideHeader: false},
+  headerProps: { hideHeader: false},
   cardProps: { hideAvatar: false, showMedia: true },
   customFooter: undefined,
   customHeader: undefined,
-  onNotificationCardClick: undefined,
-  customNotificationCard: undefined,
+  onCardClick: undefined,
+  notificationCard: undefined,
   onError: mockErrorFn,
   listEmptyComponent: undefined,
   noOfNotificationsPerFetch: 10,
@@ -43,15 +43,15 @@ test("matches snapshot", () => {
 });
 
 it("renders title when provided", () => {
-  const { getByText } = render(<SirenPanel {...props} inboxHeaderProps={{title: "Notifications"}} />);
+  const { getByText } = render(<SirenPanel {...props} headerProps={{title: "Notifications"}} />);
   const title = getByText("Notifications");
 
   expect(title).toBeTruthy();
 });
 
 it("hides header when hideHeader prop is true", () => {
-  const inboxHeaderProps = {hideHeader: true}
-  const { queryByText } = render(<SirenPanel {...props} inboxHeaderProps={inboxHeaderProps} />);
+  const headerProps = {hideHeader: true}
+  const { queryByText } = render(<SirenPanel {...props} headerProps={headerProps} />);
   const header = queryByText("Notifications");
 
   expect(header).toBeFalsy();
@@ -59,9 +59,9 @@ it("hides header when hideHeader prop is true", () => {
 
 it("renders custom header when provided", () => {
   const customHeader = <div data-testid="custom-header">Custom Header</div>;
-  const inboxHeaderProps = {customHeader}
+  const headerProps = {customHeader}
   const { getByTestId } = render(
-    <SirenPanel {...props} inboxHeaderProps={inboxHeaderProps} />
+    <SirenPanel {...props} headerProps={headerProps} />
   );
   const header = getByTestId("custom-header");
 

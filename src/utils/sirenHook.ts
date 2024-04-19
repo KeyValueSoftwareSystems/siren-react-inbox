@@ -28,9 +28,9 @@ const useSiren = () => {
     return { error: errorMap.SIREN_OBJECT_NOT_FOUND };
   };
 
-  const markNotificationsAsReadByDate = async (untilDate: string) => {
+  const markAsReadByDate = async (untilDate: string) => {
     if (siren && untilDate) {
-      const response = await siren?.markNotificationsAsReadByDate(untilDate);
+      const response = await siren?.markAsReadByDate(untilDate);
 
       if (response && response.data) {
         const payload = { action: eventTypes.MARK_ALL_AS_READ };
@@ -46,7 +46,7 @@ const useSiren = () => {
   const deleteNotification = async (id: string) => {
     if (siren)
       if (id?.length > 0) {
-        const response = await siren?.deleteNotificationById(id);
+        const response = await siren?.deleteById(id);
 
         if (response && response.data) {
           const payload = { id, action: eventTypes.DELETE_ITEM };
@@ -65,9 +65,9 @@ const useSiren = () => {
     return { error: errorMap.SIREN_OBJECT_NOT_FOUND };
   };
 
-  const deleteNotificationsByDate = async (untilDate: string) => {
+  const deleteByDate = async (untilDate: string) => {
     if (siren && untilDate) {
-      const response = await siren.deleteNotificationsByDate(untilDate);
+      const response = await siren.deleteByDate(untilDate);
 
       if (response && response.data) {
         const payload = { action: eventTypes.DELETE_ALL_ITEM };
@@ -81,9 +81,9 @@ const useSiren = () => {
     return { error: errorMap.SIREN_OBJECT_NOT_FOUND };
   };
 
-  const markNotificationsAsViewed = async (untilDate: string) => {
+  const markAllAsViewed = async (untilDate: string) => {
     if (siren && untilDate) {
-      const response = await siren?.markNotificationsAsViewed(untilDate);
+      const response = await siren?.markAllAsViewed(untilDate);
 
       if (response && response.data) {
         const payload = {
@@ -104,11 +104,11 @@ const useSiren = () => {
   };
 
   return {
-    markNotificationsAsReadByDate,
+    markAsReadByDate,
     markAsRead,
     deleteNotification,
-    deleteNotificationsByDate,
-    markNotificationsAsViewed,
+    deleteByDate,
+    markAllAsViewed,
   };
 };
 

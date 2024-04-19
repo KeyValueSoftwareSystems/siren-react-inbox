@@ -37,7 +37,7 @@ const App: React.FC = () => {
   const [showCustomNotificationCard, setShowCustomNotificationCard] =
     useState(false);
 
-    const { markNotificationsAsReadByDate } = useSiren();
+    const { markAsReadByDate } = useSiren();
 
   const renderListEmpty = () => {
     return (
@@ -84,7 +84,7 @@ const App: React.FC = () => {
           <div style={{ color: "#fff", fontWeight: "600" }}>Siren</div>
         </div>
         <div>
-          <div style={{ color: "#fff", fontWeight: "600" }} onClick={() => markNotificationsAsReadByDate(String(new Date().getTime()))}>Mark allAsRead</div>
+          <div style={{ color: "#fff", fontWeight: "600" }} onClick={() => markAsReadByDate(String(new Date().getTime()))}>Mark allAsRead</div>
         </div>
       </div>
     );
@@ -249,7 +249,7 @@ const App: React.FC = () => {
   return (
     <div>
       <SirenInbox       
-        inboxHeaderProps={{
+        headerProps={{
           title:"Siren Notifications",
           hideHeader: hideHeader,
           customHeader: showCustomHeader ? renderCustomHeader() : undefined
@@ -261,12 +261,12 @@ const App: React.FC = () => {
         listEmptyComponent={
           showCustomEmptyComponent ? renderListEmpty() : undefined
         }
-        customNotificationCard={
+        notificationCard={
           showCustomNotificationCard
             ? (notification: any) => renderCustomNotificationCard(notification)
             : undefined
         }
-        onNotificationCardClick={() => {
+        onCardClick={() => {
           console.log("click on notification");
         }}
         onError={(error: any) => {

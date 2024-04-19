@@ -9,7 +9,7 @@ export type SirenInboxProps = {
   theme?: Theme;
   customStyles?: CustomStyle,
   loadMoreLabel?: string,
-  inboxHeaderProps?: {
+  headerProps?: {
     title?: string;
     hideHeader?: boolean;
     hideClearAll?: boolean;
@@ -24,8 +24,8 @@ export type SirenInboxProps = {
   customFooter?: JSX.Element;
   customLoader?: JSX.Element;
   customErrorWindow?: JSX.Element;
-  customNotificationCard?: (notification: NotificationDataType) => JSX.Element;
-  onNotificationCardClick?: (notification: NotificationDataType) => void;
+  notificationCard?: (notification: NotificationDataType) => JSX.Element;
+  onCardClick?: (notification: NotificationDataType) => void;
   onError?: (error: SirenErrorType) => void;
 };
 
@@ -58,9 +58,9 @@ export type CardProps = {
 export type NotificationCardProps = {
   notification: NotificationDataType;
   cardProps: SirenInboxProps["cardProps"];
-  onNotificationCardClick: SirenInboxProps["onNotificationCardClick"];
+  onCardClick: SirenInboxProps["onCardClick"];
   styles: SirenStyleProps;
-  deleteNotificationById: (id: string) => void;
+  deleteById: (id: string) => void;
   darkMode: boolean;
 };
 
@@ -77,9 +77,9 @@ export type SirenPanelProps = Pick<
   | "hideBadge"
   | "cardProps"
   | "customFooter"
-  | "customNotificationCard"
-  | "onNotificationCardClick"
-  | "inboxHeaderProps"
+  | "notificationCard"
+  | "onCardClick"
+  | "headerProps"
   | "customLoader"
   | "loadMoreComponent"
   | "loadMoreLabel"
