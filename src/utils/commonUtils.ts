@@ -12,14 +12,14 @@ import {
   LogLevel,
   ThemeMode,
 } from "./constants";
+import { default as DefaultStyle } from "./defaultStyles";
+import { default as DefaultTheme } from "./defaultTheme";
 import type {
   CustomStyle,
   DimensionValue,
   SirenStyleProps,
   ThemeProps,
 } from "../types";
-
-import { DefaultStyle, DefaultTheme } from ".";
 
 type FetchParams = {
   size: number;
