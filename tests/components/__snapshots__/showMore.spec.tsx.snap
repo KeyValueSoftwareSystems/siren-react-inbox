@@ -2,11 +2,8 @@
 
 exports[`matches snapshot 1`] = `
 <DocumentFragment>
-  <button
-    class="siren-sdk-panel-load-more-custom"
+  <div
     data-testid="load-more"
-  >
-    <div />
-  </button>
+  />
 </DocumentFragment>
 `;
