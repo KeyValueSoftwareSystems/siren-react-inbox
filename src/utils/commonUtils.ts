@@ -161,10 +161,6 @@ export const applyTheme = (
       height: customStyle.windowContainer?.contentHeight || "700px",
     },
     headerContainer: {
-      alignItems: "center",
-      display: "flex",
-      margin: 0,
-      lineHeight: "28px",
       backgroundColor:
         theme.windowHeader?.background ||
         theme.colors?.neutralColor ||
