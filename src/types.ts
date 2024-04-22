@@ -153,6 +153,7 @@ export type CustomStyle = {
     titleFontWeight?:TextStyle["fontWeight"];
     titleSize?: number;
     titlePadding?: number;
+    borderWidth?: string;
   };
   windowContainer?: {
     padding?: number;
@@ -175,7 +176,7 @@ export type CustomStyle = {
     size?: number;
     textSize?: number;
     top?: number;
-    left?: number;
+    right?: number;
   };
   deleteIcon?:{
     size?: number

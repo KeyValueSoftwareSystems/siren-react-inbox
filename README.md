@@ -153,6 +153,7 @@ Please note that the badgeStyle, window shadow and border props are only applica
     titleFontWeight?:TextStyle["fontWeight"],
     titleSize?: number,
     titlePadding?: number,
+    borderWidth?: string;
   },
   windowContainer?: {
     padding?: number,
@@ -175,7 +176,7 @@ Please note that the badgeStyle, window shadow and border props are only applica
     size?: number,
     textSize?: number,
     top?: number;
-    left?: number
+    right?: number
   },
   deleteIcon?:{
     size?: number

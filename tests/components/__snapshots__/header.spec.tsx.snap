@@ -5,7 +5,7 @@ exports[`matches snapshot 1`] = `
   <div
     class="siren-sdk-header-container"
     data-testid="header"
-    style="border-top-left-radius: 10px; border-top-right-radius: 10px; background-color: rgb(35, 35, 38); border-bottom: 0.5px solid #344054; height: 64px;"
+    style="border-top-left-radius: 10px; border-top-right-radius: 10px; background-color: rgb(35, 35, 38); border-bottom: 0.5px solid; border-color: #344054; height: 64px;"
   >
     <p
       class="siren-sdk-text-break"
