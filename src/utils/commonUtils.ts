@@ -372,7 +372,7 @@ export const calculateModalPosition = (
 ) => {
   if (iconRef.current) {
     const iconRect = iconRef.current.getBoundingClientRect();
-    const screenWidth = window.outerWidth;
+    const screenWidth = window.innerWidth;
     const spaceRight = screenWidth - iconRect.x;
     const spaceLeft = iconRect.x;
     let modalWidth = calculateModalWidth(containerWidth);
@@ -380,7 +380,7 @@ export const calculateModalPosition = (
     const centerPosition =
       Math.min(spaceLeft, spaceRight) + Math.abs(spaceLeft - spaceRight) / 2;
 
-    if (window.outerWidth <= modalWidth) modalWidth = window.outerWidth - 40;
+    if (window.innerWidth <= modalWidth) modalWidth = window.innerWidth - 40;
 
     if (spaceRight > modalWidth) {
       return {
