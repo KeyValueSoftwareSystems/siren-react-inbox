@@ -106,11 +106,11 @@ const SirenInbox: FC<SirenProps> = ({
   useEffect(() => {
     const modalWidth = calculateModalWidth(initialModalWidth);
 
-    if (window.outerWidth <= modalWidth)
+    if (window.innerWidth <= modalWidth)
     // Subtract 40 pixels to account for padding within the window container
-      setUpdatedModalWidth(window.outerWidth - 40);
+      setUpdatedModalWidth(window.innerWidth - 40);
     else setUpdatedModalWidth(initialModalWidth);
-  }, [window.outerWidth, initialModalWidth]);
+  }, [window.innerWidth, initialModalWidth]);
 
   useEffect(() => {
     const containerWidth = styles.container.width || DefaultStyle.window.width;
@@ -140,56 +140,54 @@ const SirenInbox: FC<SirenProps> = ({
   };
 
   return (
-    <div className={!windowViewOnly? 'siren-sdk-inbox-root' : ''}>
-      <div
-        ref={modalRef}
-        className={`${!windowViewOnly && "siren-sdk-inbox-container"}`}
-      >
-        {!windowViewOnly && (
-          <div ref={iconRef}>
-            <NotificationButton
-              notificationIcon={notificationIcon}
-              styles={styles}
-              onIconClick={onIconClick}
-              badgeType={isModalOpen ? BadgeType.NONE : BadgeType.DEFAULT}
-              darkMode={darkMode}
-              hideBadge={hideBadge}
-            />
-          </div>
-        )}
+    <div
+      ref={modalRef}
+      className={`${!windowViewOnly && "siren-sdk-inbox-container"}`}
+    >
+      {!windowViewOnly && (
+        <div ref={iconRef}>
+          <NotificationButton
+            notificationIcon={notificationIcon}
+            styles={styles}
+            onIconClick={onIconClick}
+            badgeType={isModalOpen ? BadgeType.NONE : BadgeType.DEFAULT}
+            darkMode={darkMode}
+            hideBadge={hideBadge}
+          />
+        </div>
+      )}
 
-        {(isModalOpen || windowViewOnly) && (
-          <div
-            style={{
-              ...styles.container,
-              ...(!windowViewOnly && styles.windowShadow),
-              position: windowViewOnly ? "initial" : "absolute",
-              width: windowViewOnly ? "100%" : updatedModalWidth,
-              ...modalPosition,
-            }}
-            data-testid="siren-panel"
-          >
-            <SirenPanel
-              styles={styles}
-              noOfNotificationsPerFetch={notificationsPerPage}
-              hideBadge={hideBadge}
-              inboxHeaderProps={inboxHeaderProps}
-              cardProps={cardProps}
-              customFooter={customFooter}
-              customNotificationCard={customNotificationCard}
-              onNotificationCardClick={onNotificationCardClick}
-              onError={onError}
-              listEmptyComponent={listEmptyComponent}
-              fullScreen={windowViewOnly}
-              customLoader={customLoader}
-              loadMoreComponent={loadMoreComponent}
-              darkMode={darkMode}
-              customErrorWindow={customErrorWindow}
-              modalWidth={updatedModalWidth}
-            />
-          </div>
-        )}
-      </div>
+      {(isModalOpen || windowViewOnly) && (
+        <div
+          style={{
+            ...styles.container,
+            ...(!windowViewOnly && styles.windowShadow),
+            position: windowViewOnly ? "initial" : "absolute",
+            width: windowViewOnly ? "100%" : updatedModalWidth,
+            ...modalPosition,
+          }}
+          data-testid="siren-panel"
+        >
+          <SirenPanel
+            styles={styles}
+            noOfNotificationsPerFetch={notificationsPerPage}
+            hideBadge={hideBadge}
+            inboxHeaderProps={inboxHeaderProps}
+            cardProps={cardProps}
+            customFooter={customFooter}
+            customNotificationCard={customNotificationCard}
+            onNotificationCardClick={onNotificationCardClick}
+            onError={onError}
+            listEmptyComponent={listEmptyComponent}
+            fullScreen={windowViewOnly}
+            customLoader={customLoader}
+            loadMoreComponent={loadMoreComponent}
+            darkMode={darkMode}
+            customErrorWindow={customErrorWindow}
+            modalWidth={updatedModalWidth}
+          />
+        </div>
+      )}
     </div>
   );
 };
