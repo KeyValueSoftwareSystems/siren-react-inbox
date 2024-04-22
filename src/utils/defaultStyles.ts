@@ -14,6 +14,7 @@ const defaultStyles = {
     titleFontWeight: "600",
     titleSize: 20,
     titlePadding: 0,
+    borderWidth: "0.5px",
   },
   windowContainer: {
     padding: 0,
