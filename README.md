@@ -126,7 +126,7 @@ type ThemeProps = {
     titleColor?: string,
     descriptionColor?: string,
   },
-  loadMoreButton: {
+  loadMoreButton?: {
     color?: string,
     background?: string,
   },

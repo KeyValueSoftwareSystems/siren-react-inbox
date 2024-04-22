@@ -61,11 +61,15 @@ const SirenInbox: FC<SirenProps> = ({
   onError,
   itemsPerFetch = 20,
 }) => {
-  const notificationsPerPage = Math.max(
-    0,
-    itemsPerFetch > MAXIMUM_ITEMS_PER_FETCH
-      ? MAXIMUM_ITEMS_PER_FETCH
-      : itemsPerFetch
+  const notificationsPerPage = useMemo(
+    () =>
+      Math.max(
+        0,
+        itemsPerFetch > MAXIMUM_ITEMS_PER_FETCH
+          ? MAXIMUM_ITEMS_PER_FETCH
+          : itemsPerFetch
+      ),
+    [itemsPerFetch]
   );
 
   const [isModalOpen, setIsModalOpen] = useState(false);
