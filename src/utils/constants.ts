@@ -57,7 +57,7 @@ export const defaultBadgeStyle = {
   textSize: 10,
   linHeight: "14px",
   top: "inherit",
-  left: "inherit",
+  right: "inherit",
 };
 
 export enum eventTypes {

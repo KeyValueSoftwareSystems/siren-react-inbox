@@ -1,10 +1,11 @@
-import React, { type FC, useCallback, useEffect, useState } from "react";
+import React, { type FC, useCallback, useEffect, useMemo, useState } from "react";
 
 import type {
   ActionResponse,
   MarkAsViewedResponse,
   NotificationDataType,
   NotificationsApiResponse,
+  SirenErrorType,
 } from "@sirenapp/js-sdk/dist/esm/types";
 
 import "../styles/sirenPanel.css";
@@ -237,10 +238,12 @@ const SirenPanel: FC<SirenPanelProps> = ({
         setEndReached(true);
         setError(ERROR_TEXT);
       }
-    } catch (error: any) {
+    }  catch (error) {
       setIsLoading(false);
-      if ("Message" in error) setError(error?.Message);
-      else setError(ERROR_TEXT);
+      if (typeof error === 'object' && error !== null && 'Message' in error) 
+        setError((error as SirenErrorType).Message);
+      else 
+        setError(ERROR_TEXT);     
     }
 
     setIsLoading(false);
@@ -314,6 +317,22 @@ const SirenPanel: FC<SirenPanelProps> = ({
     );
   };
 
+  const renderedListItems = useMemo(() => {
+    return notifications.map((item) => (
+      <NotificationCard
+        notification={item}
+        cardProps={cardProps}
+        onNotificationCardClick={onNotificationCardClick}
+        deleteNotificationById={deleteNotificationById}
+        styles={styles}
+        key={item.id}
+        darkMode={darkMode}
+        data-testid="notification-card"
+      />
+    ));
+  }, [notifications, cardProps, onNotificationCardClick, deleteNotificationById, styles, darkMode]);
+
+
   const renderList = () => {
     if (isLoading && isEmptyArray(notifications)) {
       const hideAvatar = cardProps?.hideAvatar || false;
@@ -334,40 +353,33 @@ const SirenPanel: FC<SirenPanelProps> = ({
 
     if (error)
       return (
-        customErrorWindow || (
-          <ErrorWindow styles={styles} error={error} darkMode={darkMode} />
-        )
+        <div aria-label="siren-error-state">
+          { customErrorWindow || (
+            <ErrorWindow styles={styles} error={error} darkMode={darkMode} />
+          )}
+        </div>
       );
 
     if (isEmptyArray(notifications))
       return (
-        listEmptyComponent || (
-          <EmptyList
-            data-testid="empty-list"
-            styles={styles}
-            darkMode={darkMode}
-          />
-        )
+        <div aria-label="siren-empty-state">
+          {listEmptyComponent || (
+            <EmptyList
+              data-testid="empty-list"
+              styles={styles}
+              darkMode={darkMode}
+            />)
+          }
+        </div>     
       );
 
     if (customNotificationCard)
       return notifications.map((item) => customNotificationCard(item));
 
-    return notifications.map((item) => (
-      <NotificationCard
-        notification={item}
-        cardProps={cardProps}
-        onNotificationCardClick={onNotificationCardClick}
-        deleteNotificationById={deleteNotificationById}
-        styles={styles}
-        key={item.id}
-        darkMode={darkMode}
-        data-testid="notification-card"
-      />
-    ));
+    return renderedListItems;
   };
 
-  const renderListBottomComponent = () => {
+  const renderListBottomComponent = useMemo(() => {
     if (isEmptyArray(notifications)) return null;
     if (isLoading && !endReached)
       return (
@@ -389,20 +401,25 @@ const SirenPanel: FC<SirenPanelProps> = ({
       );
 
     return null;
-  };
+  }, [notifications, isLoading, endReached, styles, loadMoreComponent, handleLoadMore, loadMoreLabel]);
 
-  const containerClassNames = `${
-    (!notifications?.length || error) &&
-    !isLoading &&
-    "siren-sdk-content-container"
-  } ${customFooter ? "siren-sdk-panel-no-border" : ""}`;
 
-  const panelStyle = {
-    ...(!fullScreen && styles.windowTopBorder),
-    ...(!fullScreen && { width: `${modalWidth}px` }),
-    ...(!fullScreen && styles.windowBottomBorder),
-    ...styles.container,
-  };
+  const containerClassNames = useMemo(() => {
+    return `${
+      (!notifications?.length || error) &&
+      !isLoading &&
+      "siren-sdk-content-container"
+    } ${customFooter ? "siren-sdk-panel-no-border" : ""}`;
+  }, [notifications, error, isLoading, customFooter]);
+
+  const panelStyle = useMemo(() => {
+    return {
+      ...(!fullScreen && styles.windowTopBorder),
+      ...(!fullScreen && { width: `${modalWidth}px` }),
+      ...(!fullScreen && styles.windowBottomBorder),
+      ...styles.container,
+    };
+  }, [fullScreen, styles, modalWidth]);
 
   return (
     <div
@@ -437,9 +454,10 @@ const SirenPanel: FC<SirenPanelProps> = ({
               ...styles.body,
             }}
             className={containerClassNames}
+            aria-label="siren-notification-list"
           >
             {renderList()}
-            {renderListBottomComponent()}
+            {renderListBottomComponent}
           </div>
           {renderFooter()}
         </div>

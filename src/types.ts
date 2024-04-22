@@ -52,6 +52,7 @@ export type CardProps = {
   showMedia?: boolean;
   hideDelete?: boolean;
   disableAutoMarkAsRead?: boolean;
+  deleteIcon?: JSX.Element;
   onAvatarClick?: (notification: NotificationDataType) => void;
 };
 
@@ -153,6 +154,7 @@ export type CustomStyle = {
     titleFontWeight?:TextStyle["fontWeight"];
     titleSize?: number;
     titlePadding?: number;
+    borderWidth?: string;
   };
   windowContainer?: {
     padding?: number;
@@ -178,7 +180,7 @@ export type CustomStyle = {
     size?: number;
     textSize?: number;
     top?: number;
-    left?: number;
+    right?: number;
   };
   deleteIcon?:{
     size?: number

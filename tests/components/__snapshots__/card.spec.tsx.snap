@@ -3,11 +3,13 @@
 exports[`matches snapshot 1`] = `
 <DocumentFragment>
   <div
+    aria-label="siren-notification-card-1"
     class="siren-sdk-card-container siren-sdk-card-common-container"
     data-testid="card-1"
     style="background-color: rgb(46, 45, 48); padding: 12px; border-bottom: 0.5px solid; border-color: #344054; border-left: 4px solid #FA9874;"
   >
     <div
+      aria-label="siren-notification-avatar-1"
       style="width: 40px; height: 40px; border-radius: 20px; overflow: hidden; background-color: rgb(52, 64, 84); background-size: cover; background-position: center;"
     />
     <div
@@ -58,6 +60,7 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
+      aria-label="siren-notification-delete-1"
       class="siren-sdk-delete-button"
       data-testid="delete-1"
     >

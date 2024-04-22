@@ -12,14 +12,14 @@ import {
   LogLevel,
   ThemeMode,
 } from "./constants";
+import { default as DefaultStyle } from "./defaultStyles";
+import { default as DefaultTheme } from "./defaultTheme";
 import type {
   CustomStyle,
   DimensionValue,
   SirenStyleProps,
   ThemeProps,
 } from "../types";
-
-import { DefaultStyle, DefaultTheme } from ".";
 
 type FetchParams = {
   size: number;
@@ -169,9 +169,8 @@ export const applyTheme = (
         theme.windowHeader?.background ||
         theme.colors?.neutralColor ||
         DefaultTheme[mode].windowHeader.background,
-      borderBottom: `0.5px solid ${
-        theme.colors?.borderColor || DefaultTheme[mode].colors.borderColor
-      }`,
+      borderBottom: `${customStyle.windowHeader?.borderWidth || DefaultStyle.windowHeader.borderWidth} solid`,
+      borderColor: theme.colors?.borderColor || DefaultTheme[mode].colors.borderColor,
       height:
         customStyle.windowHeader?.height || DefaultStyle.windowHeader.height,
     },
@@ -323,8 +322,8 @@ export const applyTheme = (
       minWidth: customStyle.badgeStyle?.size || defaultBadgeStyle.size,
       height: customStyle.badgeStyle?.size || defaultBadgeStyle.size,
       backgroundColor: theme.badgeStyle?.color || defaultBadgeStyle.color,
-      top: `${customStyle.badgeStyle?.top}px` || defaultBadgeStyle.top,
-      left: `${customStyle.badgeStyle?.left}px` || defaultBadgeStyle.left,
+      top:  customStyle?.badgeStyle?.top ? `${customStyle.badgeStyle.top}px` : defaultBadgeStyle.top,
+      right:  customStyle?.badgeStyle?.right ? `${customStyle.badgeStyle.right}px` : defaultBadgeStyle.right,    
     },
     badgeTextStyle: {
       color: theme.badgeStyle?.textColor || defaultBadgeStyle.textColor,
@@ -386,7 +385,7 @@ export const calculateModalPosition = (
 ) => {
   if (iconRef.current) {
     const iconRect = iconRef.current.getBoundingClientRect();
-    const screenWidth = window.outerWidth;
+    const screenWidth = window.innerWidth;
     const spaceRight = screenWidth - iconRect.x;
     const spaceLeft = iconRect.x;
     let modalWidth = calculateModalWidth(containerWidth);
@@ -394,7 +393,7 @@ export const calculateModalPosition = (
     const centerPosition =
       Math.min(spaceLeft, spaceRight) + Math.abs(spaceLeft - spaceRight) / 2;
 
-    if (window.outerWidth <= modalWidth) modalWidth = window.outerWidth - 40;
+    if (window.innerWidth <= modalWidth) modalWidth = window.innerWidth - 40;
 
     if (spaceRight > modalWidth) {
       return {
@@ -434,7 +433,7 @@ export const hexToRgba = (hex: string, alpha: number) => {
   return `rgba(${r},${g},${b},${alpha})`;
 };
 
-export const debounce = <F extends (...args: any[]) => void>(
+export const debounce = <F extends (...args: unknown[]) => void>(
   func: F,
   delay: number
 ) => {
