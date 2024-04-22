@@ -21,6 +21,7 @@ exports[`matches snapshot 1`] = `
         </p>
         <div
           aria-disabled="true"
+          aria-label="siren-header-clear-all"
           class="siren-sdk-header-right-container"
           data-testid="clear-all"
           style="opacity: 0.5; cursor: default;"
@@ -49,6 +50,7 @@ exports[`matches snapshot 1`] = `
         style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; background-color: rgb(35, 35, 38); padding: 0px; border-radius: 0 0 10px 10px;"
       >
         <div
+          aria-label="siren-notification-list"
           class="false "
           id="contentContainer"
           style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; overflow: auto; height: 700px;"
