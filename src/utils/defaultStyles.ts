@@ -10,9 +10,9 @@ const defaultStyles = {
     borderStyle: "solid"
   },
   windowHeader: {
-    height: 64,
+    height: 50,
     titleFontWeight: "600",
-    titleSize: 20,
+    titleSize: 18,
     titlePadding: 0,
     borderWidth: "0.5px",
   },
@@ -21,12 +21,15 @@ const defaultStyles = {
     height: 700,
   },
   notificationCard: {
-    padding: 10,
+    padding: 12,
     borderWidth: 0.5,
     avatarSize: 40,
     titleFontWeight: "600",
-    titleSize: 16,
+    titleSize: 14,
+    subTitleFontWeight: '500',
+    subTitleSize: 14,
     descriptionSize: 14,
+    descriptionFontWeight: '400',
     dateSize: 12,
   },
   loadMoreButton: {
@@ -38,7 +41,7 @@ const defaultStyles = {
     textSize: 10,
   },
   deleteIcon:{
-    size: 16
+    size: 14
   },
   timerIcon:{
     size: 12

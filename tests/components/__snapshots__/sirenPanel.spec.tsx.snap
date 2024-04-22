@@ -11,11 +11,11 @@ exports[`matches snapshot 1`] = `
       <div
         class="siren-sdk-header-container"
         data-testid="header"
-        style="border-top-left-radius: 10px; border-top-right-radius: 10px; background-color: rgb(35, 35, 38); border-bottom: 0.5px solid; border-color: #344054; height: 64px;"
+        style="border-top-left-radius: 10px; border-top-right-radius: 10px; background-color: rgb(35, 35, 38); border-bottom: 0.5px solid; border-color: #344054; height: 50px;"
       >
         <p
           class="siren-sdk-text-break"
-          style="align-items: center; display: flex; margin: 0px; line-height: 28px; color: rgb(255, 255, 255); font-size: 20px; font-weight: 600; padding-left: 0px;"
+          style="color: rgb(255, 255, 255); font-size: 18px; font-weight: 600; padding-left: 0px;"
         >
           Notifications
         </p>
@@ -66,31 +66,31 @@ exports[`matches snapshot 1`] = `
               >
                 <div
                   class="siren-sdk-skeleton-avatar siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
                 <div
                   class="siren-sdk-skeleton-head siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
                 <div
                   class="siren-sdk-skeleton-subtitle siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
                 <div
                   class="siren-sdk-skeleton-body siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
                 <div
                   class="siren-sdk-skeleton-icon  siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
                 <div
                   class="siren-sdk-skeleton-footer  siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
                 <div
                   class="siren-sdk-skeleton-close  siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
               </div>
             </div>
@@ -102,31 +102,31 @@ exports[`matches snapshot 1`] = `
               >
                 <div
                   class="siren-sdk-skeleton-avatar siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
                 <div
                   class="siren-sdk-skeleton-head siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
                 <div
                   class="siren-sdk-skeleton-subtitle siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
                 <div
                   class="siren-sdk-skeleton-body siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
                 <div
                   class="siren-sdk-skeleton-icon  siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
                 <div
                   class="siren-sdk-skeleton-footer  siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
                 <div
                   class="siren-sdk-skeleton-close  siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
               </div>
             </div>
@@ -138,31 +138,31 @@ exports[`matches snapshot 1`] = `
               >
                 <div
                   class="siren-sdk-skeleton-avatar siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
                 <div
                   class="siren-sdk-skeleton-head siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
                 <div
                   class="siren-sdk-skeleton-subtitle siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
                 <div
                   class="siren-sdk-skeleton-body siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
                 <div
                   class="siren-sdk-skeleton-icon  siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
                 <div
                   class="siren-sdk-skeleton-footer  siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
                 <div
                   class="siren-sdk-skeleton-close  siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
               </div>
             </div>
@@ -174,31 +174,31 @@ exports[`matches snapshot 1`] = `
               >
                 <div
                   class="siren-sdk-skeleton-avatar siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
                 <div
                   class="siren-sdk-skeleton-head siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
                 <div
                   class="siren-sdk-skeleton-subtitle siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
                 <div
                   class="siren-sdk-skeleton-body siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
                 <div
                   class="siren-sdk-skeleton-icon  siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
                 <div
                   class="siren-sdk-skeleton-footer  siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
                 <div
                   class="siren-sdk-skeleton-close  siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
               </div>
             </div>
@@ -210,31 +210,31 @@ exports[`matches snapshot 1`] = `
               >
                 <div
                   class="siren-sdk-skeleton-avatar siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
                 <div
                   class="siren-sdk-skeleton-head siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
                 <div
                   class="siren-sdk-skeleton-subtitle siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
                 <div
                   class="siren-sdk-skeleton-body siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
                 <div
                   class="siren-sdk-skeleton-icon  siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
                 <div
                   class="siren-sdk-skeleton-footer  siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
                 <div
                   class="siren-sdk-skeleton-close  siren-sdk-skeleton"
-                  style="border-color: #f56630;"
+                  style="border-color: #fa9874;"
                 />
               </div>
             </div>

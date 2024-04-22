@@ -171,10 +171,6 @@ export const applyTheme = (
         customStyle.windowHeader?.height || DefaultStyle.windowHeader.height,
     },
     headerTitle: {
-      alignItems: "center",
-      display: "flex",
-      margin: 0,
-      lineHeight: "28px",
       color:
         theme.windowHeader?.titleColor ||
         theme.colors?.textColor ||
@@ -237,6 +233,17 @@ export const applyTheme = (
         customStyle.notificationCard?.titleFontWeight ||
         DefaultStyle.notificationCard.titleFontWeight,
     },
+    cardSubTitle: {
+      color:
+        theme.notificationCard?.subTitleColor ||
+        theme.colors?.textColor ||
+        DefaultTheme[mode].notificationCard.subTitleColor,
+      fontSize:
+        customStyle.notificationCard?.subTitleSize || DefaultStyle.notificationCard.subTitleSize,
+      fontWeight:
+        customStyle.notificationCard?.subTitleFontWeight ||
+        DefaultStyle.notificationCard.subTitleFontWeight,
+    },
     activeCardMarker: {
       backgroundColor:
         theme.colors?.highlightedCardColor ||
@@ -252,7 +259,9 @@ export const applyTheme = (
       fontSize:
         customStyle.notificationCard?.descriptionSize ||
         DefaultStyle.notificationCard.descriptionSize,
-      fontWeight: "400",
+      fontWeight:
+      customStyle.notificationCard?.descriptionFontWeight ||
+      DefaultStyle.notificationCard.descriptionFontWeight,
     },
     dateStyle: {
       color: theme.colors?.dateColor || DefaultTheme[mode].colors.dateColor,

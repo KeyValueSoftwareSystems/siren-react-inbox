@@ -6,7 +6,7 @@ exports[`matches snapshot 1`] = `
     aria-label="siren-notification-card-1"
     class="siren-sdk-card-container siren-sdk-card-common-container"
     data-testid="card-1"
-    style="background-color: rgb(46, 45, 48); padding: 10px; border-bottom: 0.5px solid; border-color: #344054; border-left: 4px solid #F56630;"
+    style="background-color: rgb(46, 45, 48); padding: 12px; border-bottom: 0.5px solid; border-color: #344054; border-left: 4px solid #FA9874;"
   >
     <div
       aria-label="siren-notification-avatar-1"
@@ -17,13 +17,13 @@ exports[`matches snapshot 1`] = `
     >
       <div
         class="siren-sdk-card-text-break"
-        style="color: rgb(255, 255, 255); font-size: 16px; font-weight: 600;"
+        style="color: rgb(255, 255, 255); font-size: 14px; font-weight: 600;"
       >
         New Message
       </div>
       <div
         class="siren-sdk-card-text-break"
-        style="color: rgb(255, 255, 255); font-size: 14px; font-weight: 400;"
+        style="color: rgb(255, 255, 255); font-size: 14px; font-weight: 500;"
       >
         New post
       </div>
@@ -66,9 +66,9 @@ exports[`matches snapshot 1`] = `
     >
       <svg
         fill="none"
-        height="16"
+        height="14"
         viewBox="0 0 20 20"
-        width="16"
+        width="14"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
