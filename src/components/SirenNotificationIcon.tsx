@@ -1,13 +1,11 @@
 import React, { type FC, useCallback, useEffect, useState } from "react";
 
-import { EventType } from "test_notification/dist/esm/constants/generic";
-
 import BellIcon from "./BellIcon";
 import { useSirenContext } from "./SirenProvider";
 import "../styles/sirenNotificationIcon.css";
 import type { SirenNotificationButtonProps } from "../types";
 import { Constants } from "../utils";
-import { BadgeType } from "../utils/constants";
+import { BadgeType, EventType } from "../utils/constants";
 
 
 

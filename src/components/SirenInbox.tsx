@@ -1,7 +1,5 @@
 import React, { type FC, useEffect, useMemo, useRef, useState } from "react";
 
-import { EventType } from "test_notification/dist/esm/constants/generic";
-
 import NotificationButton from "./SirenNotificationIcon";
 import SirenPanel from "./SirenPanel";
 import { useSirenContext } from "./SirenProvider";
@@ -15,6 +13,7 @@ import {
 } from "../utils/commonUtils";
 import {
   BadgeType,
+  EventType,
   MAXIMUM_ITEMS_PER_FETCH,
   ThemeMode,
 } from "../utils/constants";

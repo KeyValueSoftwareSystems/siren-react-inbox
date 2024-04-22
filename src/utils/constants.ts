@@ -123,3 +123,8 @@ export enum VerificationStatus {
   SUCCESS = "SUCCESS",
   FAILED = "FAILED"
 }
+
+export enum EventType {
+  NOTIFICATION = "NOTIFICATIONS",
+  UNVIEWED_COUNT = "UNVIEWED_COUNT",
+}

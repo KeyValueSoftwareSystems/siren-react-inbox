@@ -1,12 +1,11 @@
 import React, { type FC, useCallback, useEffect, useState } from "react";
 
-import { EventType } from "test_notification/dist/esm/constants/generic";
 import type {
   ActionResponse,
   MarkAsViewedResponse,
   NotificationDataType,
   NotificationsApiResponse,
-} from "test_notification/dist/esm/types";
+} from "@sirenapp/js-sdk/dist/esm/types";
 
 import "../styles/sirenPanel.css";
 import NotificationCard from "./Card";
@@ -25,7 +24,7 @@ import {
   mergeArrays,
   updateNotifications,
 } from "../utils/commonUtils";
-import { DEFAULT_WINDOW_TITLE, ERROR_TEXT, events, eventTypes, VerificationStatus } from "../utils/constants";
+import { DEFAULT_WINDOW_TITLE, ERROR_TEXT, events, EventType, eventTypes, VerificationStatus } from "../utils/constants";
 import useSiren from "../utils/sirenHook";
 
 
