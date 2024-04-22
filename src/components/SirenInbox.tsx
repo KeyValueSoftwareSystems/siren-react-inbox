@@ -17,7 +17,6 @@ import {
   MAXIMUM_ITEMS_PER_FETCH,
   ThemeMode,
 } from "../utils/constants";
-
 import "../styles/sirenInbox.css";
 
 

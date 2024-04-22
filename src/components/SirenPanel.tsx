@@ -27,8 +27,6 @@ import {
 import { DEFAULT_WINDOW_TITLE, ERROR_TEXT, events, EventType, eventTypes, VerificationStatus } from "../utils/constants";
 import useSiren from "../utils/sirenHook";
 
-
-
 /**
  * SirenPanel component renders a notification panel with a header, notification cards, and optional custom footer.
  *

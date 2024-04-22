@@ -7,8 +7,6 @@ import type { SirenNotificationButtonProps } from "../types";
 import { Constants } from "../utils";
 import { BadgeType, EventType } from "../utils/constants";
 
-
-
 const { eventTypes, events } = Constants;
 
 /**
