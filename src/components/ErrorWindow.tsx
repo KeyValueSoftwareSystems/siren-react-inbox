@@ -24,11 +24,15 @@ import "../styles/errorWindow.css";
 const ErrorWindow = (props: {
   styles: SirenStyleProps;
   error: string;
-  darkMode: boolean
+  darkMode: boolean;
 }) => {
   const { styles, error, darkMode } = props;
-  const containerStyle = { backgroundColor: darkMode ? Constants.COLORS.dark.iconColor : Constants.COLORS.light.iconColor };
-  const iconOpacity = { opacity: darkMode ? 0.2: 1}
+  const containerStyle = {
+    backgroundColor: darkMode
+      ? Constants.COLORS.dark.iconColor
+      : Constants.COLORS.light.iconColor,
+  };
+  const iconOpacity = { opacity: darkMode ? 0.2 : 1 };
 
   return (
     <div
@@ -36,7 +40,12 @@ const ErrorWindow = (props: {
       data-testid="error-window"
     >
       <div className="siren-sdk-error-icon-container" style={containerStyle}>
-        <img src={errorIcon} alt="error-icon" className="siren-sdk-error-icon" style={iconOpacity}/>
+        <img
+          src={errorIcon}
+          alt="error-icon"
+          className="siren-sdk-error-icon"
+          style={iconOpacity}
+        />
       </div>
       <div style={styles.errorText} className="siren-sdk-error-text">
         {error || ERROR_TEXT}

@@ -52,6 +52,7 @@ const Header: FC<HeaderProps> = ({
             onClick={handleClearAllNotification}
             data-testid="clear-all"
             aria-disabled={!enableClearAll}
+            aria-label="siren-header-clear-all"
           >
             <ClearAllIcon color={styles.clearIcon.color} size={styles.clearIcon.size}/>
             <p

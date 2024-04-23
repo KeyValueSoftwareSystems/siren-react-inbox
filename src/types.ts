@@ -52,6 +52,7 @@ export type CardProps = {
   showMedia?: boolean;
   hideDelete?: boolean;
   disableAutoMarkAsRead?: boolean;
+  deleteIcon?: JSX.Element;
   onAvatarClick?: (notification: NotificationDataType) => void;
 };
 
@@ -153,6 +154,7 @@ export type CustomStyle = {
     titleFontWeight?:TextStyle["fontWeight"];
     titleSize?: number;
     titlePadding?: number;
+    borderWidth?: string;
   };
   windowContainer?: {
     padding?: number;
@@ -164,6 +166,9 @@ export type CustomStyle = {
     avatarSize?: number;
     titleFontWeight?: TextStyle["fontWeight"];
     titleSize?: number;
+    subTitleFontWeight?: TextStyle['fontWeight'];
+    subTitleSize?: number
+    descriptionFontWeight?: TextStyle['fontWeight'];
     descriptionSize?: number;
     dateSize?: number;
   };
@@ -175,7 +180,7 @@ export type CustomStyle = {
     size?: number;
     textSize?: number;
     top?: number;
-    left?: number;
+    right?: number;
   };
   deleteIcon?:{
     size?: number
@@ -213,6 +218,7 @@ type NotificationCardThemeProps = {
   borderColor?: string;
   background?: string;
   titleColor?: string;
+  subTitleColor?: string;
   descriptionColor?: string;
 };
 type LoadMoreButtonProps = {
@@ -233,6 +239,7 @@ export type SirenStyleProps = {
   defaultCardContainer: CSSProperties;
   cardIconRound: CSSProperties;
   cardTitle: CSSProperties;
+  cardSubTitle: CSSProperties;
   activeCardMarker: CSSProperties;
   cardDescription: CSSProperties;
   dateStyle: CSSProperties;

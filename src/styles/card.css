@@ -1,6 +1,6 @@
 .siren-sdk-card-common-container{
   display: grid;
-  gap: 15px;
+  gap: 16px;
 }
 
 .siren-sdk-card-container {
@@ -13,7 +13,6 @@
 
 .siren-sdk-delete-button {
   cursor: pointer;
-  padding-right: 10px;
 }
 
 .siren-sdk-card-text-break {
