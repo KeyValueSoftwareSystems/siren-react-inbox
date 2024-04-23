@@ -1,23 +1,24 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from "react";
 
-import { Siren } from '@sirenapp/js-sdk';
+import { Siren } from "@sirenapp/js-sdk";
 import type {
   InitConfigType,
   NotificationsApiResponse,
   SirenErrorType,
   UnviewedCountApiResponse,
-} from '@sirenapp/js-sdk/dist/esm/types';
-import PubSub from 'pubsub-js';
+} from "@sirenapp/js-sdk/dist/esm/types";
+import PubSub from "pubsub-js";
 
-import type { SirenProviderConfigProps } from '../types';
-import { logger } from '../utils/commonUtils';
+import type { SirenProviderConfigProps } from "../types";
+import { logger } from "../utils/commonUtils";
 import {
-  events, EventType, eventTypes,
-  IN_APP_RECIPIENT_UNAUTHENTICATED,
+  AUTHENTICATION_FAILED,
+  events,
+  EventType,
+  eventTypes,
   MAXIMUM_RETRY_COUNT,
-  VerificationStatus
-} from '../utils/constants';
-
+  VerificationStatus,
+} from "../utils/constants";
 
 type SirenContextProp = {
   siren: Siren | null;
@@ -31,7 +32,7 @@ interface SirenProvider {
 
 export const SirenContext = createContext<SirenContextProp>({
   siren: null,
-  verificationStatus: VerificationStatus.PENDING
+  verificationStatus: VerificationStatus.PENDING,
 });
 
 /**
@@ -51,7 +52,7 @@ export const useSirenContext = (): SirenContextProp => useContext(SirenContext);
  * Provides a React context for Siren notifications, making Siren SDK functionality
  * available throughout your React application.
  *
-* `SirenProvider` initializes the Siren SDK with given configuration and manages the state for siren and verificationStatus.
+ * `SirenProvider` initializes the Siren SDK with given configuration and manages the state for siren and verificationStatus.
  *
  * @component
  * @example
@@ -70,7 +71,8 @@ export const useSirenContext = (): SirenContextProp => useContext(SirenContext);
  */
 const SirenProvider: React.FC<SirenProvider> = ({ config, children }) => {
   const [siren, setSiren] = useState<Siren | null>(null);
-  const [verificationStatus, setVerificationStatus] = useState<VerificationStatus>(VerificationStatus.PENDING);
+  const [verificationStatus, setVerificationStatus] =
+    useState<VerificationStatus>(VerificationStatus.PENDING);
   let retryCount = 0;
 
   useEffect(() => {
@@ -79,9 +81,7 @@ const SirenProvider: React.FC<SirenProvider> = ({ config, children }) => {
       sendResetDataEvents();
       initialize();
     }
-    if(retryCount > MAXIMUM_RETRY_COUNT) 
-      stopRealTimeFetch();
-    
+    if (retryCount > MAXIMUM_RETRY_COUNT) stopRealTimeFetch();
   }, [config]);
 
   const stopRealTimeFetch = (): void => {
@@ -91,29 +91,52 @@ const SirenProvider: React.FC<SirenProvider> = ({ config, children }) => {
 
   const sendResetDataEvents = () => {
     const updateCountPayload = {
-      action: eventTypes.RESET_NOTIFICATIONS_COUNT
+      action: eventTypes.RESET_NOTIFICATIONS_COUNT,
     };
     const updateNotificationPayload = {
-      action: eventTypes.RESET_NOTIFICATIONS
+      action: eventTypes.RESET_NOTIFICATIONS,
     };
 
-    PubSub.publish(events.NOTIFICATION_COUNT_EVENT, JSON.stringify(updateCountPayload));
-    PubSub.publish(events.NOTIFICATION_LIST_EVENT, JSON.stringify(updateNotificationPayload));
+    PubSub.publish(
+      events.NOTIFICATION_COUNT_EVENT,
+      JSON.stringify(updateCountPayload)
+    );
+    PubSub.publish(
+      events.NOTIFICATION_LIST_EVENT,
+      JSON.stringify(updateNotificationPayload)
+    );
   };
 
-  const onEventReceive = (response: NotificationsApiResponse | UnviewedCountApiResponse, eventType: EventType): void => {
+  const onEventReceive = (
+    response: NotificationsApiResponse | UnviewedCountApiResponse,
+    eventType: EventType
+  ): void => {
     if (eventType === EventType.NOTIFICATION) {
-      const newNotifications = (response as NotificationsApiResponse)?.data || [];
+      const newNotifications =
+        (response as NotificationsApiResponse)?.data || [];
 
       logger.info(`new notifications : ${JSON.stringify(newNotifications)}`);
-      PubSub.publish(events.NOTIFICATION_LIST_EVENT, JSON.stringify({ newNotifications, action: eventTypes.NEW_NOTIFICATIONS }));
+      PubSub.publish(
+        events.NOTIFICATION_LIST_EVENT,
+        JSON.stringify({
+          newNotifications,
+          action: eventTypes.NEW_NOTIFICATIONS,
+        })
+      );
     }
 
     if (eventType === EventType.UNVIEWED_COUNT) {
-      const totalUnviewed = (response as UnviewedCountApiResponse)?.data?.totalUnviewed || 0;
+      const totalUnviewed =
+        (response as UnviewedCountApiResponse)?.data?.totalUnviewed || 0;
 
       logger.info(`unviewed notification count : ${totalUnviewed}`);
-      PubSub.publish(events.NOTIFICATION_COUNT_EVENT, JSON.stringify({ unviewedCount: totalUnviewed, action: eventTypes.UPDATE_NOTIFICATIONS_COUNT }));
+      PubSub.publish(
+        events.NOTIFICATION_COUNT_EVENT,
+        JSON.stringify({
+          unviewedCount: totalUnviewed,
+          action: eventTypes.UPDATE_NOTIFICATIONS_COUNT,
+        })
+      );
     }
   };
 
@@ -128,12 +151,15 @@ const SirenProvider: React.FC<SirenProvider> = ({ config, children }) => {
       token: config.userToken,
       recipientId: config.recipientId,
       onError: retryVerification,
-      actionCallbacks: actionCallbacks
+      actionCallbacks: actionCallbacks,
     };
   };
 
   const retryVerification = (error: SirenErrorType) => {
-    if (error.Code === IN_APP_RECIPIENT_UNAUTHENTICATED && retryCount < MAXIMUM_RETRY_COUNT)
+    if (
+      error.Code === AUTHENTICATION_FAILED &&
+      retryCount < MAXIMUM_RETRY_COUNT
+    )
       setTimeout(() => {
         initialize();
         retryCount++;
@@ -152,7 +178,7 @@ const SirenProvider: React.FC<SirenProvider> = ({ config, children }) => {
     <SirenContext.Provider
       value={{
         siren,
-        verificationStatus
+        verificationStatus,
       }}
     >
       {children}

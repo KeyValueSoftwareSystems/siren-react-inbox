@@ -25,7 +25,7 @@ import {
   mergeArrays,
   updateNotifications,
 } from "../utils/commonUtils";
-import { DEFAULT_WINDOW_TITLE, ERROR_TEXT, events, EventType, eventTypes, VerificationStatus } from "../utils/constants";
+import { DEFAULT_WINDOW_TITLE, ERROR_TEXT, errorMap, events, EventType, eventTypes, VerificationStatus } from "../utils/constants";
 import useSiren from "../utils/sirenHook";
 
 /**
@@ -139,6 +139,11 @@ const SirenPanel: FC<SirenPanelProps> = ({
     if (siren && verificationStatus !== VerificationStatus.PENDING) {
       !hideBadge && siren.stopRealTimeFetch(EventType.UNVIEWED_COUNT);
       fetchNotifications(true);
+    }
+    if(!siren && isLoading) {
+      setIsLoading(false);
+      onError && onError(errorMap?.INVALID_CREDENTIALS);
+      setError(ERROR_TEXT);
     }
   }, [siren, verificationStatus, hideBadge]);
 
@@ -351,7 +356,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
       );
     }
 
-    if (error)
+    if (error && !isLoading)
       return (
         <div aria-label="siren-error-state">
           { customErrorWindow || (
@@ -360,7 +365,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
         </div>
       );
 
-    if (isEmptyArray(notifications))
+    if (isEmptyArray(notifications) && !error && !isLoading)
       return (
         <div aria-label="siren-empty-state">
           {listEmptyComponent || (
