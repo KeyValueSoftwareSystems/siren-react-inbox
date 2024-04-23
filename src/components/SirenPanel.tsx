@@ -6,7 +6,7 @@ import type {
   NotificationDataType,
   NotificationsApiResponse,
   SirenErrorType,
-} from "@sirenapp/js-sdk/dist/esm/types";
+} from "test_notification/dist/esm/types";
 
 import "../styles/sirenPanel.css";
 import NotificationCard from "./Card";
@@ -91,7 +91,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
   const {
     markAllAsViewed,
     deleteByDate,
-    deleteNotification,
+    deleteById,
   } = useSiren();
   const { siren, verificationStatus } = useSirenContext();
   const {hideHeader = false, hideClearAll = false, customHeader, title = DEFAULT_WINDOW_TITLE} = headerProps ?? {};
@@ -269,17 +269,17 @@ const SirenPanel: FC<SirenPanelProps> = ({
     }
   };
 
-  const deleteById = useCallback(
+  const deleteNotificationById = useCallback(
     async (id: string) => {
       try {
-        const response = await deleteNotification(id);
+        const response = await deleteById(id);
 
         response && triggerOnError(response);
       } catch (er) {
         //  handle error if needed
       }
     },
-    [deleteNotification, triggerOnError]
+    [deleteById, triggerOnError]
   );
 
   const onEndReached = (): void => {
@@ -328,14 +328,14 @@ const SirenPanel: FC<SirenPanelProps> = ({
         notification={item}
         cardProps={cardProps}
         onCardClick={onCardClick}
-        deleteById={deleteById}
+        deleteById={deleteNotificationById}
         styles={styles}
         key={item.id}
         darkMode={darkMode}
         data-testid="notification-card"
       />
     ));
-  }, [notifications, cardProps, onCardClick, deleteById, styles, darkMode]);
+  }, [notifications, cardProps, onCardClick, deleteNotificationById, styles, darkMode]);
 
 
   const renderList = () => {

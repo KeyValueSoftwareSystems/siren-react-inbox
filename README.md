@@ -65,9 +65,9 @@ darkMode | Toggle to enable dark mode |  boolean | false |
 itemsPerFetch | Number of notifications fetch per api request (have a max cap of 50) | number | 20 |
 windowViewOnly | Toggle to enable fit-to-screen window or modal view |  boolean | false |
 notificationIcon | Option to use custom notification Icon |  JSX Element | null |
-headerProps | Props for customizing the header.<br> title - Title of the notification inbox<br> hideHeader - Toggle to hide or show the header section.<br> hideClearAll - Toggle to hide or show the clear all button.<br> customHeader - Custom header component. | InboxHeaderProps| { title: 'Notifications', <br>hideHeader: false,<br> hideClearAll: false, <br>customHeader: null } |
-cardProps | Props for customizing the notification cards. <br>hideDelete - Toggle to hide or show delete icon<br> hideAvatar - Toggle to hide or show the avatar.<br> disableAutoMarkAsRead - Toggle to disable or enable the markAsRead functionality on card click.<br> deleteIcon - Custom delete icon <br> onAvatarClick - Custom click handler for avatar | CardProps | { hideDelete: false,<br> hideAvatar: false,<br> disableAutoMarkAsRead: false, <br> onAvatarClick: ()=>null } |
-notificationCard | Function for rendering custom notification cards | (notification)=> JSX Element | null |
+headerProps | Props for customizing the header.<br> title - Title of the notification inbox<br> hideHeader - Toggle to hide or show the header section.<br> hideClearAll - Toggle to hide or show the clear all button.<br> customHeader - Custom header component. | headerProps| { title: 'Notifications', <br>hideHeader: false,<br> hideClearAll: false, <br>customHeader: null } |
+cardProps | Props for customizing the notification cards. <br>hideDelete - Toggle to hide or show delete icon<br> hideAvatar - Toggle to hide or show the avatar.<br> disableAutoMarkAsRead - Toggle to disable or enable the markAsReadById functionality on card click.<br> deleteIcon - Custom delete icon <br> onAvatarClick - Custom click handler for avatar | CardProps | { hideDelete: false,<br> hideAvatar: false,<br> disableAutoMarkAsRead: false, <br> deleteIcon: null, <br> onAvatarClick: ()=>null } |
+customCard | Function for rendering custom notification cards | (notification)=> JSX Element | null |
 onCardClick | Custom click handler for notification cards | (notification)=> void | ()=>null |
 listEmptyComponent | Custom component for empty notification list | JSX Element | null |
 customFooter | Custom footer component | JSX Element | null |
@@ -125,7 +125,7 @@ type ThemeProps = {
     borderColor?: string,
     background?: string,
     titleColor?: string,
-    subTitleColor?: string,
+    subtitleColor?: string,
     descriptionColor?: string,
   },
   loadMoreButton?: {
@@ -167,9 +167,9 @@ Please note that the badgeStyle, window shadow and border props are only applica
     avatarSize?: number,
     titleFontWeight?: TextStyle["fontWeight"],
     titleSize?: number,
-    subTitleFontWeight?: TextStyle['fontWeight'];
-    subTitleSize?: number
-    descriptionFontWeight?: TextStyle['fontWeight'];
+    subtitleFontWeight?: TextStyle['fontWeight'],
+    subtitleSize?: number,
+    descriptionFontWeight?: TextStyle['fontWeight'],
     descriptionSize?: number,
     dateSize?: number,
   },
@@ -227,19 +227,19 @@ import { useSiren } from "@sirenapp/react-inbox";
 
 function MyComponent() {
   const {
-    markAsRead,
-    deleteNotification,
+    markAsReadById,
+    deleteById,
     markAllNotificationsAsReadByDate,
     clearAllNotificationByDate,
     markAllAsViewed,
   } = useSiren();
 
   function handleMarkAsRead(id) {
-    markAsRead(id);
+    markAsReadById(id);
   }
 
   function handleDeleteNotification(id) {
-    deleteNotification(id);
+    deleteById(id);
   }
 
   function handleMarkAllNotificationsAsReadByDate(untilDate) {
@@ -265,32 +265,11 @@ function MyComponent() {
 Functions | Parameters | Type | Description |
 ----------|------------|-------|------------|
 markAsReadByDate | startDate | ISO date string | Sets the read status of notifications to true until the given date |
-markAsRead | id | string | Set read status of a notification to true          |
-deleteNotification |  id | string  | Delete a notification by id |
+markAsReadById | id | string | Set read status of a notification to true          |
+deleteById |  id | string  | Delete a notification by id |
 deleteByDate | startDate | ISO date string | Delete all notifications until given date |
 markAllAsViewed | startDate | ISO date string |Sets the viewed status of notifications to true until the given date |
 
-## 5. Error codes
-
-Given below are all possible error codes thrown by sdk.
-
-| Error code                  | Description                                                        |
-| --------------------------- | ------------------------------------------------------------------ |
-| AUTHENTICATION_FAILED       | Failed to authenticate given credentials                           |
-| TOKEN_VERIFICATION_FAILED   | Verification of the given tokens has failed                        |
-| TOKEN_VERIFICATION_PENDING  | Authentication in progress                                         |
-| API_ERROR                   | Occurrence of an unexpected api error                              |
-| UNVIEWED_COUNT_FETCH_FAILED | Failed to fetch unviewed notifications count                       |
-| NOTIFICATION_FETCH_FAILED   | Failed to fetch notifications                                      |
-| DELETE_FAILED               | Failed to delete notification                                      |
-| MARK_AS_READ_FAILED         | Failed to mark notification as read                                |
-| BULK_DELETE_FAILED          | Bulk deletion of notifications failed                              |
-| MARK_ALL_AS_READ_FAILED     | Failed to mark all notifications as read                           |
-| MARK_ALL_AS_VIEWED_FAILED   | Failed to mark notification as viewed                              |
-| OUTSIDE_SIREN_CONTEXT       | Attempting to invoke the functions outside the siren inbox context |
-| MISSING_PARAMETER           | The required parameter is missing                                  |
-| UNAUTHORIZED_OPERATION      | This operation require valid credentials                           |
-| INVALID_ERROR_FUNCTION      | The error function passed to sdk is invalid                        |
 
 ## Example
 
@@ -328,6 +307,8 @@ export function MyContainer(): React.JSX.Element {
           hideDelete: false,
           hideAvatar: false,
           disableAutoMarkAsRead: false,
+          deleteIcon: null,
+          onAvatarClick: () => null,
         }}
       />
     </div>

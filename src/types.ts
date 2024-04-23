@@ -3,7 +3,7 @@ import type { CSSProperties } from "react";
 import type {
   NotificationDataType,
   SirenErrorType,
-} from "@sirenapp/js-sdk/dist/esm/types";
+} from "test_notification/dist/esm/types";
 
 export type SirenInboxProps = {
   theme?: Theme;
@@ -166,8 +166,8 @@ export type CustomStyle = {
     avatarSize?: number;
     titleFontWeight?: TextStyle["fontWeight"];
     titleSize?: number;
-    subTitleFontWeight?: TextStyle['fontWeight'];
-    subTitleSize?: number
+    subtitleFontWeight?: TextStyle['fontWeight'];
+    subtitleSize?: number
     descriptionFontWeight?: TextStyle['fontWeight'];
     descriptionSize?: number;
     dateSize?: number;
@@ -218,7 +218,7 @@ type NotificationCardThemeProps = {
   borderColor?: string;
   background?: string;
   titleColor?: string;
-  subTitleColor?: string;
+  subtitleColor?: string;
   descriptionColor?: string;
 };
 type LoadMoreButtonProps = {

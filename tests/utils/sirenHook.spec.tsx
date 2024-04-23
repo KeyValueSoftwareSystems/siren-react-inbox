@@ -1,4 +1,4 @@
-import type { Siren } from "@sirenapp/js-sdk";
+import type { Siren } from "test_notification";
 
 import { useSiren } from "../../src";
 import * as sirenProvider from "../../src/components/SirenProvider";
@@ -103,8 +103,8 @@ describe("useSiren hook", () => {
       verificationStatus: VerificationStatus.SUCCESS
     });
 
-    const { markAsRead } = useSiren();
-    const response = await markAsRead("xyz");
+    const { markAsReadById } = useSiren();
+    const response = await markAsReadById("xyz");
 
     expect(mockSirenCore.markAsReadById).toHaveBeenCalledWith(
       "xyz"
@@ -128,8 +128,8 @@ describe("useSiren hook", () => {
       verificationStatus: VerificationStatus.SUCCESS
     });
 
-    const { markAsRead } = useSiren();
-    const response = await markAsRead("xyz");
+    const { markAsReadById } = useSiren();
+    const response = await markAsReadById("xyz");
 
     expect(mockSirenCore.markAsReadById).toHaveBeenCalledWith(
       "xyz"
@@ -147,8 +147,8 @@ describe("useSiren hook", () => {
       verificationStatus: VerificationStatus.SUCCESS
     });
 
-    const { markAsRead } = useSiren();
-    const response = await markAsRead(undefined as unknown as string);
+    const { markAsReadById } = useSiren();
+    const response = await markAsReadById(undefined as unknown as string);
 
     expect(response).toEqual({
       error: errorMap.MISSING_PARAMETER,
@@ -198,8 +198,8 @@ describe("useSiren hook", () => {
       verificationStatus: VerificationStatus.SUCCESS
     });
 
-    const { deleteNotification } = useSiren();
-    const response = await deleteNotification("xyz");
+    const { deleteById } = useSiren();
+    const response = await deleteById("xyz");
 
     expect(mockSirenCore.deleteById).toHaveBeenCalledWith("xyz");
     expect(response).toEqual(ActionResponse);
@@ -213,8 +213,8 @@ describe("useSiren hook", () => {
       verificationStatus: VerificationStatus.SUCCESS
     });
 
-    const { deleteNotification } = useSiren();
-    const response = await deleteNotification(undefined as unknown as string);
+    const { deleteById } = useSiren();
+    const response = await deleteById(undefined as unknown as string);
 
     expect(response).toEqual({
       error: errorMap.MISSING_PARAMETER,

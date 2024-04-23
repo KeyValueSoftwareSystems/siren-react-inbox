@@ -54,7 +54,7 @@ const Card: FC<NotificationCardProps> = ({
   const { avatar, header, subHeader, body } = message;
   const { hideAvatar, hideDelete, disableAutoMarkAsRead, deleteIcon = null, onAvatarClick } =  cardProps ?? {};
   const {
-    markAsRead
+    markAsReadById
   } = useSiren();
 
   const onDelete = (event: React.MouseEvent) => {
@@ -84,7 +84,7 @@ const Card: FC<NotificationCardProps> = ({
 
   const handleNotificationCardClick = () => {
     onCardClick && onCardClick(notification);
-    !disableAutoMarkAsRead && markAsRead(notification.id);
+    !disableAutoMarkAsRead && markAsReadById(notification.id);
   };
 
   const handleAvatarClick = (event: React.MouseEvent) => {

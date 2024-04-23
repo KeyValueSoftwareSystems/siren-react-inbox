@@ -4,7 +4,7 @@ import type {
   ActionResponse,
   NotificationDataType,
   NotificationsApiResponse,
-} from "@sirenapp/js-sdk/dist/esm/types";
+} from "test_notification/dist/esm/types";
 
 import {
   defaultBadgeStyle,
@@ -235,14 +235,14 @@ export const applyTheme = (
     },
     cardSubTitle: {
       color:
-        theme.notificationCard?.subTitleColor ||
+        theme.notificationCard?.subtitleColor ||
         theme.colors?.textColor ||
-        DefaultTheme[mode].notificationCard.subTitleColor,
+        DefaultTheme[mode].notificationCard.subtitleColor,
       fontSize:
-        customStyle.notificationCard?.subTitleSize || DefaultStyle.notificationCard.subTitleSize,
+        customStyle.notificationCard?.subtitleSize || DefaultStyle.notificationCard.subtitleSize,
       fontWeight:
-        customStyle.notificationCard?.subTitleFontWeight ||
-        DefaultStyle.notificationCard.subTitleFontWeight,
+        customStyle.notificationCard?.subtitleFontWeight ||
+        DefaultStyle.notificationCard.subtitleFontWeight,
     },
     activeCardMarker: {
       backgroundColor:

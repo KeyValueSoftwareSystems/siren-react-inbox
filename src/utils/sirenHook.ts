@@ -6,7 +6,7 @@ import { useSirenContext } from "../components/SirenProvider";
 const useSiren = () => {
   const { siren } = useSirenContext();
 
-  const markAsRead = async (id: string) => {
+  const markAsReadById = async (id: string) => {
     if (siren)
       if (id?.length > 0) {
         const response = await siren?.markAsReadById(id);
@@ -43,7 +43,7 @@ const useSiren = () => {
 
     return { error: errorMap.SIREN_OBJECT_NOT_FOUND };
   };
-  const deleteNotification = async (id: string) => {
+  const deleteById = async (id: string) => {
     if (siren)
       if (id?.length > 0) {
         const response = await siren?.deleteById(id);
@@ -105,8 +105,8 @@ const useSiren = () => {
 
   return {
     markAsReadByDate,
-    markAsRead,
-    deleteNotification,
+    markAsReadById,
+    deleteById,
     deleteByDate,
     markAllAsViewed,
   };

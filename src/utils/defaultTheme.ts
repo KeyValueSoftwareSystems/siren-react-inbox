@@ -31,7 +31,7 @@ const defaultTheme = {
       borderColor: COLORS[ThemeMode.LIGHT].borderColor,
       titleColor: COLORS[ThemeMode.LIGHT].textColor,
       background: "transparent",
-      subTitleColor: COLORS[ThemeMode.LIGHT].textColor,
+      subtitleColor: COLORS[ThemeMode.LIGHT].textColor,
       descriptionColor: COLORS[ThemeMode.LIGHT].textColor,
     },
     loadMoreButton: {
@@ -80,7 +80,7 @@ const defaultTheme = {
       borderColor: COLORS[ThemeMode.DARK].borderColor,
       background: "transparent",
       titleColor: COLORS[ThemeMode.DARK].textColor,
-      subTitleColor: COLORS[ThemeMode.DARK].textColor,
+      subtitleColor: COLORS[ThemeMode.DARK].textColor,
       descriptionColor: COLORS[ThemeMode.DARK].textColor,
     },
     loadMoreButton: {
