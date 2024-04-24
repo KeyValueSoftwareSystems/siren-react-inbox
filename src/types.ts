@@ -24,7 +24,7 @@ export type SirenInboxProps = {
   customFooter?: JSX.Element;
   customLoader?: JSX.Element;
   customErrorWindow?: JSX.Element;
-  notificationCard?: (notification: NotificationDataType) => JSX.Element;
+  customCard?: (notification: NotificationDataType) => JSX.Element;
   onCardClick?: (notification: NotificationDataType) => void;
   onError?: (error: SirenErrorType) => void;
 };
@@ -78,7 +78,7 @@ export type SirenPanelProps = Pick<
   | "hideBadge"
   | "cardProps"
   | "customFooter"
-  | "notificationCard"
+  | "customCard"
   | "onCardClick"
   | "headerProps"
   | "customLoader"
@@ -133,7 +133,7 @@ export type ThemeProps = {
   window?: WindowProps;
   windowHeader?: WindowHeaderProps;
   windowContainer?: WindowContainerProps;
-  notificationCard?: NotificationCardThemeProps;
+  customCard?: NotificationCardThemeProps;
   loadMoreButton?: LoadMoreButtonProps;
   badgeStyle?: {
     color?: string;
@@ -160,7 +160,7 @@ export type CustomStyle = {
     padding?: number;
     contentHeight?: DimensionValue;
   };
-  notificationCard?: {
+  customCard?: {
     padding?: number;
     borderWidth?: number;
     avatarSize?: number;

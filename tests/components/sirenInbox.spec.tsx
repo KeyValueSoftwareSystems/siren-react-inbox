@@ -94,7 +94,7 @@ const props = {
   noOfNotificationsPerFetch: 10,
   darkMode: true,
   onCardClick: undefined,
-  notificationCard: undefined,
+  customCard: undefined,
   windowViewOnly: false,
   notificationIcon: undefined,
   onError: mockErrorFn,

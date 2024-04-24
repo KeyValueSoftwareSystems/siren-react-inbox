@@ -118,7 +118,7 @@ type ThemeProps = {
   windowContainer?: {
     background?: string,
   },
-  notificationCard?: {
+  customCard?: {
     borderColor?: string,
     background?: string,
     titleColor?: string,
@@ -158,7 +158,7 @@ Please note that the badgeStyle, window shadow and border props are only applica
     padding?: number,
     contentHeight?: DimensionValue,
   },
-  notificationCard?: {
+  customCard?: {
     padding?: number,
     borderWidth?: number,
     avatarSize?: number,

@@ -41,7 +41,7 @@ import useSiren from "../utils/sirenHook";
  *   renderListEmpty={() => <div>No notifications</div>}
  *   customFooter={<FooterComponent />}
  *   customHeader={<CustomHeader />}
- *   notificationCard={(dataItem) => <CustomNotificationCard data={dataItem} />}
+ *   customCard={(dataItem) => <CustomNotificationCard data={dataItem} />}
  *   onCardClick={(notification) => console.log('Notification clicked', notification)}
  * />
  *
@@ -56,7 +56,7 @@ import useSiren from "../utils/sirenHook";
  * @param {ReactNode} pros.customLoader - Custom Loader component to be rendered while fetching notification list for the first time
  * @param {ReactNode} pros.loadMoreComponent -Custom load more component to be rendered
  * @param {ReactNode} props.customErrorWindow -Custom error window component to be rendered when there is an error
- * @param {Function} props.notificationCard - Function to render custom notification cards.
+ * @param {Function} props.customCard - Function to render custom notification cards.
  * @param {Function} props.onCardClick - Callback function executed when a notification card is clicked.
  * @param {DimensionValue} props.modalWidth - The width of the notification panel.
  * @returns {ReactElement} The rendered SirenInbox component.
@@ -83,7 +83,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
   listEmptyComponent,
   customErrorWindow,
   noOfNotificationsPerFetch,
-  notificationCard,
+  customCard,
   onCardClick,
   onError,
   modalWidth,
@@ -378,8 +378,8 @@ const SirenPanel: FC<SirenPanelProps> = ({
         </div>     
       );
 
-    if (notificationCard)
-      return notifications.map((item) => notificationCard(item));
+    if (customCard)
+      return notifications.map((item) => customCard(item));
 
     return renderedListItems;
   };

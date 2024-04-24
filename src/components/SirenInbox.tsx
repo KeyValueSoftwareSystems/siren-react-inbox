@@ -1,5 +1,6 @@
 import React, { type FC, useEffect, useMemo, useRef, useState } from "react";
 
+import "../styles/sirenInbox.css";
 import NotificationButton from "./SirenNotificationIcon";
 import SirenPanel from "./SirenPanel";
 import { useSirenContext } from "./SirenProvider";
@@ -17,7 +18,6 @@ import {
   MAXIMUM_ITEMS_PER_FETCH,
   ThemeMode,
 } from "../utils/constants";
-import "../styles/sirenInbox.css";
 
 
 /**
@@ -33,7 +33,7 @@ import "../styles/sirenInbox.css";
  * @param {ReactNode} [props.notificationIcon] - The notification icon for the window
  * @param {JSX.Element} [props.listEmptyComponent] - JSX element for rendering when the list is empty
  * @param {JSX.Element} [props.customFooter] - Custom footer JSX element for the window
- * @param {Function} [props.notificationCard] - Function to render custom notification card
+ * @param {Function} [props.customCard] - Function to render custom notification card
  * @param {Function} [props.onCardClick] - Handler for notification card click event
  * @param {Function} [props.onError] - Handler for error events
  * @param {number} [props.noOfNotificationsPerFetch] - The number of notifications to fetch per request
@@ -58,7 +58,7 @@ const SirenInbox: FC<SirenProps> = ({
   customLoader,
   customErrorWindow,
   loadMoreComponent,
-  notificationCard,
+  customCard,
   onCardClick,
   onError,
   itemsPerFetch = 20,
@@ -181,7 +181,7 @@ const SirenInbox: FC<SirenProps> = ({
             headerProps={headerProps}
             cardProps={cardProps}
             customFooter={customFooter}
-            notificationCard={notificationCard}
+            customCard={customCard}
             onCardClick={onCardClick}
             onError={onError}
             listEmptyComponent={listEmptyComponent}

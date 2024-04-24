@@ -26,7 +26,7 @@ const props = {
   customFooter: undefined,
   customHeader: undefined,
   onCardClick: undefined,
-  notificationCard: undefined,
+  customCard: undefined,
   onError: mockErrorFn,
   listEmptyComponent: undefined,
   noOfNotificationsPerFetch: 10,

@@ -193,56 +193,56 @@ export const applyTheme = (
     },
     defaultCardContainer: {
       backgroundColor:
-        theme.notificationCard?.background ||
-        DefaultTheme[mode].notificationCard.background,
+        theme.customCard?.background ||
+        DefaultTheme[mode].customCard.background,
       padding:
-        customStyle.notificationCard?.padding ||
-        DefaultStyle.notificationCard.padding,
+        customStyle.customCard?.padding ||
+        DefaultStyle.customCard.padding,
       borderBottom: `${
-        customStyle.notificationCard?.borderWidth ||
-        DefaultStyle.notificationCard.borderWidth
+        customStyle.customCard?.borderWidth ||
+        DefaultStyle.customCard.borderWidth
       }px solid`,
       borderColor:
-        theme.notificationCard?.borderColor ||
+        theme.customCard?.borderColor ||
         theme.colors?.borderColor ||
-        DefaultTheme[mode].notificationCard.borderColor,
+        DefaultTheme[mode].customCard.borderColor,
     },
     cardIconRound: {
       width:
-        customStyle.notificationCard?.avatarSize ||
-        DefaultStyle.notificationCard.avatarSize,
+        customStyle.customCard?.avatarSize ||
+        DefaultStyle.customCard.avatarSize,
       height:
-        customStyle.notificationCard?.avatarSize ||
-        DefaultStyle.notificationCard.avatarSize,
+        customStyle.customCard?.avatarSize ||
+        DefaultStyle.customCard.avatarSize,
       borderRadius:
-        (customStyle.notificationCard?.avatarSize ||
-          DefaultStyle.notificationCard.avatarSize) / 2,
+        (customStyle.customCard?.avatarSize ||
+          DefaultStyle.customCard.avatarSize) / 2,
       overflow: "hidden",
       backgroundColor:
         theme.colors?.borderColor || DefaultTheme[mode].colors.borderColor,
     },
     cardTitle: {
       color:
-        theme.notificationCard?.titleColor ||
+        theme.customCard?.titleColor ||
         theme.colors?.textColor ||
-        DefaultTheme[mode].notificationCard.titleColor,
+        DefaultTheme[mode].customCard.titleColor,
       fontSize:
-        customStyle.notificationCard?.titleSize ||
-        DefaultStyle.notificationCard.titleSize,
+        customStyle.customCard?.titleSize ||
+        DefaultStyle.customCard.titleSize,
       fontWeight:
-        customStyle.notificationCard?.titleFontWeight ||
-        DefaultStyle.notificationCard.titleFontWeight,
+        customStyle.customCard?.titleFontWeight ||
+        DefaultStyle.customCard.titleFontWeight,
     },
     cardSubTitle: {
       color:
-        theme.notificationCard?.subtitleColor ||
+        theme.customCard?.subtitleColor ||
         theme.colors?.textColor ||
-        DefaultTheme[mode].notificationCard.subtitleColor,
+        DefaultTheme[mode].customCard.subtitleColor,
       fontSize:
-        customStyle.notificationCard?.subtitleSize || DefaultStyle.notificationCard.subtitleSize,
+        customStyle.customCard?.subtitleSize || DefaultStyle.customCard.subtitleSize,
       fontWeight:
-        customStyle.notificationCard?.subtitleFontWeight ||
-        DefaultStyle.notificationCard.subtitleFontWeight,
+        customStyle.customCard?.subtitleFontWeight ||
+        DefaultStyle.customCard.subtitleFontWeight,
     },
     activeCardMarker: {
       backgroundColor:
@@ -253,21 +253,21 @@ export const applyTheme = (
     },
     cardDescription: {
       color:
-        theme.notificationCard?.descriptionColor ||
+        theme.customCard?.descriptionColor ||
         theme.colors?.textColor ||
-        DefaultTheme[mode].notificationCard.descriptionColor,
+        DefaultTheme[mode].customCard.descriptionColor,
       fontSize:
-        customStyle.notificationCard?.descriptionSize ||
-        DefaultStyle.notificationCard.descriptionSize,
+        customStyle.customCard?.descriptionSize ||
+        DefaultStyle.customCard.descriptionSize,
       fontWeight:
-      customStyle.notificationCard?.descriptionFontWeight ||
-      DefaultStyle.notificationCard.descriptionFontWeight,
+      customStyle.customCard?.descriptionFontWeight ||
+      DefaultStyle.customCard.descriptionFontWeight,
     },
     dateStyle: {
       color: theme.colors?.dateColor || DefaultTheme[mode].colors.dateColor,
       fontSize:
-        customStyle.notificationCard?.dateSize ||
-        DefaultStyle.notificationCard.dateSize,
+        customStyle.customCard?.dateSize ||
+        DefaultStyle.customCard.dateSize,
       lineHeight: "16px",
     },
     emptyText: {

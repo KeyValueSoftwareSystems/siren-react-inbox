@@ -20,7 +20,7 @@ const defaultStyles = {
     padding: 0,
     height: 700,
   },
-  notificationCard: {
+  customCard: {
     padding: 12,
     borderWidth: 0.5,
     avatarSize: 40,

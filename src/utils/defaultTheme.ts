@@ -27,7 +27,7 @@ const defaultTheme = {
     windowContainer: {
       background: COLORS[ThemeMode.LIGHT].neutralColor,
     },
-    notificationCard: {
+    customCard: {
       borderColor: COLORS[ThemeMode.LIGHT].borderColor,
       titleColor: COLORS[ThemeMode.LIGHT].textColor,
       background: "transparent",
@@ -76,7 +76,7 @@ const defaultTheme = {
     windowContainer: {
       background: COLORS[ThemeMode.DARK].neutralColor,
     },
-    notificationCard: {
+    customCard: {
       borderColor: COLORS[ThemeMode.DARK].borderColor,
       background: "transparent",
       titleColor: COLORS[ThemeMode.DARK].textColor,

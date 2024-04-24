@@ -261,7 +261,7 @@ const App: React.FC = () => {
         listEmptyComponent={
           showCustomEmptyComponent ? renderListEmpty() : undefined
         }
-        notificationCard={
+        customCard={
           showCustomNotificationCard
             ? (notification: any) => renderCustomNotificationCard(notification)
             : undefined
