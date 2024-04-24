@@ -65,7 +65,7 @@ darkMode | Toggle to enable dark mode |  boolean | false |
 itemsPerFetch | Number of notifications fetch per api request (have a max cap of 50) | number | 20 |
 windowViewOnly | Toggle to enable fit-to-screen window or modal view |  boolean | false |
 notificationIcon | Option to use custom notification Icon |  JSX Element | null |
-headerProps | Props for customizing the header.<br> title - Title of the notification inbox<br> hideHeader - Toggle to hide or show the header section.<br> hideClearAll - Toggle to hide or show the clear all button.<br> customHeader - Custom header component. | headerProps| { title: 'Notifications', <br>hideHeader: false,<br> hideClearAll: false, <br>customHeader: null } |
+headerProps | Props for customizing the header.<br> title - Title of the notification inbox<br> hideHeader - Toggle to hide or show the header section.<br> hideClearAll - Toggle to hide or show the clear all button.<br> customHeader - Custom header component. | HeaderProps| { title: 'Notifications', <br>hideHeader: false,<br> hideClearAll: false, <br>customHeader: null } |
 cardProps | Props for customizing the notification cards. <br>hideDelete - Toggle to hide or show delete icon<br> hideAvatar - Toggle to hide or show the avatar.<br> disableAutoMarkAsRead - Toggle to disable or enable the markAsReadById functionality on card click.<br> deleteIcon - Custom delete icon <br> onAvatarClick - Custom click handler for avatar | CardProps | { hideDelete: false,<br> hideAvatar: false,<br> disableAutoMarkAsRead: false, <br> deleteIcon: null, <br> onAvatarClick: ()=>null } |
 customCard | Function for rendering custom notification cards | (notification)=> JSX Element | null |
 onCardClick | Custom click handler for notification cards | (notification)=> void | ()=>null |
@@ -108,9 +108,6 @@ type ThemeProps = {
   badgeStyle?: {
     color?: string,
     textColor?: string,
-  },
-  window?: {
-    borderColor?: string,
   },
   windowHeader?: {
     background?: string,
@@ -228,30 +225,10 @@ import { useSiren } from "@sirenapp/react-inbox";
 function MyComponent() {
   const {
     markAsReadById,
-    deleteById,
-    markAllNotificationsAsReadByDate,
-    clearAllNotificationByDate,
-    markAllAsViewed,
   } = useSiren();
 
   function handleMarkAsRead(id) {
     markAsReadById(id);
-  }
-
-  function handleDeleteNotification(id) {
-    deleteById(id);
-  }
-
-  function handleMarkAllNotificationsAsReadByDate(untilDate) {
-    markAsReadByDate(untilDate);
-  }
-
-  function handleClearAllNotificationByDate(untilDate) {
-    deleteByDate(untilDate);
-  }
-
-  function handleMarkNotificationsAsViewed(untilDate) {
-    markAllAsViewed(untilDate);
   }
 
   return {
