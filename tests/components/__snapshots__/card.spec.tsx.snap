@@ -16,13 +16,13 @@ exports[`matches snapshot 1`] = `
       class="siren-sdk-card-content-wrapper"
     >
       <div
-        class="siren-sdk-card-text-break"
+        class="siren-sdk-card-text-break siren-sdk-card-title"
         style="color: rgb(255, 255, 255); font-size: 14px; font-weight: 600;"
       >
         New Message
       </div>
       <div
-        class="siren-sdk-card-text-break"
+        class="siren-sdk-card-text-break siren-sdk-card-subtitle"
         style="color: rgb(255, 255, 255); font-size: 14px; font-weight: 500;"
       >
         New post
@@ -53,6 +53,7 @@ exports[`matches snapshot 1`] = `
           />
         </svg>
         <div
+          class="siren-sdk-card-date-label"
           style="color: rgb(152, 162, 179); font-size: 12px; line-height: 16px;"
         >
           NaN years ago
@@ -72,7 +73,7 @@ exports[`matches snapshot 1`] = `
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M5 15L15 5M5 5L15 15"
+          d="M1 11L11 1M1 1L11 11"
           stroke="#D0D5DD"
           stroke-linecap="round"
           stroke-linejoin="round"

@@ -16,7 +16,7 @@ const CloseIcon: FC<IconProps> = ({ color = '#98A2B3', size= 20 }) => {
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        d="M5 15L15 5M5 5L15 15"
+        d="M1 11L11 1M1 1L11 11"
         stroke={color}
         strokeWidth="2"
         strokeLinecap="round"
