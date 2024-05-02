@@ -51,11 +51,13 @@ const Card: FC<NotificationCardProps> = ({
   deleteById,
 }) => {
   const { id, createdAt, message, isRead } = notification;
-  const { avatar, header, subHeader, body } = message;
-  const { hideAvatar, hideDelete, disableAutoMarkAsRead, deleteIcon = null, onAvatarClick } =  cardProps ?? {};
+  const { avatar, header, subHeader, body, thumbnailUrl } = message;
+  const { hideAvatar, hideDelete, hideMediaThumbnail, disableAutoMarkAsRead, deleteIcon = null, onAvatarClick, onMediaThumbnailClick } = cardProps ?? {};
   const {
     markAsReadById
   } = useSiren();
+
+  const defaultAvatar = darkMode ? defaultAvatarDark : defaultAvatarLight;
 
   const onDelete = (event: React.MouseEvent) => {
     const cardElement = event.currentTarget.closest(
@@ -65,12 +67,11 @@ const Card: FC<NotificationCardProps> = ({
     cardElement?.classList.add("siren-sdk-delete-animation");
     setTimeout(() => {
       deleteById(id);
-    }, 200); 
-    
+    }, 200);
+
     event.stopPropagation();
   };
 
-  const defaultAvatar = darkMode ? defaultAvatarDark : defaultAvatarLight;
   const cardContainerStyle: CSSProperties = isRead
     ? {
       ...styles.defaultCardContainer,
@@ -92,13 +93,17 @@ const Card: FC<NotificationCardProps> = ({
     event.stopPropagation();
   };
 
+  const handleMediaClick = (event: React.MouseEvent) => {
+    onMediaThumbnailClick && onMediaThumbnailClick(notification);
+    event.stopPropagation();
+  };
+
   return (
     <div
       style={cardContainerStyle}
-      className={`${
-        hideAvatar
-          ? "siren-sdk-hide-avatar-card-container"
-          : "siren-sdk-card-container"
+      className={`${hideAvatar
+        ? "siren-sdk-hide-avatar-card-container"
+        : "siren-sdk-card-container"
       } siren-sdk-card-common-container`}
       onClick={handleNotificationCardClick}
       aria-label={`siren-notification-card-${notification.id}`}
@@ -133,6 +138,17 @@ const Card: FC<NotificationCardProps> = ({
         >
           {body}
         </div>
+        {!hideMediaThumbnail && (
+          <div 
+            className="siren-sdk-card-thumbnail-container" 
+            style={{...(onAvatarClick && { cursor: "pointer" })}}
+            onClick={handleMediaClick}>
+            <img
+              className={`siren-sdk-card-thumbnail-image ${thumbnailUrl ? 'siren-sdk-card-thumbnail-with-image' : ''}`}
+              src={thumbnailUrl || defaultAvatar}
+            />
+          </div>
+        )}
         <div className="siren-sdk-card-date-container">
           <TimerIcon
             color={styles.timerIcon.color}

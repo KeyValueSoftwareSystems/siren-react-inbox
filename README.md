@@ -66,7 +66,7 @@ itemsPerFetch | Number of notifications fetch per api request (have a max cap of
 windowViewOnly | Toggle to enable fit-to-screen window or modal view |  boolean | false |
 notificationIcon | Option to use custom notification Icon |  JSX Element | null |
 headerProps | Props for customizing the header.<br> title - Title of the notification inbox<br> hideHeader - Toggle to hide or show the header section.<br> hideClearAll - Toggle to hide or show the clear all button.<br> customHeader - Custom header component. | HeaderProps| { title: 'Notifications', <br>hideHeader: false,<br> hideClearAll: false, <br>customHeader: null } |
-cardProps | Props for customizing the notification cards. <br>hideDelete - Toggle to hide or show delete icon<br> hideAvatar - Toggle to hide or show the avatar.<br> disableAutoMarkAsRead - Toggle to disable or enable the markAsReadById functionality on card click.<br> deleteIcon - Custom delete icon <br> onAvatarClick - Custom click handler for avatar | CardProps | { hideDelete: false,<br> hideAvatar: false,<br> disableAutoMarkAsRead: false, <br> deleteIcon: null, <br> onAvatarClick: ()=>null } |
+cardProps | Props for customizing the notification cards. <br>hideDelete - Toggle to hide or show delete icon<br> hideAvatar - Toggle to hide or show the avatar.<br> hideMediaThumbnail - Toggle to hide or show thumbnail image<br> disableAutoMarkAsRead - Toggle to disable or enable the markAsReadById functionality on card click.<br> deleteIcon - Custom delete icon <br> onAvatarClick - Custom click handler for avatar <br> onMediaThumbnailClick - Custom click handler for media thumbnail | CardProps | { hideDelete: false,<br> hideAvatar: false,<br> disableAutoMarkAsRead: false, <br> hideMediaThumbnail: false, <br>deleteIcon: null, <br> onAvatarClick: ()=>null,<br> onMediaThumbnailClick: () => null } |
 customCard | Function for rendering custom notification cards | (notification)=> JSX Element | null |
 onCardClick | Custom click handler for notification cards | (notification)=> void | ()=>null |
 listEmptyComponent | Custom component for empty notification list | JSX Element | null |
@@ -196,11 +196,13 @@ Please note that the badgeStyle, window shadow and border props are only applica
 
 ```js
     type CardProps = {
-      hideDelete?: boolean;
+      hideDelete?: boolean,
       hideAvatar?: boolean,
+      hideMediaThumbnail?: boolean,
       disableAutoMarkAsRead?: boolean,
-      deleteIcon?: JSX.Element;
+      deleteIcon?: JSX.Element,
       onAvatarClick?: () => void,
+      onMediaThumbnailClick?: () => void;
     };
 ```
 
@@ -208,7 +210,7 @@ Please note that the badgeStyle, window shadow and border props are only applica
 
 ```js
     type InboxHeaderProps = {
-      title?: string;
+      title?: string,
       hideHeader?: boolean,
       hideClearAll?: boolean,
       customHeader?: JSX.Element | null,

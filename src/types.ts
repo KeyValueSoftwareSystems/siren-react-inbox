@@ -49,11 +49,12 @@ export type SirenProps = SirenInboxProps &
 
 export type CardProps = {
   hideAvatar?: boolean;
-  showMedia?: boolean;
+  hideMediaThumbnail?: boolean;
   hideDelete?: boolean;
   disableAutoMarkAsRead?: boolean;
   deleteIcon?: JSX.Element;
   onAvatarClick?: (notification: NotificationDataType) => void;
+  onMediaThumbnailClick?: (notification: NotificationDataType) => void;
 };
 
 export type NotificationCardProps = {
