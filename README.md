@@ -89,9 +89,6 @@ type Theme = {
 };
 
 type ThemeProps = {
-  notificationIcon?: {
-    size?: number,
-  },
   colors?: {
     primaryColor?: string,
     textColor?: string,
