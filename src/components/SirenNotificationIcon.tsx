@@ -23,16 +23,17 @@ const { eventTypes, events } = Constants;
 
 const SirenNotificationIcon: FC<SirenNotificationButtonProps> = ({
   notificationIcon,
-  badgeType,
   styles,
   onIconClick,
   darkMode,
   hideBadge,
+  isModalOpen,
 }) => {
   const { siren } = useSirenContext();
 
   const [unviewedCount, seUnviewedCount] = useState<number>(0);
-
+  const badgeType= isModalOpen ? BadgeType.NONE : BadgeType.DEFAULT;
+  
   const notificationCountSubscriber = async (
     type: string,
     dataString: string
@@ -57,7 +58,8 @@ const SirenNotificationIcon: FC<SirenNotificationButtonProps> = ({
   }, []);
 
   useEffect(() => {
-    if(!hideBadge) 
+    // Check to avoid calling getUnViewedCount when the badge is hidden and the modal is open, and when either the siren object or hideBadge state changes.
+    if(!hideBadge && !isModalOpen) 
       getUnViewedCount();
     
   }, [siren, hideBadge]);
@@ -95,7 +97,7 @@ const SirenNotificationIcon: FC<SirenNotificationButtonProps> = ({
   );
 
   const renderBadge = () => {
-    switch (badgeType) {
+    switch (badgeType as BadgeType) {
       case BadgeType.DEFAULT: {
         return (
           unviewedCount > 0 && (
