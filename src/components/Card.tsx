@@ -1,10 +1,12 @@
 import type { CSSProperties } from "react";
-import React, { type FC } from "react";
+import React, { type FC, useEffect, useState } from "react";
 
 import CloseIcon from "./CloseIcon";
 import TimerIcon from "./TimerIcon";
 import defaultAvatarDark from "../assets/dark/defaultAvatarDark.png";
+import failedImageDark from "../assets/dark/failedImageDark.svg";
 import defaultAvatarLight from "../assets/light/defaultAvatarLight.png";
+import failedImageLight from "../assets/light/failedImageLight.svg";
 import type { NotificationCardProps } from "../types";
 import { generateElapsedTimeText } from "../utils/commonUtils";
 import "../styles/card.css";
@@ -58,6 +60,7 @@ const Card: FC<NotificationCardProps> = ({
   } = useSiren();
 
   const defaultAvatar = darkMode ? defaultAvatarDark : defaultAvatarLight;
+  const failedImage = darkMode ? failedImageDark: failedImageLight;
 
   const onDelete = (event: React.MouseEvent) => {
     const cardElement = event.currentTarget.closest(
@@ -96,6 +99,37 @@ const Card: FC<NotificationCardProps> = ({
   const handleMediaClick = (event: React.MouseEvent) => {
     onMediaThumbnailClick && onMediaThumbnailClick(notification);
     event.stopPropagation();
+  };
+
+  const [imageLoaded, setImageLoaded] = useState(true); // Initially assume image is loaded
+
+  const emptyState = () => {
+    return defaultAvatar;
+  };
+
+  const failedState = () => {
+    return failedImage;
+  };
+
+  const [imageSource, setImageSource] = useState(
+    notification?.message?.avatar?.imageUrl?.length > 0
+      ? thumbnailUrl
+      : emptyState()
+  );
+
+
+  useEffect(() => {
+    setImageSource(
+      notification?.message?.avatar?.imageUrl?.length > 0
+        ? thumbnailUrl
+        : emptyState()
+    );
+  }, [notification, darkMode]);
+
+  const onErrorMedia = (event: any): void => {
+    setImageLoaded(false);
+    setImageSource(failedState());
+    event.target.classList.add('siren-sdk-card-thumbnail-error');
   };
 
   return (
@@ -138,14 +172,16 @@ const Card: FC<NotificationCardProps> = ({
         >
           {body}
         </div>
-        {!hideMediaThumbnail && (
+        {!hideMediaThumbnail && thumbnailUrl &&(
           <div 
             className="siren-sdk-card-thumbnail-container" 
-            style={{...(onAvatarClick && { cursor: "pointer" })}}
+            style={{...(onAvatarClick && { cursor: "pointer" }),
+              backgroundColor: darkMode ? '#4C4C4C' : '#F0F2F5'}}
             onClick={handleMediaClick}>
             <img
-              className={`siren-sdk-card-thumbnail-image ${thumbnailUrl ? 'siren-sdk-card-thumbnail-with-image' : ''}`}
-              src={thumbnailUrl || defaultAvatar}
+              className={`siren-sdk-card-thumbnail-image ${thumbnailUrl && imageLoaded ? 'siren-sdk-card-thumbnail-with-image' : ''}`}
+              src={imageSource}
+              onError={onErrorMedia}
             />
           </div>
         )}

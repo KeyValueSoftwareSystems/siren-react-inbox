@@ -25,20 +25,24 @@
 
 .siren-sdk-card-thumbnail-container{
   width: 106%;
-  height: 140px;
-  background-color: #D3D3D3;
+  height: 130px;
   display: flex;
   justify-content: center;
+  align-items: center;
   border-radius: 6px;
 }
 
+.siren-sdk-card-thumbnail-error{
+  height: 26px !important;
+}
+
 .siren-sdk-card-thumbnail-image {
-  height: 100%; 
-  object-fit: cover;
   border-radius: 6px;
 }
 
 .siren-sdk-card-thumbnail-with-image {
+  height: 100%; 
+  object-fit: cover;
   width: 100%;
 }
 
