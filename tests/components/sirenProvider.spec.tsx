@@ -1,11 +1,11 @@
 import React from "react";
 
-import { Siren } from "@sirenapp/js-sdk";
 import { render } from "@testing-library/react";
+import { Siren } from "test_notification";
 
 import SirenProvider from "../../src/components/SirenProvider"; // Replace with your path
 
-jest.mock("@sirenapp/js-sdk");
+jest.mock("test_notification");
 
 describe("SirenProvider", () => {
   it("should render children", () => {
@@ -29,16 +29,14 @@ describe("SirenProvider", () => {
       </SirenProvider>
     );
     const mocErrorFn = jest.fn();
-    const mockNotificationHandler = jest.fn();
-    const mockCountHandler = jest.fn();
+    const mockEventHandler = jest.fn();
 
     const sirenObject = new Siren({
       token: "user-token",
       recipientId: "recipient-id",
       onError: mocErrorFn,
       actionCallbacks: {
-        onNotificationReceived: mockNotificationHandler,
-        onUnViewedCountReceived: mockCountHandler,
+        onEventReceive: mockEventHandler,
       },
     });
 

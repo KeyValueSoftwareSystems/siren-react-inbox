@@ -1,5 +1,6 @@
 import React, { type FC, useEffect, useMemo, useRef, useState } from "react";
 
+import "../styles/sirenInbox.css";
 import NotificationButton from "./SirenNotificationIcon";
 import SirenPanel from "./SirenPanel";
 import { useSirenContext } from "./SirenProvider";
@@ -13,10 +14,11 @@ import {
 } from "../utils/commonUtils";
 import {
   BadgeType,
+  EventType,
   MAXIMUM_ITEMS_PER_FETCH,
   ThemeMode,
 } from "../utils/constants";
-import "../styles/sirenInbox.css";
+
 
 /**
  * SirenInbox Component
@@ -25,14 +27,14 @@ import "../styles/sirenInbox.css";
  * @param {string} [props.title] - The title for the SirenInbox component
  * @param {boolean} [props.windowViewOnly=false] - Flag indicating if the window is view-only
  * @param {boolean} [props.hideBadge] - Flag indicating if the badge should be hidden
- * @param {CardProps} [props.inboxHeaderProps] - Object containing props related to the inbox header
+ * @param {CardProps} [props.headerProps] - Object containing props related to the inbox header
  * @param {boolean} [props.darkMode] - Flag indicating if the component is in dark mode
  * @param {CardProps} [props.cardProps] - Additional props for the card component
  * @param {ReactNode} [props.notificationIcon] - The notification icon for the window
  * @param {JSX.Element} [props.listEmptyComponent] - JSX element for rendering when the list is empty
  * @param {JSX.Element} [props.customFooter] - Custom footer JSX element for the window
- * @param {Function} [props.customNotificationCard] - Function to render custom notification card
- * @param {Function} [props.onNotificationCardClick] - Handler for notification card click event
+ * @param {Function} [props.customCard] - Function to render custom notification card
+ * @param {Function} [props.onCardClick] - Handler for notification card click event
  * @param {Function} [props.onError] - Handler for error events
  * @param {number} [props.noOfNotificationsPerFetch] - The number of notifications to fetch per request
  * @param {ReactNode} [pros.customLoader] - Custom Loader component to be rendered while fetching notification list for the first time
@@ -48,7 +50,7 @@ const SirenInbox: FC<SirenProps> = ({
   windowViewOnly = false,
   hideBadge = false,
   darkMode = false,
-  inboxHeaderProps,
+  headerProps,
   cardProps,
   notificationIcon,
   listEmptyComponent,
@@ -56,8 +58,8 @@ const SirenInbox: FC<SirenProps> = ({
   customLoader,
   customErrorWindow,
   loadMoreComponent,
-  customNotificationCard,
-  onNotificationCardClick,
+  customCard,
+  onCardClick,
   onError,
   itemsPerFetch = 20,
 }) => {
@@ -102,8 +104,8 @@ const SirenInbox: FC<SirenProps> = ({
     }
 
     return () => {
-      siren?.stopRealTimeNotificationFetch();
-      siren?.stopRealTimeUnviewedCountFetch();
+      siren?.stopRealTimeFetch(EventType.NOTIFICATION);
+      siren?.stopRealTimeFetch(EventType.UNVIEWED_COUNT);
     };
   }, []);
 
@@ -176,11 +178,11 @@ const SirenInbox: FC<SirenProps> = ({
             styles={styles}
             noOfNotificationsPerFetch={notificationsPerPage}
             hideBadge={hideBadge}
-            inboxHeaderProps={inboxHeaderProps}
+            headerProps={headerProps}
             cardProps={cardProps}
             customFooter={customFooter}
-            customNotificationCard={customNotificationCard}
-            onNotificationCardClick={onNotificationCardClick}
+            customCard={customCard}
+            onCardClick={onCardClick}
             onError={onError}
             listEmptyComponent={listEmptyComponent}
             fullScreen={windowViewOnly}

@@ -29,16 +29,16 @@ import useSiren from "../utils/sirenHook";
  *   notification={notification}
  *   cardProps={{ hideAvatar: false }}
  *   styles={customStyles}
- *   onNotificationCardClick={(notification) => console.log('Notification clicked', notification)}
- *   deleteNotificationById={(id) => console.log('Notification deleted', id)}
+ *   onCardClick={(notification) => console.log('Notification clicked', notification)}
+ *   deleteById={(id) => console.log('Notification deleted', id)}
  * />
  *
  * @param {NotificationCardProps} props - The properties passed to the Card component.
  * @param {Object} props.notification - The notification data to display in the card.
  * @param {Object} [props.cardProps] - Optional properties to customize the appearance of the card.
  * @param {Object} props.styles - Custom styles applied to the card and its elements.
- * @param {Function} [props.onNotificationCardClick] - Callback function executed when the card is clicked.
- * @param {Function} [props.deleteNotificationById] - Callback function executed when the delete action is triggered.
+ * @param {Function} [props.onCardClick] - Callback function executed when the card is clicked.
+ * @param {Function} [props.deleteById] - Callback function executed when the delete action is triggered.
  * @returns {ReactElement} The rendered Card component.
  */
 
@@ -47,14 +47,14 @@ const Card: FC<NotificationCardProps> = ({
   cardProps,
   styles,
   darkMode,
-  onNotificationCardClick,
-  deleteNotificationById,
+  onCardClick,
+  deleteById,
 }) => {
   const { id, createdAt, message, isRead } = notification;
   const { avatar, header, subHeader, body } = message;
   const { hideAvatar, hideDelete, disableAutoMarkAsRead, deleteIcon = null, onAvatarClick } =  cardProps ?? {};
   const {
-    markAsRead
+    markAsReadById
   } = useSiren();
 
   const onDelete = (event: React.MouseEvent) => {
@@ -64,9 +64,9 @@ const Card: FC<NotificationCardProps> = ({
 
     cardElement?.classList.add("siren-sdk-delete-animation");
     setTimeout(() => {
-      deleteNotificationById(id);
-    }, 200);
-
+      deleteById(id);
+    }, 200); 
+    
     event.stopPropagation();
   };
 
@@ -83,8 +83,8 @@ const Card: FC<NotificationCardProps> = ({
     };
 
   const handleNotificationCardClick = () => {
-    onNotificationCardClick && onNotificationCardClick(notification);
-    !disableAutoMarkAsRead && markAsRead(notification.id);
+    onCardClick && onCardClick(notification);
+    !disableAutoMarkAsRead && markAsReadById(notification.id);
   };
 
   const handleAvatarClick = (event: React.MouseEvent) => {

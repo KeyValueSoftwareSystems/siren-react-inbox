@@ -3,13 +3,13 @@ import type { CSSProperties } from "react";
 import type {
   NotificationDataType,
   SirenErrorType,
-} from "@sirenapp/js-sdk/dist/esm/types";
+} from "test_notification/dist/esm/types";
 
 export type SirenInboxProps = {
   theme?: Theme;
   customStyles?: CustomStyle,
   loadMoreLabel?: string,
-  inboxHeaderProps?: {
+  headerProps?: {
     title?: string;
     hideHeader?: boolean;
     hideClearAll?: boolean;
@@ -24,8 +24,8 @@ export type SirenInboxProps = {
   customFooter?: JSX.Element;
   customLoader?: JSX.Element;
   customErrorWindow?: JSX.Element;
-  customNotificationCard?: (notification: NotificationDataType) => JSX.Element;
-  onNotificationCardClick?: (notification: NotificationDataType) => void;
+  customCard?: (notification: NotificationDataType) => JSX.Element;
+  onCardClick?: (notification: NotificationDataType) => void;
   onError?: (error: SirenErrorType) => void;
 };
 
@@ -59,9 +59,9 @@ export type CardProps = {
 export type NotificationCardProps = {
   notification: NotificationDataType;
   cardProps: SirenInboxProps["cardProps"];
-  onNotificationCardClick: SirenInboxProps["onNotificationCardClick"];
+  onCardClick: SirenInboxProps["onCardClick"];
   styles: SirenStyleProps;
-  deleteNotificationById: (id: string) => void;
+  deleteById: (id: string) => void;
   darkMode: boolean;
 };
 
@@ -78,9 +78,9 @@ export type SirenPanelProps = Pick<
   | "hideBadge"
   | "cardProps"
   | "customFooter"
-  | "customNotificationCard"
-  | "onNotificationCardClick"
-  | "inboxHeaderProps"
+  | "customCard"
+  | "onCardClick"
+  | "headerProps"
   | "customLoader"
   | "loadMoreComponent"
   | "loadMoreLabel"
@@ -133,7 +133,7 @@ export type ThemeProps = {
   window?: WindowProps;
   windowHeader?: WindowHeaderProps;
   windowContainer?: WindowContainerProps;
-  notificationCard?: NotificationCardThemeProps;
+  customCard?: NotificationCardThemeProps;
   loadMoreButton?: LoadMoreButtonProps;
   badgeStyle?: {
     color?: string;
@@ -160,14 +160,14 @@ export type CustomStyle = {
     padding?: number;
     contentHeight?: DimensionValue;
   };
-  notificationCard?: {
+  customCard?: {
     padding?: number;
     borderWidth?: number;
     avatarSize?: number;
     titleFontWeight?: TextStyle["fontWeight"];
     titleSize?: number;
-    subTitleFontWeight?: TextStyle['fontWeight'];
-    subTitleSize?: number
+    subtitleFontWeight?: TextStyle['fontWeight'];
+    subtitleSize?: number
     descriptionFontWeight?: TextStyle['fontWeight'];
     descriptionSize?: number;
     dateSize?: number;
@@ -218,7 +218,7 @@ type NotificationCardThemeProps = {
   borderColor?: string;
   background?: string;
   titleColor?: string;
-  subTitleColor?: string;
+  subtitleColor?: string;
   descriptionColor?: string;
 };
 type LoadMoreButtonProps = {

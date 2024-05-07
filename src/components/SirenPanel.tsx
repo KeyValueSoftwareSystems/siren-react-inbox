@@ -6,7 +6,7 @@ import type {
   NotificationDataType,
   NotificationsApiResponse,
   SirenErrorType,
-} from "@sirenapp/js-sdk/dist/esm/types";
+} from "test_notification/dist/esm/types";
 
 import "../styles/sirenPanel.css";
 import NotificationCard from "./Card";
@@ -25,7 +25,7 @@ import {
   mergeArrays,
   updateNotifications,
 } from "../utils/commonUtils";
-import { DEFAULT_WINDOW_TITLE, ERROR_TEXT, events, eventTypes, VerificationStatus } from "../utils/constants";
+import { DEFAULT_WINDOW_TITLE, ERROR_TEXT, errorMap, events, EventType, eventTypes, VerificationStatus } from "../utils/constants";
 import useSiren from "../utils/sirenHook";
 
 /**
@@ -41,23 +41,23 @@ import useSiren from "../utils/sirenHook";
  *   renderListEmpty={() => <div>No notifications</div>}
  *   customFooter={<FooterComponent />}
  *   customHeader={<CustomHeader />}
- *   customNotificationCard={(dataItem) => <CustomNotificationCard data={dataItem} />}
- *   onNotificationCardClick={(notification) => console.log('Notification clicked', notification)}
+ *   customCard={(dataItem) => <CustomNotificationCard data={dataItem} />}
+ *   onCardClick={(notification) => console.log('Notification clicked', notification)}
  * />
  *
  * @param {SirenPanelProps} props - The properties passed to the SirenWindow component.
  * @param {Object} props.styles - Custom styles applied to the notification panel and its elements.
  * @param {boolean} [props.hideBadge] - Flag indicating if the badge should be hidden
  * @param {string} props.loadMoreLabel - Label for load more button  
- * @param {Object} props.inboxHeaderProps - Object containing props related to the inbox header.
+ * @param {Object} props.headerProps - Object containing props related to the inbox header.
  * @param {Object} props.cardProps - Optional properties to customize the appearance of notification cards.
  * @param {Function} props.renderListEmpty - Function to render content when the notification list is empty.
  * @param {ReactNode} props.customFooter - Custom footer component to be rendered below the notification list.
  * @param {ReactNode} pros.customLoader - Custom Loader component to be rendered while fetching notification list for the first time
  * @param {ReactNode} pros.loadMoreComponent -Custom load more component to be rendered
  * @param {ReactNode} props.customErrorWindow -Custom error window component to be rendered when there is an error
- * @param {Function} props.customNotificationCard - Function to render custom notification cards.
- * @param {Function} props.onNotificationCardClick - Callback function executed when a notification card is clicked.
+ * @param {Function} props.customCard - Function to render custom notification cards.
+ * @param {Function} props.onCardClick - Callback function executed when a notification card is clicked.
  * @param {DimensionValue} props.modalWidth - The width of the notification panel.
  * @returns {ReactElement} The rendered SirenInbox component.
  */
@@ -74,7 +74,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
   loadMoreLabel,
   hideBadge,
   darkMode,
-  inboxHeaderProps,
+  headerProps,
   cardProps,
   customFooter,
   loadMoreComponent,
@@ -83,18 +83,18 @@ const SirenPanel: FC<SirenPanelProps> = ({
   listEmptyComponent,
   customErrorWindow,
   noOfNotificationsPerFetch,
-  customNotificationCard,
-  onNotificationCardClick,
+  customCard,
+  onCardClick,
   onError,
   modalWidth,
 }) => {
   const {
-    markNotificationsAsViewed,
-    deleteNotificationsByDate,
-    deleteNotification,
+    markAllAsViewed,
+    deleteByDate,
+    deleteById,
   } = useSiren();
   const { siren, verificationStatus } = useSirenContext();
-  const {hideHeader = false, hideClearAll = false, customHeader, title = DEFAULT_WINDOW_TITLE} = inboxHeaderProps ?? {};
+  const {hideHeader = false, hideClearAll = false, customHeader, title = DEFAULT_WINDOW_TITLE} = headerProps ?? {};
   const [notifications, setNotifications] = useState<NotificationDataType[]>(
     []
   );
@@ -137,21 +137,26 @@ const SirenPanel: FC<SirenPanelProps> = ({
 
   useEffect(() => {
     if (siren && verificationStatus !== VerificationStatus.PENDING) {
-      !hideBadge && siren.stopRealTimeUnviewedCountFetch();
+      !hideBadge && siren.stopRealTimeFetch(EventType.UNVIEWED_COUNT);
       fetchNotifications(true);
+    }
+    if(!siren && isLoading) {
+      setIsLoading(false);
+      onError && onError(errorMap?.INVALID_CREDENTIALS);
+      setError(ERROR_TEXT);
     }
   }, [siren, verificationStatus, hideBadge]);
 
   const restartNotificationCountFetch = () => {
     try {
-      siren?.startRealTimeUnviewedCountFetch();
+      siren?.startRealTimeFetch({eventType: EventType.UNVIEWED_COUNT});
     } catch (er) {
       //  handle error if needed
     }
   };
 
   const cleanUp = () => {
-    siren?.stopRealTimeNotificationFetch();
+    siren?.stopRealTimeFetch(EventType.NOTIFICATION);
   };
 
   const triggerOnError = useCallback(
@@ -172,7 +177,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
   const handleClearAllNotification = async (): Promise<void> => {
     try {
       if (!isEmptyArray(notifications)) {
-        const response = await deleteNotificationsByDate(
+        const response = await deleteByDate(
           notifications[0].createdAt
         );
 
@@ -256,8 +261,8 @@ const SirenPanel: FC<SirenPanelProps> = ({
     if (!refresh) return;
 
     try {
-      siren?.startRealTimeNotificationFetch(
-        generateFilterParams(newList ?? [], true, noOfNotificationsPerFetch)
+      siren?.startRealTimeFetch(
+        {eventType: EventType.NOTIFICATION, params:   generateFilterParams(newList ?? [], true, noOfNotificationsPerFetch)}   
       );
     } catch (er) {
       //  handle error if needed
@@ -267,14 +272,14 @@ const SirenPanel: FC<SirenPanelProps> = ({
   const deleteNotificationById = useCallback(
     async (id: string) => {
       try {
-        const response = await deleteNotification(id);
+        const response = await deleteById(id);
 
         response && triggerOnError(response);
       } catch (er) {
         //  handle error if needed
       }
     },
-    [deleteNotification, triggerOnError]
+    [deleteById, triggerOnError]
   );
 
   const onEndReached = (): void => {
@@ -293,7 +298,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
 
       PubSub.publish(events.NOTIFICATION_COUNT_EVENT, JSON.stringify(payload));
       if (createdAt) {
-        const response = await markNotificationsAsViewed(createdAt);
+        const response = await markAllAsViewed(createdAt);
 
         response && triggerOnError(response);
       }
@@ -322,15 +327,15 @@ const SirenPanel: FC<SirenPanelProps> = ({
       <NotificationCard
         notification={item}
         cardProps={cardProps}
-        onNotificationCardClick={onNotificationCardClick}
-        deleteNotificationById={deleteNotificationById}
+        onCardClick={onCardClick}
+        deleteById={deleteNotificationById}
         styles={styles}
         key={item.id}
         darkMode={darkMode}
         data-testid="notification-card"
       />
     ));
-  }, [notifications, cardProps, onNotificationCardClick, deleteNotificationById, styles, darkMode]);
+  }, [notifications, cardProps, onCardClick, deleteNotificationById, styles, darkMode]);
 
 
   const renderList = () => {
@@ -351,7 +356,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
       );
     }
 
-    if (error)
+    if (error && !isLoading)
       return (
         <div aria-label="siren-error-state">
           { customErrorWindow || (
@@ -360,7 +365,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
         </div>
       );
 
-    if (isEmptyArray(notifications))
+    if (isEmptyArray(notifications) && !error && !isLoading)
       return (
         <div aria-label="siren-empty-state">
           {listEmptyComponent || (
@@ -373,8 +378,8 @@ const SirenPanel: FC<SirenPanelProps> = ({
         </div>     
       );
 
-    if (customNotificationCard)
-      return notifications.map((item) => customNotificationCard(item));
+    if (customCard)
+      return notifications.map((item) => customCard(item));
 
     return renderedListItems;
   };

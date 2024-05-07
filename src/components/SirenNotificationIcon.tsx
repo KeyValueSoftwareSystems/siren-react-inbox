@@ -5,7 +5,7 @@ import { useSirenContext } from "./SirenProvider";
 import "../styles/sirenNotificationIcon.css";
 import type { SirenNotificationButtonProps } from "../types";
 import { Constants } from "../utils";
-import { BadgeType } from "../utils/constants";
+import { BadgeType, EventType } from "../utils/constants";
 
 const { eventTypes, events } = Constants;
 
@@ -68,12 +68,12 @@ const SirenNotificationIcon: FC<SirenNotificationButtonProps> = ({
   }, [hideBadge]);
 
   const cleanUp = () => {
-    siren?.stopRealTimeUnviewedCountFetch();
+    siren?.stopRealTimeFetch(EventType.UNVIEWED_COUNT);
   };
 
   const startRealTimeDataFetch = (): void => {
     cleanUp();
-    siren?.startRealTimeUnviewedCountFetch();
+    siren?.startRealTimeFetch({eventType: EventType.UNVIEWED_COUNT});
   };
 
   const getUnViewedCount = async (): Promise<void> => {
