@@ -160,10 +160,10 @@ const SirenProvider: React.FC<SirenProvider> = ({ config, children }) => {
   };
 
   const retryVerification = (error: SirenErrorType) => {
-    if (
-      (error.Code === AUTHENTICATION_FAILED || error.Code === IN_APP_RECIPIENT_UNAUTHENTICATED) &&
-      retryCount < MAXIMUM_RETRY_COUNT
-    )
+    const isRetry =       (error.Code === AUTHENTICATION_FAILED || error.Code === IN_APP_RECIPIENT_UNAUTHENTICATED) &&
+    retryCount < MAXIMUM_RETRY_COUNT && verificationStatus === VerificationStatus.FAILED
+
+    if (isRetry)
       setTimeout(() => {
         initialize();
         retryCount++;
