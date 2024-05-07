@@ -157,12 +157,12 @@ const Card: FC<NotificationCardProps> = ({
         />
       )}
       <div className="siren-sdk-card-content-wrapper">
-        <div style={styles.cardTitle} className="siren-sdk-card-text-break">
+        <div style={styles.cardTitle} className="siren-sdk-card-text-break siren-sdk-card-title">
           {header}
         </div>
         <div
           style={styles.cardSubTitle}
-          className="siren-sdk-card-text-break"
+          className="siren-sdk-card-text-break siren-sdk-card-subtitle"
         >
           {subHeader}
         </div>
@@ -190,7 +190,7 @@ const Card: FC<NotificationCardProps> = ({
             color={styles.timerIcon.color}
             size={styles.timerIcon.size}
           />
-          <div style={styles.dateStyle}>
+          <div style={styles.dateStyle} className="siren-sdk-card-date-label">
             {generateElapsedTimeText(createdAt)}
           </div>
         </div>

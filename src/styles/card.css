@@ -7,6 +7,18 @@
   grid-template-columns: max-content auto max-content;
 }
 
+.siren-sdk-card-title{
+  line-height: 20px;
+  margin-bottom: 4px;
+}
+.siren-sdk-card-subtitle{
+  line-height: 20px;
+  margin-bottom: 6px;
+}
+.siren-sdk-card-date-label{
+  line-height: 16px;
+}
+
 .siren-sdk-hide-avatar-card-container {
   grid-template-columns: auto max-content;
 }
@@ -56,11 +68,10 @@
 .siren-sdk-card-content-wrapper {
   display: grid;
   grid-template-rows: auto;
-  gap: 8px;
 }
 .siren-sdk-card-msg-body{
-  margin-top: 5px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
+  line-height: 20px;
 }
 
 @keyframes fadeOut {
