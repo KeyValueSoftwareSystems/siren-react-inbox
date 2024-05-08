@@ -4,7 +4,7 @@ exports[`matches snapshot 1`] = `
 <DocumentFragment>
   <div
     aria-label="siren-notification-card-1"
-    class="siren-sdk-card-container siren-sdk-card-common-container"
+    class="siren-sdk-card-container siren-sdk-card-common-container "
     data-testid="card-1"
     style="background-color: rgb(46, 45, 48); padding: 12px; border-bottom: 0.5px solid; border-color: #344054; border-left: 4px solid #FA9874;"
   >

@@ -36,7 +36,7 @@ test("matches snapshot", () => {
   const { asFragment } = render(
     <Card
       notification={mockNotification}
-      deleteById={mockDeleteNotificationById}
+      deleteNotificationById={mockDeleteNotificationById}
       onCardClick={mockOnNotificationCardClick}
       cardProps={{}}
       styles={style}
@@ -50,7 +50,7 @@ test("renders notification card with basic content", () => {
   const screen = render(
     <Card
       notification={mockNotification}
-      deleteById={mockDeleteNotificationById}
+      deleteNotificationById={mockDeleteNotificationById}
       onCardClick={mockOnNotificationCardClick}
       cardProps={{}}
       styles={style}
@@ -68,7 +68,7 @@ test("triggers delete notification callback on delete button click", () => {
   const screen = render(
     <Card
       notification={mockNotification}
-      deleteById={mockDeleteNotificationById}
+      deleteNotificationById={mockDeleteNotificationById}
       onCardClick={mockOnNotificationCardClick}
       cardProps={{}}
       styles={style}
@@ -84,7 +84,7 @@ test("triggers delete notification callback on delete button click", () => {
     jest.advanceTimersByTime(200);
   });
 
-  expect(mockDeleteNotificationById).toHaveBeenCalledWith("1");
+  expect(mockDeleteNotificationById).toHaveBeenCalledWith("1", false);
 
   jest.useRealTimers();
 });
@@ -93,7 +93,7 @@ test("triggers notification card click callback on card click", () => {
   const screen = render(
     <Card
       notification={mockNotification}
-      deleteById={mockDeleteNotificationById}
+      deleteNotificationById={mockDeleteNotificationById}
       onCardClick={mockOnNotificationCardClick}
       cardProps={{ hideAvatar: true }}
       styles={style}
@@ -111,7 +111,7 @@ test("renders header, subheader, and body", () => {
   const screen = render(
     <Card
       notification={mockNotification}
-      deleteById={mockDeleteNotificationById}
+      deleteNotificationById={mockDeleteNotificationById}
       onCardClick={mockOnNotificationCardClick}
       cardProps={{}}
       styles={style}
@@ -132,7 +132,7 @@ test("does not render avatar if hideAvatar is true", () => {
   const screen = render(
     <Card
       notification={mockNotification}
-      deleteById={mockDeleteNotificationById}
+      deleteNotificationById={mockDeleteNotificationById}
       onCardClick={mockOnNotificationCardClick}
       cardProps={{ hideAvatar: true }}
       styles={style}
