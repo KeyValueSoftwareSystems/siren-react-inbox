@@ -5,7 +5,7 @@ import { useSirenContext } from "./SirenProvider";
 import "../styles/sirenNotificationIcon.css";
 import type { SirenNotificationButtonProps } from "../types";
 import { Constants } from "../utils";
-import { BadgeType, EventType } from "../utils/constants";
+import { BadgeType, EventType, MAX_UNVIEWED_COUNT_SHOWN } from "../utils/constants";
 
 const { eventTypes, events } = Constants;
 
@@ -90,7 +90,7 @@ const SirenNotificationIcon: FC<SirenNotificationButtonProps> = ({
   };
 
   const renderCount = useCallback(
-    () => (unviewedCount > 99 ? "99+" : unviewedCount),
+    () => (unviewedCount > MAX_UNVIEWED_COUNT_SHOWN ? `${MAX_UNVIEWED_COUNT_SHOWN}+` : unviewedCount),
     [unviewedCount]
   );
 

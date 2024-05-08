@@ -89,9 +89,6 @@ type Theme = {
 };
 
 type ThemeProps = {
-  notificationIcon?: {
-    size?: number,
-  },
   colors?: {
     primaryColor?: string,
     textColor?: string,
@@ -113,7 +110,6 @@ type ThemeProps = {
     background?: string,
     titleColor?: string,
     headerActionColor?: string,
-    borderColor?: string,
   },
   windowContainer?: {
     background?: string,
@@ -183,7 +179,7 @@ Please note that the badgeStyle, window shadow and border props are only applica
   deleteIcon?:{
     size?: number
   }
-  dateIcon?:{
+  timerIcon?:{
     size?: number
   }
   clearAllIcon?:{
