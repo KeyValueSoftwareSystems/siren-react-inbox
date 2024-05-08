@@ -35,6 +35,30 @@
   overflow: hidden;
 }
 
+.siren-sdk-card-thumbnail-container{
+  width: 106%;
+  height: 130px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.siren-sdk-card-thumbnail-error{
+  height: 26px;
+}
+
+.siren-sdk-card-thumbnail-image {
+  border-radius: 6px;
+}
+
+.siren-sdk-card-thumbnail-with-image {
+  height: 100%; 
+  object-fit: cover;
+  width: 100%;
+}
+
 .siren-sdk-card-date-container {
   display: grid;
   grid-template-columns: max-content max-content;
