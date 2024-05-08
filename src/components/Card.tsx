@@ -157,7 +157,7 @@ const Card: FC<NotificationCardProps> = ({
         <div
           data-testid={`delete-${notification.id}`}
           className="siren-sdk-delete-button"
-          onClick={(event) => onDelete(event)}
+          onClick={onDelete}
           aria-label={`siren-notification-delete-${notification.id}`}
         >
           <CloseIcon
