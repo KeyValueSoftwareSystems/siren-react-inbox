@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import React, { type FC } from "react";
+import React, { type FC, useState } from "react";
 
 import CloseIcon from "./CloseIcon";
 import TimerIcon from "./TimerIcon";
@@ -8,6 +8,7 @@ import defaultAvatarLight from "../assets/light/defaultAvatarLight.png";
 import type { NotificationCardProps } from "../types";
 import { generateElapsedTimeText } from "../utils/commonUtils";
 import "../styles/card.css";
+import { events, eventTypes } from "../utils/constants";
 import useSiren from "../utils/sirenHook";
 
 /**
@@ -48,28 +49,37 @@ const Card: FC<NotificationCardProps> = ({
   styles,
   darkMode,
   onCardClick,
-  deleteById,
+  deleteNotificationById,
 }) => {
-  const { id, createdAt, message, isRead } = notification;
+  const { createdAt, message, isRead } = notification;
   const { avatar, header, subHeader, body } = message;
   const { hideAvatar, hideDelete, disableAutoMarkAsRead, deleteIcon = null, onAvatarClick } =  cardProps ?? {};
   const {
     markAsReadById
   } = useSiren();
 
-  const onDelete = (event: React.MouseEvent) => {
-    const cardElement = event.currentTarget.closest(
-      ".siren-sdk-card-common-container"
-    );
+  const [deleteAnimationStyle, setDeleteAnimationStyle] = useState('');
 
-    cardElement?.classList.add("siren-sdk-delete-animation");
-    setTimeout(() => {
-      deleteById(id);
-    }, 200); 
+  const onDelete = async (event: React.MouseEvent): Promise<void> => {
     
     event.stopPropagation();
+    
+    const isSuccess = await deleteNotificationById(notification.id, false);
+
+    if (isSuccess) {
+
+      setDeleteAnimationStyle("siren-sdk-delete-animation");
+
+      const payload = { id: notification.id, action: eventTypes.DELETE_ITEM };
+
+      setTimeout(() => {
+        PubSub.publish(events.NOTIFICATION_LIST_EVENT, JSON.stringify(payload));
+      }, 200)
+
+    }
   };
 
+ 
   const defaultAvatar = darkMode ? defaultAvatarDark : defaultAvatarLight;
   const cardContainerStyle: CSSProperties = isRead
     ? {
@@ -99,7 +109,7 @@ const Card: FC<NotificationCardProps> = ({
         hideAvatar
           ? "siren-sdk-hide-avatar-card-container"
           : "siren-sdk-card-container"
-      } siren-sdk-card-common-container`}
+      } siren-sdk-card-common-container ${deleteAnimationStyle}`}
       onClick={handleNotificationCardClick}
       aria-label={`siren-notification-card-${notification.id}`}
       data-testid={`card-${notification.id}`}
