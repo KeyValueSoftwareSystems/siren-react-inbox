@@ -62,17 +62,17 @@ export type NotificationCardProps = {
   cardProps: SirenInboxProps["cardProps"];
   onCardClick: SirenInboxProps["onCardClick"];
   styles: SirenStyleProps;
-  deleteById: (id: string) => void;
+  deleteNotificationById: (id: string, shouldUpdateList: boolean) => Promise <boolean>;
   darkMode: boolean;
 };
 
 export type SirenNotificationButtonProps = {
   styles: SirenStyleProps;
-  badgeType: BadgeType;
   darkMode: boolean;
   hideBadge: boolean;
   notificationIcon?: JSX.Element;
   onIconClick: () => void;
+  isModalOpen: boolean;
 };
 export type SirenPanelProps = Pick<
   SirenInboxProps,
@@ -109,8 +109,6 @@ export type LoaderProps = {
   styles: SirenStyleProps;
   hideAvatar: boolean;
 }
-
-type BadgeType = "none" | "dot" | "default";
 
 export type Theme = {
   dark: ThemeProps;

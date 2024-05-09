@@ -117,10 +117,15 @@ const SirenPanel: FC<SirenPanelProps> = ({
     return () => {
       cleanUp();
       setNotifications([]);
-      !hideBadge && restartNotificationCountFetch();
       handleMarkNotificationsAsViewed(new Date().toISOString());
     };
-  }, [hideBadge]);
+  }, [hideBadge, siren]);
+
+  useEffect(() => {
+    return(() => {
+      !hideBadge && restartNotificationCountFetch();
+    })
+  }, [hideBadge])
 
   useEffect(() => {
     if (eventListenerData) {
@@ -140,7 +145,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
       !hideBadge && siren.stopRealTimeFetch(EventType.UNVIEWED_COUNT);
       fetchNotifications(true);
     }
-    if(!siren && isLoading) {
+    if(verificationStatus === VerificationStatus.FAILED) {
       setIsLoading(false);
       onError && onError(errorMap?.INVALID_CREDENTIALS);
       setError(ERROR_TEXT);
@@ -270,14 +275,20 @@ const SirenPanel: FC<SirenPanelProps> = ({
   };
 
   const deleteNotificationById = useCallback(
-    async (id: string) => {
-      try {
-        const response = await deleteById(id);
+    async (id: string, shouldUpdateList: boolean) => {
+      let isSuccess = false;
 
+      try {
+        const response = await deleteById(id, shouldUpdateList);
+
+        if (response?.data) isSuccess = true;
         response && triggerOnError(response);
       } catch (er) {
+        isSuccess = false;
         //  handle error if needed
       }
+
+      return isSuccess;
     },
     [deleteById, triggerOnError]
   );
@@ -328,7 +339,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
         notification={item}
         cardProps={cardProps}
         onCardClick={onCardClick}
-        deleteById={deleteNotificationById}
+        deleteNotificationById={deleteNotificationById}
         styles={styles}
         key={item.id}
         darkMode={darkMode}

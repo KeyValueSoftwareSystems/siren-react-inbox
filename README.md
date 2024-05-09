@@ -110,7 +110,6 @@ type ThemeProps = {
     background?: string,
     titleColor?: string,
     headerActionColor?: string,
-    borderColor?: string,
   },
   windowContainer?: {
     background?: string,
@@ -149,7 +148,7 @@ Please note that the badgeStyle, window shadow and border props are only applica
     titleFontWeight?:TextStyle["fontWeight"],
     titleSize?: number,
     titlePadding?: number,
-    borderWidth?: string;
+    borderWidth?: string,
   },
   windowContainer?: {
     padding?: number,
@@ -174,18 +173,18 @@ Please note that the badgeStyle, window shadow and border props are only applica
   badgeStyle?: {
     size?: number,
     textSize?: number,
-    top?: number;
+    top?: number,
     right?: number
   },
   deleteIcon?:{
     size?: number
-  }
-  dateIcon?:{
+  },
+  timerIcon?:{
     size?: number
-  }
+  },
   clearAllIcon?:{
     size?: number
-  }
+  },
 }
 ```
 
