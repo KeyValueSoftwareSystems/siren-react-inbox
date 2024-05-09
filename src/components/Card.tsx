@@ -4,7 +4,9 @@ import React, { type FC, useState } from "react";
 import CloseIcon from "./CloseIcon";
 import TimerIcon from "./TimerIcon";
 import defaultAvatarDark from "../assets/dark/defaultAvatarDark.png";
+import failedImageDark from "../assets/dark/failedImageDark.svg";
 import defaultAvatarLight from "../assets/light/defaultAvatarLight.png";
+import failedImageLight from "../assets/light/failedImageLight.svg";
 import type { NotificationCardProps } from "../types";
 import { generateElapsedTimeText } from "../utils/commonUtils";
 import "../styles/card.css";
@@ -52,13 +54,17 @@ const Card: FC<NotificationCardProps> = ({
   deleteNotificationById,
 }) => {
   const { createdAt, message, isRead } = notification;
-  const { avatar, header, subHeader, body } = message;
-  const { hideAvatar, hideDelete, disableAutoMarkAsRead, deleteIcon = null, onAvatarClick } =  cardProps ?? {};
+  const { avatar, header, subHeader, body, thumbnailUrl } = message;
+  const { hideAvatar, hideDelete, hideMediaThumbnail, disableAutoMarkAsRead, deleteIcon = null, onAvatarClick, onMediaThumbnailClick } =  cardProps ?? {};
   const {
     markAsReadById
   } = useSiren();
 
   const [deleteAnimationStyle, setDeleteAnimationStyle] = useState('');
+  
+  const defaultAvatar = darkMode ? defaultAvatarDark : defaultAvatarLight;
+  const failedImage = darkMode ? failedImageDark: failedImageLight;
+
 
   const onDelete = async (event: React.MouseEvent): Promise<void> => {
     
@@ -79,8 +85,6 @@ const Card: FC<NotificationCardProps> = ({
     }
   };
 
- 
-  const defaultAvatar = darkMode ? defaultAvatarDark : defaultAvatarLight;
   const cardContainerStyle: CSSProperties = isRead
     ? {
       ...styles.defaultCardContainer,
@@ -100,6 +104,20 @@ const Card: FC<NotificationCardProps> = ({
   const handleAvatarClick = (event: React.MouseEvent) => {
     onAvatarClick && onAvatarClick(notification);
     event.stopPropagation();
+  };
+
+  const handleMediaClick = (event: React.MouseEvent) => {
+    onMediaThumbnailClick && onMediaThumbnailClick(notification);
+    event.stopPropagation();
+  };
+
+  const [imageLoaded, setImageLoaded] = useState(true); // Initially assume image is loaded
+
+  const [imageSource, setImageSource] = useState(thumbnailUrl ? thumbnailUrl : '');
+
+  const onErrorMedia = (): void => {
+    setImageLoaded(false);
+    setImageSource(failedImage);
   };
 
   return (
@@ -143,6 +161,19 @@ const Card: FC<NotificationCardProps> = ({
         >
           {body}
         </div>
+        {!hideMediaThumbnail && thumbnailUrl &&(
+          <div 
+            className="siren-sdk-card-thumbnail-container" 
+            style={{...(onAvatarClick && { cursor: "pointer" }),
+              backgroundColor: darkMode ? '#4C4C4C' : '#F0F2F5'}}
+            onClick={handleMediaClick}>
+            <img
+              className={`siren-sdk-card-thumbnail-image ${thumbnailUrl && imageLoaded ? 'siren-sdk-card-thumbnail-with-image' : ''}`}
+              src={imageSource}
+              onError={onErrorMedia}
+            />
+          </div>
+        )}
         <div className="siren-sdk-card-date-container">
           <TimerIcon
             color={styles.timerIcon.color}

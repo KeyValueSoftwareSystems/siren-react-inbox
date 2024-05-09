@@ -25,6 +25,7 @@
 
 .siren-sdk-delete-button {
   cursor: pointer;
+  overflow: hidden;
 }
 
 .siren-sdk-card-text-break {
@@ -33,6 +34,30 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.siren-sdk-card-thumbnail-container{
+  height: 130px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.siren-sdk-card-thumbnail-error{
+  height: 26px;
+}
+
+.siren-sdk-card-thumbnail-image {
+  border-radius: 6px;
+}
+
+.siren-sdk-card-thumbnail-with-image {
+  height: 100%; 
+  object-fit: cover;
+  width: 100%;
 }
 
 .siren-sdk-card-date-container {
