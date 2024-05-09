@@ -82,7 +82,7 @@ const SirenProvider: React.FC<SirenProvider> = ({ config, children }) => {
       sendResetDataEvents();
       initialize();
     }
-    else{
+    else {
       setVerificationStatus(VerificationStatus.FAILED);
     }
     if (retryCount > MAXIMUM_RETRY_COUNT) stopRealTimeFetch();
@@ -160,10 +160,10 @@ const SirenProvider: React.FC<SirenProvider> = ({ config, children }) => {
   };
 
   const retryVerification = (error: SirenErrorType) => {
-    const isRetry =       (error.Code === AUTHENTICATION_FAILED || error.Code === IN_APP_RECIPIENT_UNAUTHENTICATED) &&
-    retryCount < MAXIMUM_RETRY_COUNT && verificationStatus === VerificationStatus.FAILED
+    const shouldRetry = (error.Code === AUTHENTICATION_FAILED || error.Code === IN_APP_RECIPIENT_UNAUTHENTICATED) &&
+      retryCount < MAXIMUM_RETRY_COUNT && verificationStatus === VerificationStatus.FAILED
 
-    if (isRetry)
+    if (shouldRetry)
       setTimeout(() => {
         initialize();
         retryCount++;

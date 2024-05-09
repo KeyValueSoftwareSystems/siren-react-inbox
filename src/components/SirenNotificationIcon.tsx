@@ -32,7 +32,7 @@ const SirenNotificationIcon: FC<SirenNotificationButtonProps> = ({
   const { siren } = useSirenContext();
 
   const [unviewedCount, seUnviewedCount] = useState<number>(0);
-  const badgeType= isModalOpen ? BadgeType.NONE : BadgeType.DEFAULT;
+  const badgeType:BadgeType = isModalOpen ? BadgeType.NONE : BadgeType.DEFAULT;
   
   const notificationCountSubscriber = async (
     type: string,
@@ -97,7 +97,7 @@ const SirenNotificationIcon: FC<SirenNotificationButtonProps> = ({
   );
 
   const renderBadge = () => {
-    switch (badgeType as BadgeType) {
+    switch (badgeType) {
       case BadgeType.DEFAULT: {
         return (
           unviewedCount > 0 && (
@@ -115,13 +115,6 @@ const SirenNotificationIcon: FC<SirenNotificationButtonProps> = ({
           )
         );
       }
-      case BadgeType.DOT:
-        return (
-          <span
-            className="siren-sdk-notificationIcon-badge-container"
-            data-testid="notification-dot-badge"
-          />
-        );
 
       default:
         return null;
