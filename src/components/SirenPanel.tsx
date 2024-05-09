@@ -120,7 +120,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
       !hideBadge && restartNotificationCountFetch();
       handleMarkNotificationsAsViewed(new Date().toISOString());
     };
-  }, [hideBadge]);
+  }, [hideBadge, siren]);
 
   useEffect(() => {
     if (eventListenerData) {
@@ -140,7 +140,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
       !hideBadge && siren.stopRealTimeFetch(EventType.UNVIEWED_COUNT);
       fetchNotifications(true);
     }
-    if(!siren && isLoading) {
+    if(verificationStatus === VerificationStatus.FAILED) {
       setIsLoading(false);
       onError && onError(errorMap?.INVALID_CREDENTIALS);
       setError(ERROR_TEXT);

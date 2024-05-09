@@ -13,7 +13,6 @@ import {
   debounce,
 } from "../utils/commonUtils";
 import {
-  BadgeType,
   EventType,
   MAXIMUM_ITEMS_PER_FETCH,
   ThemeMode,
@@ -156,9 +155,9 @@ const SirenInbox: FC<SirenProps> = ({
             notificationIcon={notificationIcon}
             styles={styles}
             onIconClick={onIconClick}
-            badgeType={isModalOpen ? BadgeType.NONE : BadgeType.DEFAULT}
             darkMode={darkMode}
             hideBadge={hideBadge}
+            isModalOpen={isModalOpen}
           />
         </div>
       )}
