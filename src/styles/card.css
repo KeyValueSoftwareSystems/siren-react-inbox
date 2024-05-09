@@ -25,6 +25,7 @@
 
 .siren-sdk-delete-button {
   cursor: pointer;
+  overflow: hidden;
 }
 
 .siren-sdk-card-text-break {
@@ -36,13 +37,13 @@
 }
 
 .siren-sdk-card-thumbnail-container{
-  width: 106%;
   height: 130px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 6px;
   margin-bottom: 10px;
+  overflow: hidden;
 }
 
 .siren-sdk-card-thumbnail-error{
