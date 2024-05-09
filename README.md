@@ -148,7 +148,7 @@ Please note that the badgeStyle, window shadow and border props are only applica
     titleFontWeight?:TextStyle["fontWeight"],
     titleSize?: number,
     titlePadding?: number,
-    borderWidth?: string;
+    borderWidth?: string,
   },
   windowContainer?: {
     padding?: number,
@@ -173,18 +173,18 @@ Please note that the badgeStyle, window shadow and border props are only applica
   badgeStyle?: {
     size?: number,
     textSize?: number,
-    top?: number;
+    top?: number,
     right?: number
   },
   deleteIcon?:{
     size?: number
-  }
+  },
   timerIcon?:{
     size?: number
-  }
+  },
   clearAllIcon?:{
     size?: number
-  }
+  },
 }
 ```
 
@@ -192,10 +192,10 @@ Please note that the badgeStyle, window shadow and border props are only applica
 
 ```js
     type CardProps = {
-      hideDelete?: boolean;
+      hideDelete?: boolean,
       hideAvatar?: boolean,
       disableAutoMarkAsRead?: boolean,
-      deleteIcon?: JSX.Element;
+      deleteIcon?: JSX.Element,
       onAvatarClick?: () => void,
     };
 ```
@@ -204,7 +204,7 @@ Please note that the badgeStyle, window shadow and border props are only applica
 
 ```js
     type InboxHeaderProps = {
-      title?: string;
+      title?: string,
       hideHeader?: boolean,
       hideClearAll?: boolean,
       customHeader?: JSX.Element | null,
