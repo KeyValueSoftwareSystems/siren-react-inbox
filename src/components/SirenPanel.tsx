@@ -119,7 +119,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
       setNotifications([]);
       handleMarkNotificationsAsViewed(new Date().toISOString());
     };
-  }, []);
+  }, [hideBadge, siren]);
 
   useEffect(() => {
     return(() => {
@@ -145,7 +145,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
       !hideBadge && siren.stopRealTimeFetch(EventType.UNVIEWED_COUNT);
       fetchNotifications(true);
     }
-    if(!siren && isLoading) {
+    if(verificationStatus === VerificationStatus.FAILED) {
       setIsLoading(false);
       onError && onError(errorMap?.INVALID_CREDENTIALS);
       setError(ERROR_TEXT);

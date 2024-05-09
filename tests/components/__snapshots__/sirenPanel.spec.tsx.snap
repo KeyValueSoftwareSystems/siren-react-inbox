@@ -51,47 +51,196 @@ exports[`matches snapshot 1`] = `
       >
         <div
           aria-label="siren-notification-list"
-          class="siren-sdk-content-container "
+          class="false "
           id="contentContainer"
           style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; overflow: auto; height: 700px;"
         >
           <div
-            aria-label="siren-error-state"
+            class="siren-sdk-list-loader-container"
           >
             <div
-              class="siren-sdk-error-window-container"
-              data-testid="error-window"
+              class="siren-sdk-skeleton-container"
             >
               <div
-                class="siren-sdk-error-icon-container"
-                style="background-color: rgb(247, 249, 252);"
+                class="siren-sdk-skeleton-grid-with-avatar"
               >
-                <img
-                  alt="error-icon"
-                  class="siren-sdk-error-icon"
-                  src="[object Object]"
-                  style="opacity: 1;"
+                <div
+                  class="siren-sdk-skeleton-avatar siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
+                />
+                <div
+                  class="siren-sdk-skeleton-head siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
+                />
+                <div
+                  class="siren-sdk-skeleton-subtitle siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
+                />
+                <div
+                  class="siren-sdk-skeleton-body siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
+                />
+                <div
+                  class="siren-sdk-skeleton-icon  siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
+                />
+                <div
+                  class="siren-sdk-skeleton-footer  siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
+                />
+                <div
+                  class="siren-sdk-skeleton-close  siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
                 />
               </div>
+            </div>
+            <div
+              class="siren-sdk-skeleton-container"
+            >
               <div
-                class="siren-sdk-error-text"
-                style="color: rgb(255, 255, 255);"
+                class="siren-sdk-skeleton-grid-with-avatar"
               >
-                Oops! Something went wrong
+                <div
+                  class="siren-sdk-skeleton-avatar siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
+                />
+                <div
+                  class="siren-sdk-skeleton-head siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
+                />
+                <div
+                  class="siren-sdk-skeleton-subtitle siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
+                />
+                <div
+                  class="siren-sdk-skeleton-body siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
+                />
+                <div
+                  class="siren-sdk-skeleton-icon  siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
+                />
+                <div
+                  class="siren-sdk-skeleton-footer  siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
+                />
+                <div
+                  class="siren-sdk-skeleton-close  siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
+                />
               </div>
+            </div>
+            <div
+              class="siren-sdk-skeleton-container"
+            >
               <div
-                class="siren-sdk-error-sub-text"
-                style="color: rgb(255, 255, 255);"
+                class="siren-sdk-skeleton-grid-with-avatar"
               >
-                Could not load the notifications. Please refresh the page.
+                <div
+                  class="siren-sdk-skeleton-avatar siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
+                />
+                <div
+                  class="siren-sdk-skeleton-head siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
+                />
+                <div
+                  class="siren-sdk-skeleton-subtitle siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
+                />
+                <div
+                  class="siren-sdk-skeleton-body siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
+                />
+                <div
+                  class="siren-sdk-skeleton-icon  siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
+                />
+                <div
+                  class="siren-sdk-skeleton-footer  siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
+                />
+                <div
+                  class="siren-sdk-skeleton-close  siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
+                />
+              </div>
+            </div>
+            <div
+              class="siren-sdk-skeleton-container"
+            >
+              <div
+                class="siren-sdk-skeleton-grid-with-avatar"
+              >
+                <div
+                  class="siren-sdk-skeleton-avatar siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
+                />
+                <div
+                  class="siren-sdk-skeleton-head siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
+                />
+                <div
+                  class="siren-sdk-skeleton-subtitle siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
+                />
+                <div
+                  class="siren-sdk-skeleton-body siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
+                />
+                <div
+                  class="siren-sdk-skeleton-icon  siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
+                />
+                <div
+                  class="siren-sdk-skeleton-footer  siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
+                />
+                <div
+                  class="siren-sdk-skeleton-close  siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
+                />
+              </div>
+            </div>
+            <div
+              class="siren-sdk-skeleton-container"
+            >
+              <div
+                class="siren-sdk-skeleton-grid-with-avatar"
+              >
+                <div
+                  class="siren-sdk-skeleton-avatar siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
+                />
+                <div
+                  class="siren-sdk-skeleton-head siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
+                />
+                <div
+                  class="siren-sdk-skeleton-subtitle siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
+                />
+                <div
+                  class="siren-sdk-skeleton-body siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
+                />
+                <div
+                  class="siren-sdk-skeleton-icon  siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
+                />
+                <div
+                  class="siren-sdk-skeleton-footer  siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
+                />
+                <div
+                  class="siren-sdk-skeleton-close  siren-sdk-skeleton"
+                  style="border-color: #fa9874;"
+                />
               </div>
             </div>
           </div>
         </div>
-        <div
-          class="siren-sdk-panel-footer"
-          data-testid="custom-footer"
-        />
+        <div />
       </div>
     </div>
   </div>
