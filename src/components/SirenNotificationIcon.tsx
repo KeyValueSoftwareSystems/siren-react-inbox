@@ -33,14 +33,14 @@ const SirenNotificationIcon: FC<SirenNotificationButtonProps> = ({
 
   const [unviewedCount, seUnviewedCount] = useState<number>(0);
   const badgeType:BadgeType = isModalOpen ? BadgeType.NONE : BadgeType.DEFAULT;
-  
+
   const notificationCountSubscriber = async (
     type: string,
     dataString: string
   ) => {
     const data = await JSON.parse(dataString);
 
-    if (data.action === `${eventTypes.UPDATE_NOTIFICATIONS_COUNT}${id}`)
+    if (data.action === eventTypes.UPDATE_NOTIFICATIONS_COUNT)
       seUnviewedCount(data.unviewedCount);
   };
 

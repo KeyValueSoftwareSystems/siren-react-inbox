@@ -120,7 +120,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
       setNotifications([]);
       handleMarkNotificationsAsViewed(new Date().toISOString());
     };
-  }, [hideBadge, siren]);
+  }, [siren]);
 
   useEffect(() => {
     return(() => {
@@ -305,7 +305,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
     try {
       const payload = {
         unviewedCount: 0,
-        action: `${eventTypes.UPDATE_NOTIFICATIONS_COUNT}${id}`,
+        action: eventTypes.UPDATE_NOTIFICATIONS_COUNT,
       };
 
       PubSub.publish(`${events.NOTIFICATION_COUNT_EVENT}${id}`, JSON.stringify(payload));

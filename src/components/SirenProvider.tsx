@@ -140,7 +140,7 @@ const SirenProvider: React.FC<SirenProvider> = ({ config, children }) => {
         `${events.NOTIFICATION_COUNT_EVENT}${id}`,
         JSON.stringify({
           unviewedCount: totalUnviewed,
-          action: `${eventTypes.UPDATE_NOTIFICATIONS_COUNT}${id}`
+          action: eventTypes.UPDATE_NOTIFICATIONS_COUNT
         })
       );
     }

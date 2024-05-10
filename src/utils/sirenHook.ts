@@ -88,7 +88,7 @@ const useSiren = () => {
       if (response && response.data) {
         const payload = {
           notificationsCount: 0,
-          action: `${eventTypes.UPDATE_NOTIFICATIONS_COUNT}${providerInstanceId}`,
+          action: eventTypes.UPDATE_NOTIFICATIONS_COUNT,
         };
 
         PubSub.publish(

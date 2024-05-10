@@ -166,7 +166,7 @@ const Card: FC<NotificationCardProps> = ({
         {!hideMediaThumbnail && thumbnailUrl &&(
           <div 
             className="siren-sdk-card-thumbnail-container" 
-            style={{...(onAvatarClick && { cursor: "pointer" }),
+            style={{...(onMediaThumbnailClick && { cursor: "pointer" }),
               backgroundColor: darkMode ? '#4C4C4C' : '#F0F2F5'}}
             onClick={handleMediaClick}>
             <img
