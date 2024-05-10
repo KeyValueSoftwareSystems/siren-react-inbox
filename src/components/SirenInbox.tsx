@@ -147,7 +147,7 @@ const SirenInbox: FC<SirenProps> = ({
   return (
     <div
       ref={modalRef}
-      className={`${!windowViewOnly && "siren-sdk-inbox-container"}`}
+      className={`${!windowViewOnly ? "siren-sdk-inbox-container" : "siren-sdk-inbox-window-container"}`}
     >
       {!windowViewOnly && (
         <div ref={iconRef}>
@@ -169,6 +169,7 @@ const SirenInbox: FC<SirenProps> = ({
             ...(!windowViewOnly && styles.windowShadow),
             position: windowViewOnly ? "initial" : "absolute",
             width: windowViewOnly ? "100%" : updatedModalWidth,
+            height: windowViewOnly ? "100%" : '',
             ...modalPosition,
           }}
           data-testid="siren-panel"

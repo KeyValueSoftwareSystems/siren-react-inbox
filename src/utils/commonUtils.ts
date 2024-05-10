@@ -157,7 +157,6 @@ export const applyTheme = (
       }`,
     },
     body: {
-      overflow: "auto",
       height: customStyle.windowContainer?.contentHeight || "700px",
     },
     headerContainer: {
@@ -442,3 +441,13 @@ export const debounce = <F extends (...args: unknown[]) => void>(
     }, delay);
   };
 };
+
+export const getModalContentHeightInFullScreen = (headerHeight: DimensionValue | undefined) =>  {
+  let updatedHeight = 0;
+
+  if (typeof headerHeight === "string")
+    updatedHeight = parseInt(headerHeight.slice(0, -2));
+  else if (typeof headerHeight === "number") updatedHeight = headerHeight;
+
+  return `calc(100% - ${updatedHeight}px)`
+}
