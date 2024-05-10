@@ -144,6 +144,22 @@ const SirenInbox: FC<SirenProps> = ({
     setIsModalOpen((prevState: boolean) => !prevState);
   };
 
+  const modalStyle = useMemo(() => {
+    if (windowViewOnly) 
+      return {
+        width: "100%",
+        height: "100%",
+      };
+    else 
+      return {
+        ...styles.windowShadow,
+        ...modalPosition,
+        width: updatedModalWidth,
+      };
+    
+  }, [windowViewOnly, updatedModalWidth, styles.windowShadow]);
+  
+
   return (
     <div
       ref={modalRef}
@@ -165,12 +181,9 @@ const SirenInbox: FC<SirenProps> = ({
       {(isModalOpen || windowViewOnly) && (
         <div
           style={{
-            ...styles.container,
-            ...(!windowViewOnly && styles.windowShadow),
             position: windowViewOnly ? "initial" : "absolute",
-            width: windowViewOnly ? "100%" : updatedModalWidth,
-            height: windowViewOnly ? "100%" : '',
-            ...modalPosition,
+            ...styles.container,
+            ...modalStyle,
           }}
           data-testid="siren-panel"
         >

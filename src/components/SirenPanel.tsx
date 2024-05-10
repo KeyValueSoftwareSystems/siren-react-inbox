@@ -472,9 +472,9 @@ const SirenPanel: FC<SirenPanelProps> = ({
           <div
             id="contentContainer"
             style={{
-              ...(!fullScreen && styles.windowBottomBorder),
-              ...(!fullScreen ? styles.body : {
-                height: contentContainerHeightInFullScreen
+              ...(fullScreen ? { height: contentContainerHeightInFullScreen } : {
+                ...styles.windowBottomBorder,
+                ...styles.body
               }),
             }}
             className={`siren-sdk-panel-content-container ${containerClassNames}`}
