@@ -3,3 +3,6 @@
     width: fit-content;
     position: relative;
 }
+.siren-sdk-inbox-window-container {
+    height: 100%;
+}

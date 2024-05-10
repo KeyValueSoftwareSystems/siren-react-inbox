@@ -20,6 +20,7 @@ import type { SirenPanelProps } from "../types";
 import {
   filterDataProperty,
   generateFilterParams,
+  getModalContentHeightInFullScreen,
   isEmptyArray,
   isValidResponse,
   mergeArrays,
@@ -437,6 +438,10 @@ const SirenPanel: FC<SirenPanelProps> = ({
     };
   }, [fullScreen, styles, modalWidth]);
 
+  const contentContainerHeightInFullScreen = useMemo(() => {
+    return getModalContentHeightInFullScreen(styles?.headerContainer?.height);
+  }, [styles?.headerContainer?.height]);
+
   return (
     <div
       className={
@@ -445,7 +450,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
       style={panelStyle}
       data-testid="siren-panel"
     >
-      <div>
+      <div className={fullScreen ? 'siren-sdk-panel-modal-fullscreen' : ''}>
         {!hideHeader &&
           (customHeader || (
             <Header
@@ -460,16 +465,19 @@ const SirenPanel: FC<SirenPanelProps> = ({
         <div
           style={{
             ...(!fullScreen && styles.windowBottomBorder),
+            ...(fullScreen && {height: contentContainerHeightInFullScreen}),
             ...styles.contentContainer,
           }}
         >
           <div
             id="contentContainer"
             style={{
-              ...(!fullScreen && styles.windowBottomBorder),
-              ...styles.body,
+              ...(fullScreen ? { height: contentContainerHeightInFullScreen } : {
+                ...styles.windowBottomBorder,
+                ...styles.body
+              }),
             }}
-            className={containerClassNames}
+            className={`siren-sdk-panel-content-container ${containerClassNames}`}
             aria-label="siren-notification-list"
           >
             {renderList()}
