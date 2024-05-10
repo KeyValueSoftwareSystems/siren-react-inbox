@@ -438,7 +438,9 @@ const SirenPanel: FC<SirenPanelProps> = ({
     };
   }, [fullScreen, styles, modalWidth]);
 
-  const contentContainerHeightInFullScreen = getModalContentHeightInFullScreen(styles?.headerContainer?.height);
+  const contentContainerHeightInFullScreen = useMemo(() => {
+    return getModalContentHeightInFullScreen(styles?.headerContainer?.height);
+  }, [styles?.headerContainer?.height]);
 
   return (
     <div
