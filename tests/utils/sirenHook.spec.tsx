@@ -85,40 +85,38 @@ const MarkAsViewedResponse = {
 
 describe("useSiren hook", () => {
   const mockSirenCore: Pick<Siren, keyof Siren> = {
-    markNotificationAsReadById: jest.fn(async () => Response),
-    markNotificationsAsReadByDate: jest.fn(async () => ActionResponse),
-    deleteNotificationById: jest.fn(async () => ActionResponse),
-    deleteNotificationsByDate: jest.fn(async () => ActionResponse),
-    markNotificationsAsViewed: jest.fn(async () => MarkAsViewedResponse),
+    markAsReadById: jest.fn(async () => Response),
+    markAsReadByDate: jest.fn(async () => ActionResponse),
+    deleteById: jest.fn(async () => ActionResponse),
+    deleteByDate: jest.fn(async () => ActionResponse),
+    markAllAsViewed: jest.fn(async () => MarkAsViewedResponse),
     verifyToken: jest.fn(),
     fetchUnviewedNotificationsCount: jest.fn(),
     fetchAllNotifications: jest.fn(),
-    startRealTimeNotificationFetch: jest.fn(),
-    stopRealTimeNotificationFetch: jest.fn(),
-    startRealTimeUnviewedCountFetch: jest.fn(),
-    stopRealTimeUnviewedCountFetch: jest.fn(),
+    startRealTimeFetch: jest.fn(),
+    stopRealTimeFetch: jest.fn(),
   };
 
-  it("should call siren.markNotificationAsReadById and return error", async () => {
+  it("should call siren.markAsReadById and return error", async () => {
     jest.spyOn(sirenProvider, "useSirenContext").mockReturnValue({
       siren: mockSirenCore as Siren,
       verificationStatus: VerificationStatus.SUCCESS,
       id: ''
     });
 
-    const { markAsRead } = useSiren();
-    const response = await markAsRead("xyz");
+    const { markAsReadById } = useSiren();
+    const response = await markAsReadById("xyz");
 
-    expect(mockSirenCore.markNotificationAsReadById).toHaveBeenCalledWith(
+    expect(mockSirenCore.markAsReadById).toHaveBeenCalledWith(
       "xyz"
     );
     expect(response).toEqual(Response);
   });
 
-  it("should call siren.markNotificationAsReadById and update notifications list when siren exists and id is not empty", async () => {
+  it("should call siren.markAsReadById and update notifications list when siren exists and id is not empty", async () => {
     const mockCore: Pick<Siren, keyof Siren> = {
       ...mockSirenCore,
-      markNotificationAsReadById: jest.fn(async () => ({
+      markAsReadById: jest.fn(async () => ({
         data: null,
         error: { Type: "ERROR", Code: "API_ERROR", Message: "Api error" },
       })),
@@ -132,10 +130,10 @@ describe("useSiren hook", () => {
       id: ''
     });
 
-    const { markAsRead } = useSiren();
-    const response = await markAsRead("xyz");
+    const { markAsReadById } = useSiren();
+    const response = await markAsReadById("xyz");
 
-    expect(mockSirenCore.markNotificationAsReadById).toHaveBeenCalledWith(
+    expect(mockSirenCore.markAsReadById).toHaveBeenCalledWith(
       "xyz"
     );
     expect(response).toEqual({
@@ -152,15 +150,15 @@ describe("useSiren hook", () => {
       id: ''
     });
 
-    const { markAsRead } = useSiren();
-    const response = await markAsRead(undefined as unknown as string);
+    const { markAsReadById } = useSiren();
+    const response = await markAsReadById(undefined as unknown as string);
 
     expect(response).toEqual({
       error: errorMap.MISSING_PARAMETER,
     });
   });
 
-  it("should call siren.markNotificationsAsReadByDate and update notifications list when siren exists and untilDate is provided", async () => {
+  it("should call siren.markAsReadByDate and update notifications list when siren exists and untilDate is provided", async () => {
 
     jest.spyOn(sirenProvider, "useSirenContext").mockReturnValue({
       siren: mockSirenCore as Siren,
@@ -168,18 +166,18 @@ describe("useSiren hook", () => {
       id: ''
     });
 
-    const { markNotificationsAsReadByDate } = useSiren();
+    const { markAsReadByDate } = useSiren();
     const untilDate = "2024-02-28T00:00:00Z";
-    const response = await markNotificationsAsReadByDate(untilDate);
+    const response = await markAsReadByDate(untilDate);
 
-    expect(mockSirenCore.markNotificationsAsReadByDate).toHaveBeenCalledWith(
+    expect(mockSirenCore.markAsReadByDate).toHaveBeenCalledWith(
       untilDate
     );
 
     expect(response).toEqual(ActionResponse);
   });
 
-  it("markNotificationsAsReadByDate should return error if id is not passed", async () => {
+  it("markAsReadByDate should return error if id is not passed", async () => {
 
     // Mock useSirenContext
     jest.spyOn(sirenProvider, "useSirenContext").mockReturnValue({
@@ -188,8 +186,8 @@ describe("useSiren hook", () => {
       id: ''
     });
 
-    const { markNotificationsAsReadByDate } = useSiren();
-    const response = await markNotificationsAsReadByDate(
+    const { markAsReadByDate } = useSiren();
+    const response = await markAsReadByDate(
       undefined as unknown as string
     );
 
@@ -198,7 +196,7 @@ describe("useSiren hook", () => {
     });
   });
 
-  it("should call siren.deleteNotificationById and update notifications list when siren exists and id is not empty", async () => {
+  it("should call siren.deleteById and update notifications list when siren exists and id is not empty", async () => {
 
     jest.spyOn(sirenProvider, "useSirenContext").mockReturnValue({
       siren: mockSirenCore as Siren,
@@ -206,14 +204,14 @@ describe("useSiren hook", () => {
       id: ''
     });
 
-    const { deleteNotification } = useSiren();
-    const response = await deleteNotification("xyz");
+    const { deleteById } = useSiren();
+    const response = await deleteById("xyz");
 
-    expect(mockSirenCore.deleteNotificationById).toHaveBeenCalledWith("xyz");
+    expect(mockSirenCore.deleteById).toHaveBeenCalledWith("xyz");
     expect(response).toEqual(ActionResponse);
   });
 
-  it("deleteNotificationById should return error if id is not passed", async () => {
+  it("deleteById should return error if id is not passed", async () => {
 
     // Mock useSirenContext
     jest.spyOn(sirenProvider, "useSirenContext").mockReturnValue({
@@ -222,14 +220,14 @@ describe("useSiren hook", () => {
       id: ''
     });
 
-    const { deleteNotification } = useSiren();
-    const response = await deleteNotification(undefined as unknown as string);
+    const { deleteById } = useSiren();
+    const response = await deleteById(undefined as unknown as string);
 
     expect(response).toEqual({
       error: errorMap.MISSING_PARAMETER,
     });
   });
-  it("should call siren.deleteNotificationsByDate and update notifications list when siren exists and untilDate is provided", async () => {
+  it("should call siren.deleteByDate and update notifications list when siren exists and untilDate is provided", async () => {
 
 
     jest.spyOn(sirenProvider, "useSirenContext").mockReturnValue({
@@ -238,18 +236,18 @@ describe("useSiren hook", () => {
       id: ''
     });
 
-    const { deleteNotificationsByDate } = useSiren();
+    const { deleteByDate } = useSiren();
     const untilDate = "2024-02-28T00:00:00Z";
-    const response = await deleteNotificationsByDate(untilDate);
+    const response = await deleteByDate(untilDate);
 
-    expect(mockSirenCore.deleteNotificationsByDate).toHaveBeenCalledWith(
+    expect(mockSirenCore.deleteByDate).toHaveBeenCalledWith(
       untilDate
     );
 
     expect(response).toEqual(ActionResponse);
   });
 
-  it("should call siren.markNotificationsAsViewed and update notifications list when siren exists and untilDate is provided", async () => {
+  it("should call siren.markAllAsViewed and update notifications list when siren exists and untilDate is provided", async () => {
 
     jest.spyOn(sirenProvider, "useSirenContext").mockReturnValue({
       siren: mockSirenCore as Siren,
@@ -257,11 +255,11 @@ describe("useSiren hook", () => {
       id: ''
     });
 
-    const { markNotificationsAsViewed } = useSiren();
+    const { markAllAsViewed } = useSiren();
     const untilDate = "2024-02-28T00:00:00Z";
-    const response = await markNotificationsAsViewed(untilDate);
+    const response = await markAllAsViewed(untilDate);
 
-    expect(mockSirenCore.markNotificationsAsViewed).toHaveBeenCalledWith(
+    expect(mockSirenCore.markAllAsViewed).toHaveBeenCalledWith(
       untilDate
     );
     

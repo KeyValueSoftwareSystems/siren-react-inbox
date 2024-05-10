@@ -3,25 +3,27 @@
 exports[`matches snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="siren-sdk-card-container"
+    aria-label="siren-notification-card-1"
+    class="siren-sdk-card-container siren-sdk-card-common-container "
     data-testid="card-1"
-    style="background-color: rgb(46, 45, 48); padding: 10px; border-bottom: 0.5px solid; border-color: #344054; border-left: 4px solid #F56630;"
+    style="background-color: rgb(46, 45, 48); padding: 12px; border-bottom: 0.5px solid; border-color: #344054; border-left: 4px solid #FA9874;"
   >
     <div
+      aria-label="siren-notification-avatar-1"
       style="width: 40px; height: 40px; border-radius: 20px; overflow: hidden; background-color: rgb(52, 64, 84); background-size: cover; background-position: center;"
     />
     <div
       class="siren-sdk-card-content-wrapper"
     >
       <div
-        class="siren-sdk-card-text-break"
-        style="color: rgb(255, 255, 255); font-size: 16px; font-weight: 600;"
+        class="siren-sdk-card-text-break siren-sdk-card-title"
+        style="color: rgb(255, 255, 255); font-size: 14px; font-weight: 600;"
       >
         New Message
       </div>
       <div
-        class="siren-sdk-card-text-break"
-        style="color: rgb(255, 255, 255); font-size: 14px; font-weight: 400;"
+        class="siren-sdk-card-text-break siren-sdk-card-subtitle"
+        style="color: rgb(255, 255, 255); font-size: 14px; font-weight: 500;"
       >
         New post
       </div>
@@ -51,6 +53,7 @@ exports[`matches snapshot 1`] = `
           />
         </svg>
         <div
+          class="siren-sdk-card-date-label"
           style="color: rgb(152, 162, 179); font-size: 12px; line-height: 16px;"
         >
           NaN years ago
@@ -58,18 +61,19 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
+      aria-label="siren-notification-delete-1"
       class="siren-sdk-delete-button"
       data-testid="delete-1"
     >
       <svg
         fill="none"
-        height="16"
+        height="14"
         viewBox="0 0 20 20"
-        width="16"
+        width="14"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M5 15L15 5M5 5L15 15"
+          d="M1 11L11 1M1 1L11 11"
           stroke="#D0D5DD"
           stroke-linecap="round"
           stroke-linejoin="round"

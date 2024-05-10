@@ -1,33 +1,39 @@
 import React, { type FC, useEffect, useMemo, useRef, useState } from "react";
 
+import "../styles/sirenInbox.css";
 import NotificationButton from "./SirenNotificationIcon";
 import SirenPanel from "./SirenPanel";
 import { useSirenContext } from "./SirenProvider";
 import type { SirenProps } from "../types";
-import { Constants } from "../utils";
-import { applyTheme, calculateModalPosition } from "../utils/commonUtils";
-import { BadgeType, MAXIMUM_ITEMS_PER_FETCH, ThemeMode } from "../utils/constants";
-import "../styles/sirenInbox.css";
+import { DefaultStyle } from "../utils";
+import {
+  applyTheme,
+  calculateModalPosition,
+  calculateModalWidth,
+  debounce,
+} from "../utils/commonUtils";
+import {
+  EventType,
+  MAXIMUM_ITEMS_PER_FETCH,
+  ThemeMode,
+} from "../utils/constants";
 
-const { DEFAULT_WINDOW_TITLE } = Constants;
+
 /**
  * SirenInbox Component
  * @param {Object} props - Props for the SirenInbox component
  * @param {Theme} props.theme - The theme for the SirenInbox component
- * @param {string} props.title - The title of the notification panel.
  * @param {string} [props.title] - The title for the SirenInbox component
  * @param {boolean} [props.windowViewOnly=false] - Flag indicating if the window is view-only
- * @param {boolean} [props.hideHeader] - Flag indicating if the header should be hidden
- * @param {boolean} [props.hideClearAll] - Flag indicating if the clear all button should be hidden
  * @param {boolean} [props.hideBadge] - Flag indicating if the badge should be hidden
+ * @param {CardProps} [props.headerProps] - Object containing props related to the inbox header
  * @param {boolean} [props.darkMode] - Flag indicating if the component is in dark mode
  * @param {CardProps} [props.cardProps] - Additional props for the card component
  * @param {ReactNode} [props.notificationIcon] - The notification icon for the window
  * @param {JSX.Element} [props.listEmptyComponent] - JSX element for rendering when the list is empty
  * @param {JSX.Element} [props.customFooter] - Custom footer JSX element for the window
- * @param {JSX.Element} [props.customHeader] - Custom header JSX element for the window
- * @param {Function} [props.customNotificationCard] - Function to render custom notification card
- * @param {Function} [props.onNotificationCardClick] - Handler for notification card click event
+ * @param {Function} [props.customCard] - Function to render custom notification card
+ * @param {Function} [props.onCardClick] - Handler for notification card click event
  * @param {Function} [props.onError] - Handler for error events
  * @param {number} [props.noOfNotificationsPerFetch] - The number of notifications to fetch per request
  * @param {ReactNode} [pros.customLoader] - Custom Loader component to be rendered while fetching notification list for the first time
@@ -40,37 +46,45 @@ const { DEFAULT_WINDOW_TITLE } = Constants;
 const SirenInbox: FC<SirenProps> = ({
   theme,
   customStyles,
-  title = DEFAULT_WINDOW_TITLE,
   windowViewOnly = false,
-  hideHeader,
   hideBadge = false,
-  hideClearAll = false,
   darkMode = false,
+  headerProps,
   cardProps,
   notificationIcon,
   listEmptyComponent,
   customFooter,
-  customHeader,
   customLoader,
   customErrorWindow,
   loadMoreComponent,
-  customNotificationCard,
-  onNotificationCardClick,
+  customCard,
+  onCardClick,
   onError,
   itemsPerFetch = 20,
 }) => {
-  const notificationsPerPage =
-  itemsPerFetch > MAXIMUM_ITEMS_PER_FETCH ? MAXIMUM_ITEMS_PER_FETCH : itemsPerFetch;
+  const notificationsPerPage = useMemo(
+    () =>
+      Math.max(
+        0,
+        itemsPerFetch > MAXIMUM_ITEMS_PER_FETCH
+          ? MAXIMUM_ITEMS_PER_FETCH
+          : itemsPerFetch
+      ),
+    [itemsPerFetch]
+  );
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { siren } = useSirenContext();
   const iconRef = useRef<HTMLDivElement>(null);
   //ref for the modal
   const modalRef = useRef<HTMLDivElement>(null);
   const [modalPosition, setModalPosition] = useState<{
-    top: string;
     right?: string;
-  }>({ top: "0" });
-
+    left?: string;
+  }>();
+  const initialModalWidth =
+    customStyles?.window?.width || DefaultStyle.window.width;
+  const [updatedModalWidth, setUpdatedModalWidth] = useState(initialModalWidth);
   const styles = useMemo(
     () =>
       applyTheme(
@@ -89,24 +103,32 @@ const SirenInbox: FC<SirenProps> = ({
     }
 
     return () => {
-      siren?.stopRealTimeNotificationFetch();
-      siren?.stopRealTimeUnviewedCountFetch();
+      siren?.stopRealTimeFetch(EventType.NOTIFICATION);
+      siren?.stopRealTimeFetch(EventType.UNVIEWED_COUNT);
     };
   }, []);
 
   useEffect(() => {
-    const updateModalPosition = () => {
-      const containerWidth = styles.container.width || 400;
+    const modalWidth = calculateModalWidth(initialModalWidth);
 
+    if (window.innerWidth <= modalWidth)
+    // Subtract 40 pixels to account for padding within the window container
+      setUpdatedModalWidth(window.innerWidth - 40);
+    else setUpdatedModalWidth(initialModalWidth);
+  }, [window.innerWidth, initialModalWidth]);
+
+  useEffect(() => {
+    const containerWidth = styles.container.width || DefaultStyle.window.width;
+    const updateWindowViewMode = () => {
       setModalPosition(calculateModalPosition(iconRef, window, containerWidth));
     };
 
-    updateModalPosition(); // Initial calculation
-    window.addEventListener("resize", updateModalPosition); // Event listener for window resize
+    const debouncedUpdate = debounce(updateWindowViewMode, 200);
 
-    return () => {
-      window.removeEventListener("resize", updateModalPosition);
-    };
+    updateWindowViewMode();
+    window.addEventListener("resize", debouncedUpdate);
+
+    return () => window.removeEventListener("resize", debouncedUpdate);
   }, [styles.container.width]);
 
   const onMouseUp = (event: Event): void => {
@@ -122,10 +144,26 @@ const SirenInbox: FC<SirenProps> = ({
     setIsModalOpen((prevState: boolean) => !prevState);
   };
 
+  const modalStyle = useMemo(() => {
+    if (windowViewOnly) 
+      return {
+        width: "100%",
+        height: "100%",
+      };
+    else 
+      return {
+        ...styles.windowShadow,
+        ...modalPosition,
+        width: updatedModalWidth,
+      };
+    
+  }, [windowViewOnly, updatedModalWidth, styles.windowShadow]);
+  
+
   return (
     <div
       ref={modalRef}
-      className={`${!windowViewOnly && "siren-sdk-inbox-container"}`}
+      className={`${!windowViewOnly ? "siren-sdk-inbox-container" : "siren-sdk-inbox-window-container"}`}
     >
       {!windowViewOnly && (
         <div ref={iconRef}>
@@ -133,9 +171,9 @@ const SirenInbox: FC<SirenProps> = ({
             notificationIcon={notificationIcon}
             styles={styles}
             onIconClick={onIconClick}
-            badgeType={isModalOpen ? BadgeType.NONE : BadgeType.DEFAULT}
             darkMode={darkMode}
             hideBadge={hideBadge}
+            isModalOpen={isModalOpen}
           />
         </div>
       )}
@@ -143,39 +181,29 @@ const SirenInbox: FC<SirenProps> = ({
       {(isModalOpen || windowViewOnly) && (
         <div
           style={{
+            position: windowViewOnly ? "initial" : "absolute",
             ...styles.container,
-            ...(!windowViewOnly && styles.windowShadow),
-            width:
-              windowViewOnly || window.innerWidth < 500
-                ? "100%"
-                : styles.container.width,
-            position:
-              windowViewOnly || window.innerWidth < 500
-                ? "initial"
-                : "absolute",
-            ...modalPosition,
+            ...modalStyle,
           }}
           data-testid="siren-panel"
         >
           <SirenPanel
-            title={title}
             styles={styles}
             noOfNotificationsPerFetch={notificationsPerPage}
-            hideHeader={hideHeader}
             hideBadge={hideBadge}
+            headerProps={headerProps}
             cardProps={cardProps}
             customFooter={customFooter}
-            customHeader={customHeader}
-            customNotificationCard={customNotificationCard}
-            onNotificationCardClick={onNotificationCardClick}
+            customCard={customCard}
+            onCardClick={onCardClick}
             onError={onError}
             listEmptyComponent={listEmptyComponent}
             fullScreen={windowViewOnly}
-            hideClearAll={hideClearAll}
             customLoader={customLoader}
             loadMoreComponent={loadMoreComponent}
             darkMode={darkMode}
             customErrorWindow={customErrorWindow}
+            modalWidth={updatedModalWidth}
           />
         </div>
       )}

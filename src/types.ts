@@ -8,10 +8,13 @@ import type {
 export type SirenInboxProps = {
   theme?: Theme;
   customStyles?: CustomStyle,
-  title?: string;
   loadMoreLabel?: string,
-  hideHeader?: boolean;
-  hideClearAll?: boolean;
+  headerProps?: {
+    title?: string;
+    hideHeader?: boolean;
+    hideClearAll?: boolean;
+    customHeader?: JSX.Element;
+  }
   hideBadge?: boolean;
   darkMode?: boolean;
   itemsPerFetch?: number;
@@ -19,11 +22,10 @@ export type SirenInboxProps = {
   listEmptyComponent?: JSX.Element;
   loadMoreComponent?:JSX.Element;
   customFooter?: JSX.Element;
-  customHeader?: JSX.Element;
   customLoader?: JSX.Element;
   customErrorWindow?: JSX.Element;
-  customNotificationCard?: (notification: NotificationDataType) => JSX.Element;
-  onNotificationCardClick?: (notification: NotificationDataType) => void;
+  customCard?: (notification: NotificationDataType) => JSX.Element;
+  onCardClick?: (notification: NotificationDataType) => void;
   onError?: (error: SirenErrorType) => void;
 };
 
@@ -47,36 +49,39 @@ export type SirenProps = SirenInboxProps &
 
 export type CardProps = {
   hideAvatar?: boolean;
-  showMedia?: boolean;
+  hideMediaThumbnail?: boolean;
+  hideDelete?: boolean;
+  disableAutoMarkAsRead?: boolean;
+  deleteIcon?: JSX.Element;
+  onAvatarClick?: (notification: NotificationDataType) => void;
+  onMediaThumbnailClick?: (notification: NotificationDataType) => void;
 };
 
 export type NotificationCardProps = {
   notification: NotificationDataType;
   cardProps: SirenInboxProps["cardProps"];
-  onNotificationCardClick: SirenInboxProps["onNotificationCardClick"];
+  onCardClick: SirenInboxProps["onCardClick"];
   styles: SirenStyleProps;
-  deleteNotificationById: (id: string) => void;
+  deleteNotificationById: (id: string, shouldUpdateList: boolean) => Promise <boolean>;
   darkMode: boolean;
 };
 
 export type SirenNotificationButtonProps = {
   styles: SirenStyleProps;
-  badgeType: BadgeType;
   darkMode: boolean;
   hideBadge: boolean;
   notificationIcon?: JSX.Element;
   onIconClick: () => void;
+  isModalOpen: boolean;
 };
 export type SirenPanelProps = Pick<
   SirenInboxProps,
-  | "hideHeader"
   | "hideBadge"
   | "cardProps"
   | "customFooter"
-  | "customHeader"
-  | "customNotificationCard"
-  | "onNotificationCardClick"
-  | "hideClearAll"
+  | "customCard"
+  | "onCardClick"
+  | "headerProps"
   | "customLoader"
   | "loadMoreComponent"
   | "loadMoreLabel"
@@ -85,10 +90,10 @@ export type SirenPanelProps = Pick<
   styles: SirenStyleProps;
   onError?: (error: SirenErrorType) => void;
   listEmptyComponent?: JSX.Element;
-  title: string;
   noOfNotificationsPerFetch: number;
   fullScreen: boolean;
   darkMode: boolean;
+  modalWidth: DimensionValue;
 };
 
 export type HeaderProps = {
@@ -100,7 +105,10 @@ export type HeaderProps = {
   handleClearAllNotification: () => void;
 };
 
-type BadgeType = "none" | "dot" | "default";
+export type LoaderProps = {
+  styles: SirenStyleProps;
+  hideAvatar: boolean;
+}
 
 export type Theme = {
   dark: ThemeProps;
@@ -124,7 +132,7 @@ export type ThemeProps = {
   window?: WindowProps;
   windowHeader?: WindowHeaderProps;
   windowContainer?: WindowContainerProps;
-  notificationCard?: NotificationCardThemeProps;
+  customCard?: NotificationCardThemeProps;
   loadMoreButton?: LoadMoreButtonProps;
   badgeStyle?: {
     color?: string;
@@ -145,17 +153,21 @@ export type CustomStyle = {
     titleFontWeight?:TextStyle["fontWeight"];
     titleSize?: number;
     titlePadding?: number;
+    borderWidth?: string;
   };
   windowContainer?: {
     padding?: number;
     contentHeight?: DimensionValue;
   };
-  notificationCard?: {
+  customCard?: {
     padding?: number;
     borderWidth?: number;
     avatarSize?: number;
     titleFontWeight?: TextStyle["fontWeight"];
     titleSize?: number;
+    subtitleFontWeight?: TextStyle['fontWeight'];
+    subtitleSize?: number
+    descriptionFontWeight?: TextStyle['fontWeight'];
     descriptionSize?: number;
     dateSize?: number;
   };
@@ -167,7 +179,7 @@ export type CustomStyle = {
     size?: number;
     textSize?: number;
     top?: number;
-    left?: number;
+    right?: number;
   };
   deleteIcon?:{
     size?: number
@@ -205,6 +217,7 @@ type NotificationCardThemeProps = {
   borderColor?: string;
   background?: string;
   titleColor?: string;
+  subtitleColor?: string;
   descriptionColor?: string;
 };
 type LoadMoreButtonProps = {
@@ -225,6 +238,7 @@ export type SirenStyleProps = {
   defaultCardContainer: CSSProperties;
   cardIconRound: CSSProperties;
   cardTitle: CSSProperties;
+  cardSubTitle: CSSProperties;
   activeCardMarker: CSSProperties;
   cardDescription: CSSProperties;
   dateStyle: CSSProperties;

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { fireEvent, render } from "@testing-library/react";
+import { act, fireEvent, render } from "@testing-library/react";
 
 import Card from "../../src/components/Card";
 import { applyTheme } from "../../src/utils/commonUtils";
@@ -37,7 +37,7 @@ test("matches snapshot", () => {
     <Card
       notification={mockNotification}
       deleteNotificationById={mockDeleteNotificationById}
-      onNotificationCardClick={mockOnNotificationCardClick}
+      onCardClick={mockOnNotificationCardClick}
       cardProps={{}}
       styles={style}
       darkMode={false}
@@ -51,7 +51,7 @@ test("renders notification card with basic content", () => {
     <Card
       notification={mockNotification}
       deleteNotificationById={mockDeleteNotificationById}
-      onNotificationCardClick={mockOnNotificationCardClick}
+      onCardClick={mockOnNotificationCardClick}
       cardProps={{}}
       styles={style}
       darkMode={false}
@@ -62,20 +62,31 @@ test("renders notification card with basic content", () => {
 });
 
 test("triggers delete notification callback on delete button click", () => {
+
+  jest.useFakeTimers();
+
   const screen = render(
     <Card
       notification={mockNotification}
       deleteNotificationById={mockDeleteNotificationById}
-      onNotificationCardClick={mockOnNotificationCardClick}
+      onCardClick={mockOnNotificationCardClick}
       cardProps={{}}
       styles={style}
       darkMode={false}
     />
   );
+
   const deleteButton = screen.getByTestId("delete-1");
 
   fireEvent.click(deleteButton);
-  expect(mockDeleteNotificationById).toHaveBeenCalledWith("1");
+
+  act(() => {
+    jest.advanceTimersByTime(200);
+  });
+
+  expect(mockDeleteNotificationById).toHaveBeenCalledWith("1", false);
+
+  jest.useRealTimers();
 });
 
 test("triggers notification card click callback on card click", () => {
@@ -83,7 +94,7 @@ test("triggers notification card click callback on card click", () => {
     <Card
       notification={mockNotification}
       deleteNotificationById={mockDeleteNotificationById}
-      onNotificationCardClick={mockOnNotificationCardClick}
+      onCardClick={mockOnNotificationCardClick}
       cardProps={{ hideAvatar: true }}
       styles={style}
       darkMode={false}
@@ -101,7 +112,7 @@ test("renders header, subheader, and body", () => {
     <Card
       notification={mockNotification}
       deleteNotificationById={mockDeleteNotificationById}
-      onNotificationCardClick={mockOnNotificationCardClick}
+      onCardClick={mockOnNotificationCardClick}
       cardProps={{}}
       styles={style}
       darkMode={false}
@@ -122,7 +133,7 @@ test("does not render avatar if hideAvatar is true", () => {
     <Card
       notification={mockNotification}
       deleteNotificationById={mockDeleteNotificationById}
-      onNotificationCardClick={mockOnNotificationCardClick}
+      onCardClick={mockOnNotificationCardClick}
       cardProps={{ hideAvatar: true }}
       styles={style}
       darkMode={false}

@@ -37,7 +37,7 @@ const App: React.FC = () => {
   const [showCustomNotificationCard, setShowCustomNotificationCard] =
     useState(false);
 
-    const { markNotificationsAsReadByDate, markAsRead } = useSiren();
+    const { markAsReadByDate } = useSiren();
 
   const renderListEmpty = () => {
     return (
@@ -84,7 +84,7 @@ const App: React.FC = () => {
           <div style={{ color: "#fff", fontWeight: "600" }}>Siren</div>
         </div>
         <div>
-          <div style={{ color: "#fff", fontWeight: "600" }} onClick={() => markNotificationsAsReadByDate(String(new Date().getTime()))}>Mark allAsRead</div>
+          <div style={{ color: "#fff", fontWeight: "600" }} onClick={() => markAsReadByDate(String(new Date().getTime()))}>Mark allAsRead</div>
         </div>
       </div>
     );
@@ -248,25 +248,26 @@ const App: React.FC = () => {
 
   return (
     <div>
-      <SirenInbox
-        title="Siren Notifications"
-        hideHeader={hideHeader}
+      <SirenInbox       
+        headerProps={{
+          title:"Siren Notifications",
+          hideHeader: hideHeader,
+          customHeader: showCustomHeader ? renderCustomHeader() : undefined
+        }}
         darkMode={sdkDarkModeEnabled}
-        cardProps={{ hideAvatar: hideAvatar, showMedia: true }}
+        cardProps={{ hideAvatar: hideAvatar, onAvatarClick: () => console.log('avatar click') }}
         theme={windowThemes[windowThemeIndex]}
         customFooter={showCustomFooter ? renderCustomFooter() : undefined}
         listEmptyComponent={
           showCustomEmptyComponent ? renderListEmpty() : undefined
         }
-        customHeader={showCustomHeader ? renderCustomHeader() : undefined}
-        customNotificationCard={
+        customCard={
           showCustomNotificationCard
             ? (notification: any) => renderCustomNotificationCard(notification)
             : undefined
         }
-        onNotificationCardClick={(notification: { id: any; }) => {
+        onCardClick={() => {
           console.log("click on notification");
-          markAsRead(notification.id);
         }}
         onError={(error: any) => {
           console.log(`error: ${error}`);
