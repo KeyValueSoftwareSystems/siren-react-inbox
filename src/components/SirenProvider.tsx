@@ -10,7 +10,7 @@ import type {
 import PubSub from "pubsub-js";
 
 import type { SirenProviderConfigProps } from "../types";
-import { logger } from "../utils/commonUtils";
+import { generateUniqueId, logger } from "../utils/commonUtils";
 import {
   AUTHENTICATION_FAILED,
   events,
@@ -24,6 +24,7 @@ import {
 type SirenContextProp = {
   siren: Siren | null;
   verificationStatus: VerificationStatus;
+  id: string;
 };
 
 interface SirenProvider {
@@ -34,6 +35,7 @@ interface SirenProvider {
 export const SirenContext = createContext<SirenContextProp>({
   siren: null,
   verificationStatus: VerificationStatus.PENDING,
+  id: ''
 });
 
 /**
@@ -42,7 +44,8 @@ export const SirenContext = createContext<SirenContextProp>({
  * @example
  * const {
  *   siren,
- *   verificationStatus
+ *   verificationStatus,
+ *   id
  * } = useSirenContext();
  *
  * @returns {SirenContextProp} The Siren notifications context.
@@ -75,6 +78,9 @@ const SirenProvider: React.FC<SirenProvider> = ({ config, children }) => {
   const [verificationStatus, setVerificationStatus] =
     useState<VerificationStatus>(VerificationStatus.PENDING);
   let retryCount = 0;
+  
+
+  const [id] = useState(generateUniqueId());
 
   useEffect(() => {
     if (config?.recipientId && config?.userToken) {
@@ -101,14 +107,8 @@ const SirenProvider: React.FC<SirenProvider> = ({ config, children }) => {
       action: eventTypes.RESET_NOTIFICATIONS,
     };
 
-    PubSub.publish(
-      events.NOTIFICATION_COUNT_EVENT,
-      JSON.stringify(updateCountPayload)
-    );
-    PubSub.publish(
-      events.NOTIFICATION_LIST_EVENT,
-      JSON.stringify(updateNotificationPayload)
-    );
+    PubSub.publish(`${events.NOTIFICATION_COUNT_EVENT}${id}`, JSON.stringify(updateCountPayload));
+    PubSub.publish(`${events.NOTIFICATION_LIST_EVENT}${id}`, JSON.stringify(updateNotificationPayload));
   };
 
   const onEventReceive = (
@@ -121,7 +121,7 @@ const SirenProvider: React.FC<SirenProvider> = ({ config, children }) => {
 
       logger.info(`new notifications : ${JSON.stringify(newNotifications)}`);
       PubSub.publish(
-        events.NOTIFICATION_LIST_EVENT,
+        `${events.NOTIFICATION_LIST_EVENT}${id}`,
         JSON.stringify({
           newNotifications,
           action: eventTypes.NEW_NOTIFICATIONS,
@@ -135,10 +135,10 @@ const SirenProvider: React.FC<SirenProvider> = ({ config, children }) => {
 
       logger.info(`unviewed notification count : ${totalUnviewed}`);
       PubSub.publish(
-        events.NOTIFICATION_COUNT_EVENT,
+        `${events.NOTIFICATION_COUNT_EVENT}${id}`,
         JSON.stringify({
           unviewedCount: totalUnviewed,
-          action: eventTypes.UPDATE_NOTIFICATIONS_COUNT,
+          action: eventTypes.UPDATE_NOTIFICATIONS_COUNT
         })
       );
     }
@@ -182,6 +182,7 @@ const SirenProvider: React.FC<SirenProvider> = ({ config, children }) => {
   return (
     <SirenContext.Provider
       value={{
+        id,
         siren,
         verificationStatus,
       }}

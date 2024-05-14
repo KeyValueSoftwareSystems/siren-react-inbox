@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import React, { type FC, useState } from "react";
 
 import CloseIcon from "./CloseIcon";
+import { useSirenContext } from "./SirenProvider";
 import TimerIcon from "./TimerIcon";
 import defaultAvatarDark from "../assets/dark/defaultAvatarDark.png";
 import failedImageDark from "../assets/dark/failedImageDark.svg";
@@ -59,6 +60,7 @@ const Card: FC<NotificationCardProps> = ({
   const {
     markAsReadById
   } = useSiren();
+  const { id } = useSirenContext();
 
   const [deleteAnimationStyle, setDeleteAnimationStyle] = useState('');
   
@@ -79,7 +81,7 @@ const Card: FC<NotificationCardProps> = ({
       const payload = { id: notification.id, action: eventTypes.DELETE_ITEM };
 
       setTimeout(() => {
-        PubSub.publish(events.NOTIFICATION_LIST_EVENT, JSON.stringify(payload));
+        PubSub.publish(`${events.NOTIFICATION_LIST_EVENT}${id}`, JSON.stringify(payload));
       }, 200)
 
     }
@@ -164,7 +166,7 @@ const Card: FC<NotificationCardProps> = ({
         {!hideMediaThumbnail && thumbnailUrl &&(
           <div 
             className="siren-sdk-card-thumbnail-container" 
-            style={{...(onAvatarClick && { cursor: "pointer" }),
+            style={{...(onMediaThumbnailClick && { cursor: "pointer" }),
               backgroundColor: darkMode ? '#4C4C4C' : '#F0F2F5'}}
             onClick={handleMediaClick}>
             <img

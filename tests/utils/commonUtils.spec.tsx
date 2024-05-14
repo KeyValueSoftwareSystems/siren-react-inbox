@@ -1,9 +1,14 @@
+import type { RefObject } from "react";
 import React from "react";
 
 import {
+  calculateModalPosition,
+  calculateModalWidth,
+  debounce,
   filterDataProperty,
   generateElapsedTimeText,
-  hexToRgba,
+  generateUniqueId,
+  getModalContentHeightInFullScreen,
   isEmptyArray,
   isValidResponse,
   logger,
@@ -205,14 +210,6 @@ describe("filterDataProperty", () => {
   });
 });
 
-describe("hexToRgba", () => {
-  test("returns rgba value for valid hex color and alpha", () => {
-    const rgbaColor = hexToRgba("#ff0000", 0.5);
-
-    expect(rgbaColor).toBe("rgba(255,0,0,0.5)");
-  });
-});
-
 describe("mergeArrays", () => {
   test("returns an empty array when both arrays are empty", () => {
     expect(mergeArrays([], [])).toEqual([]);
@@ -314,5 +311,87 @@ describe("mergeArrays", () => {
     ]
 
     expect(mergeArrays(array1, array2)).toEqual(array3);
+  });
+});
+
+interface MockWindow extends Window {
+  innerWidth: number;
+}
+
+
+describe("calculateModalPosition", () => {
+  const iconRefMock: RefObject<HTMLDivElement> = {
+    current: document.createElement("div"),
+  };
+  const windowMock: MockWindow = { innerWidth: 800 } as MockWindow;
+
+  test("returns position left when spaceRight is greater than modalWidth", () => {
+    const containerWidth = 300;
+    const position = calculateModalPosition(iconRefMock, windowMock, containerWidth);
+
+    expect(position).toEqual({ left: "0px" });
+  });
+});
+
+describe("calculateModalWidth", () => {
+
+  test("returns correct modalWidth when containerWidth is string", () => {
+    const modalWidth = calculateModalWidth("300px");
+
+    expect(modalWidth).toBe(340);
+  });
+
+  test("returns correct modalWidth when containerWidth is number", () => {
+    const modalWidth = calculateModalWidth(300);
+
+    expect(modalWidth).toBe(340);
+  });
+});
+
+
+jest.useFakeTimers();
+
+describe("debounce", () => {
+  test("calls the original function after the delay", () => {
+    const originalFunction = jest.fn();
+    const debouncedFunction = debounce(originalFunction, 1000);
+
+    debouncedFunction();
+
+    jest.advanceTimersByTime(1000);
+
+    expect(originalFunction).toHaveBeenCalled();
+  });
+
+});
+
+describe("getModalContentHeightInFullScreen", () => {
+  test("returns correct height when headerHeight is undefined", () => {
+    const height = getModalContentHeightInFullScreen(undefined);
+
+    expect(height).toBe("calc(100% - 0px)");
+  });
+
+  test("returns correct height when headerHeight is a string", () => {
+    const height = getModalContentHeightInFullScreen("50px");
+
+    expect(height).toBe("calc(100% - 50px)");
+  });
+
+  test("returns correct height when headerHeight is a number", () => {
+    const height = getModalContentHeightInFullScreen(100);
+
+    expect(height).toBe("calc(100% - 100px)");
+  });
+});
+
+describe("generateUniqueId", () => {
+  test("returns a unique ID string", () => {
+    const id1 = generateUniqueId();
+    const id2 = generateUniqueId();
+
+    expect(typeof id1).toBe("string");
+    expect(typeof id2).toBe("string");
+    expect(id1).not.toBe(id2);
   });
 });

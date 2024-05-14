@@ -422,11 +422,6 @@ export const calculateModalWidth = (containerWidth: DimensionValue): number => {
   return modalWidth;
 };
 
-export const hexToRgba = (hex: string, alpha: number) => {
-  const [r, g, b] = hex.match(/\w\w/g)?.map((x) => parseInt(x, 16)) ?? [];
-
-  return `rgba(${r},${g},${b},${alpha})`;
-};
 
 export const debounce = <F extends (...args: unknown[]) => void>(
   func: F,
@@ -450,4 +445,8 @@ export const getModalContentHeightInFullScreen = (headerHeight: DimensionValue |
   else if (typeof headerHeight === "number") updatedHeight = headerHeight;
 
   return `calc(100% - ${updatedHeight}px)`
-}
+};
+
+export const generateUniqueId = (): string => {
+  return Math.random().toString(36).substring(2, 15);
+};

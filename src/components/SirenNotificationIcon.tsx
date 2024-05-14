@@ -29,11 +29,11 @@ const SirenNotificationIcon: FC<SirenNotificationButtonProps> = ({
   hideBadge,
   isModalOpen,
 }) => {
-  const { siren } = useSirenContext();
+  const { siren, id } = useSirenContext();
 
   const [unviewedCount, seUnviewedCount] = useState<number>(0);
   const badgeType:BadgeType = isModalOpen ? BadgeType.NONE : BadgeType.DEFAULT;
-  
+
   const notificationCountSubscriber = async (
     type: string,
     dataString: string
@@ -47,7 +47,7 @@ const SirenNotificationIcon: FC<SirenNotificationButtonProps> = ({
   useEffect(() => {
     if(!hideBadge) {
       PubSub.subscribe(
-        events.NOTIFICATION_COUNT_EVENT,
+        `${events.NOTIFICATION_COUNT_EVENT}${id}`,
         notificationCountSubscriber
       );
 
