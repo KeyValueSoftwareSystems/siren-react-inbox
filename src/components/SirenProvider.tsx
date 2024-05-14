@@ -79,7 +79,7 @@ const SirenProvider: React.FC<SirenProvider> = ({ config, children }) => {
     useState<VerificationStatus>(VerificationStatus.PENDING);
   let retryCount = 0;
   const generateUniqueId = (): string => {
-    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    return Math.random().toString(36).substring(2, 15);
   };
 
   const [id] = useState(generateUniqueId());
