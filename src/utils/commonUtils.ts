@@ -450,4 +450,8 @@ export const getModalContentHeightInFullScreen = (headerHeight: DimensionValue |
   else if (typeof headerHeight === "number") updatedHeight = headerHeight;
 
   return `calc(100% - ${updatedHeight}px)`
-}
+};
+
+export const generateUniqueId = (): string => {
+  return Math.random().toString(36).substring(2, 15);
+};

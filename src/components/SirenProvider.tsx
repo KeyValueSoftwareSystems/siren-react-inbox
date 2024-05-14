@@ -10,7 +10,7 @@ import type {
 import PubSub from "pubsub-js";
 
 import type { SirenProviderConfigProps } from "../types";
-import { logger } from "../utils/commonUtils";
+import { generateUniqueId, logger } from "../utils/commonUtils";
 import {
   AUTHENTICATION_FAILED,
   events,
@@ -78,9 +78,7 @@ const SirenProvider: React.FC<SirenProvider> = ({ config, children }) => {
   const [verificationStatus, setVerificationStatus] =
     useState<VerificationStatus>(VerificationStatus.PENDING);
   let retryCount = 0;
-  const generateUniqueId = (): string => {
-    return Math.random().toString(36).substring(2, 15);
-  };
+  
 
   const [id] = useState(generateUniqueId());
 
