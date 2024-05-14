@@ -16,7 +16,7 @@ import Header from "./Header";
 import AnimatedLoader from "./Loader";
 import ShowMoreButton from "./ShowMore";
 import { useSirenContext } from "./SirenProvider";
-import type { SirenPanelProps } from "../types";
+import type { EventListenerDataType, SirenPanelProps } from "../types";
 import {
   filterDataProperty,
   generateFilterParams,
@@ -48,11 +48,14 @@ import useSiren from "../utils/sirenHook";
  *
  * @param {SirenPanelProps} props - The properties passed to the SirenWindow component.
  * @param {Object} props.styles - Custom styles applied to the notification panel and its elements.
- * @param {boolean} [props.hideBadge] - Flag indicating if the badge should be hidden
  * @param {string} props.loadMoreLabel - Label for load more button  
+ * @param {boolean} [props.hideBadge] - Flag indicating if the badge should be hidden
  * @param {Object} props.headerProps - Object containing props related to the inbox header.
  * @param {Object} props.cardProps - Optional properties to customize the appearance of notification cards.
- * @param {Function} props.renderListEmpty - Function to render content when the notification list is empty.
+ * @param {boolean} props.darkMode - Flag indicating if the component is in dark mode.
+ * @param {number} props.noOfNotificationsPerFetch - The number of notifications to fetch per request.
+ * @param {boolean} props.fullScreen - Flag indicating if the component is in full screen mode.
+ * @param {ReactNode} props.listEmptyComponent - Custom component to be rendered when the notification list is empty.
  * @param {ReactNode} props.customFooter - Custom footer component to be rendered below the notification list.
  * @param {ReactNode} pros.customLoader - Custom Loader component to be rendered while fetching notification list for the first time
  * @param {ReactNode} pros.loadMoreComponent -Custom load more component to be rendered
@@ -60,30 +63,25 @@ import useSiren from "../utils/sirenHook";
  * @param {Function} props.customCard - Function to render custom notification cards.
  * @param {Function} props.onCardClick - Callback function executed when a notification card is clicked.
  * @param {DimensionValue} props.modalWidth - The width of the notification panel.
+ * @param {Function} props.onError - Callback function executed when an error occurs.
  * @returns {ReactElement} The rendered SirenInbox component.
  */
 
-type EventListenerDataType = {
-  id?: string;
-  action: string;
-  newNotifications?: NotificationDataType[];
-  unreadCount?: number;
-};
 
 const SirenPanel: FC<SirenPanelProps> = ({
   styles,
   loadMoreLabel,
   hideBadge,
-  darkMode,
   headerProps,
   cardProps,
-  customFooter,
-  loadMoreComponent,
-  fullScreen,
-  customLoader,
-  listEmptyComponent,
-  customErrorWindow,
+  darkMode,
   noOfNotificationsPerFetch,
+  fullScreen,
+  listEmptyComponent,
+  customFooter,
+  customLoader,
+  loadMoreComponent,
+  customErrorWindow,
   customCard,
   onCardClick,
   onError,
@@ -141,15 +139,19 @@ const SirenPanel: FC<SirenPanelProps> = ({
     }
   }, [eventListenerData]);
 
+  const handleVerificationFailure = () => {
+    setIsLoading(false);
+    onError && onError(errorMap?.INVALID_CREDENTIALS);
+    setError(ERROR_TEXT);
+  };
+
   useEffect(() => {
-    if (siren && verificationStatus !== VerificationStatus.PENDING) {
+    if (siren && verificationStatus === VerificationStatus.SUCCESS) {
       !hideBadge && siren.stopRealTimeFetch(EventType.UNVIEWED_COUNT);
       fetchNotifications(true);
     }
-    if(verificationStatus === VerificationStatus.FAILED) {
-      setIsLoading(false);
-      onError && onError(errorMap?.INVALID_CREDENTIALS);
-      setError(ERROR_TEXT);
+    else if(verificationStatus === VerificationStatus.FAILED) {
+      handleVerificationFailure();
     }
   }, [siren, verificationStatus, hideBadge]);
 
@@ -191,7 +193,6 @@ const SirenPanel: FC<SirenPanelProps> = ({
 
         if (response && isValidResponse(response)) {
           resetValues();
-          setEndReached(true);
           setIsLoading(false);
         }
       }
@@ -422,20 +423,32 @@ const SirenPanel: FC<SirenPanelProps> = ({
 
 
   const containerClassNames = useMemo(() => {
-    return `${
-      (!notifications?.length || error) &&
-      !isLoading &&
-      "siren-sdk-content-container"
-    } ${customFooter ? "siren-sdk-panel-no-border" : ""}`;
-  }, [notifications, error, isLoading, customFooter]);
+    const hasNotifications = notifications?.length;
+    const hasError = error;
+    const isEmptyOrErrorState = !hasNotifications || hasError && !isLoading;
+  
+    const classes = [];
 
+    if (isEmptyOrErrorState) classes.push("siren-sdk-content-container");
+    if (customFooter) classes.push("siren-sdk-panel-no-border");
+  
+    return classes.join(' ');
+  }, [notifications, error, isLoading, customFooter]);
+  
+  
   const panelStyle = useMemo(() => {
-    return {
-      ...(!fullScreen && styles.windowTopBorder),
-      ...(!fullScreen && { width: `${modalWidth}px` }),
-      ...(!fullScreen && styles.windowBottomBorder),
+    const baseStyles = {
       ...styles.container,
     };
+
+    if (!fullScreen) 
+      Object.assign(baseStyles, {
+        ...styles.windowTopBorder,
+        width: `${modalWidth}px`,
+        ...styles.windowBottomBorder,
+      });
+    
+    return baseStyles;
   }, [fullScreen, styles, modalWidth]);
 
   const contentContainerHeightInFullScreen = useMemo(() => {

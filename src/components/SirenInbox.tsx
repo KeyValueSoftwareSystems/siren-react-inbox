@@ -62,6 +62,20 @@ const SirenInbox: FC<SirenProps> = ({
   onError,
   itemsPerFetch = 20,
 }) => {
+
+  const { siren } = useSirenContext();
+  const iconRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);  //ref for the modal
+  
+  const initialModalWidth = customStyles?.window?.width ?? DefaultStyle.window.width;
+
+  const [modalPosition, setModalPosition] = useState<{
+    right?: string;
+    left?: string;
+  }>();
+  const [updatedModalWidth, setUpdatedModalWidth] = useState(initialModalWidth);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const notificationsPerPage = useMemo(
     () =>
       Math.max(
@@ -72,19 +86,7 @@ const SirenInbox: FC<SirenProps> = ({
       ),
     [itemsPerFetch]
   );
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const { siren } = useSirenContext();
-  const iconRef = useRef<HTMLDivElement>(null);
-  //ref for the modal
-  const modalRef = useRef<HTMLDivElement>(null);
-  const [modalPosition, setModalPosition] = useState<{
-    right?: string;
-    left?: string;
-  }>();
-  const initialModalWidth =
-    customStyles?.window?.width || DefaultStyle.window.width;
-  const [updatedModalWidth, setUpdatedModalWidth] = useState(initialModalWidth);
+ 
   const styles = useMemo(
     () =>
       applyTheme(
@@ -118,7 +120,7 @@ const SirenInbox: FC<SirenProps> = ({
   }, [window.innerWidth, initialModalWidth]);
 
   useEffect(() => {
-    const containerWidth = styles.container.width || DefaultStyle.window.width;
+    const containerWidth = styles.container.width ?? DefaultStyle.window.width;
     const updateWindowViewMode = () => {
       setModalPosition(calculateModalPosition(iconRef, window, containerWidth));
     };

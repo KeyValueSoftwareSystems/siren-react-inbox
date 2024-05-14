@@ -23,7 +23,7 @@ const ShowMoreButton = (props: LoadMoreProps) => {
       style={styles.loadMoreButton}
       aria-label="siren-load-more"
     >
-      {loadMoreLabel || "Load More"}
+      {loadMoreLabel ?? "Load More"}
     </button>
   );
 };

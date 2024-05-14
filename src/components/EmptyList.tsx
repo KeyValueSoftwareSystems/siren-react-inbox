@@ -1,8 +1,9 @@
+import type { FC } from "react";
 import React from "react";
 
 import darkModeIcon from "../assets/dark/emptyIconDark.svg";
 import lightModeIcon from "../assets/light/emptyIconLight.svg";
-import type { SirenStyleProps } from "../types";
+import type { EmptyListProps } from "../types";
 import { Constants } from "../utils";
 import { LIST_EMPTY_SUB_TEXT, LIST_EMPTY_TEXT } from "../utils/constants";
 import "../styles/emptyList.css";
@@ -16,12 +17,15 @@ import "../styles/emptyList.css";
  *   styles={customStyles}
  * />
  *
- * @param {Object} props - The properties passed to the EmptyList component.
+ * @param {EmptyListProps} props - The properties passed to the EmptyList component.
  * @param {Object} props.styles - The styles object to customize the appearance of the empty list.
+ * @param {boolean} [props.darkMode] - Flag indicating if the component is in dark mode
  * @returns {ReactElement} The rendered EmptyList component.
  */
-const EmptyList = (props: { styles: SirenStyleProps, darkMode: boolean }) => {
-  const { styles, darkMode } = props;
+const EmptyList: FC<EmptyListProps> = ({
+  styles,
+  darkMode
+}) => {
 
   const containerStyle = { backgroundColor: darkMode ? Constants.COLORS.dark.iconColor : Constants.COLORS.light.iconColor };
 
