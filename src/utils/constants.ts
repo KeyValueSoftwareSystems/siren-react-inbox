@@ -1,6 +1,6 @@
 export const COLORS = {
   light: {
-    primaryColor: "#F56630",
+    primaryColor: "#FA9874",
     highlightedCardColor: "#FFECE5",
     textColor: "#344054",
     neutralColor: "#FFFFFF",
@@ -14,7 +14,7 @@ export const COLORS = {
     notificationIcon: "#232326",
   },
   dark: {
-    primaryColor: "#F56630",
+    primaryColor: "#FA9874",
     highlightedCardColor: "#2E2D30",
     textColor: "#FFFFFF",
     neutralColor: "#232326",
@@ -57,7 +57,7 @@ export const defaultBadgeStyle = {
   textSize: 10,
   linHeight: "14px",
   top: "inherit",
-  left: "inherit",
+  right: "inherit",
 };
 
 export enum eventTypes {
@@ -100,10 +100,12 @@ export const ERROR_SUB_TEXT =
 export const DEFAULT_WINDOW_TITLE = "Notifications";
 export const RETRY_BUTTON_LABEL = "Retry";
 export const CLEAR_ALL_LABEL = "Clear All";
-export const IN_APP_RECIPIENT_UNAUTHENTICATED = 'IN_APP_RECIPIENT_UNAUTHENTICATED';
+export const IN_APP_RECIPIENT_UNAUTHENTICATED = "IN_APP_RECIPIENT_UNAUTHENTICATED";
+export const AUTHENTICATION_FAILED = 'AUTHENTICATION_FAILED';
 export const TOKEN_VERIFICATION_PENDING ='TOKEN_VERIFICATION_PENDING';
 export const MAXIMUM_RETRY_COUNT = 3;
 export const MAXIMUM_ITEMS_PER_FETCH = 50;
+export const MAX_UNVIEWED_COUNT_SHOWN = 99;
 
 export const errorMap = {
   SIREN_OBJECT_NOT_FOUND: {
@@ -116,10 +118,20 @@ export const errorMap = {
     Code: "MISSING_PARAMETER",
     Message: "Missing Parameter",
   },
+  INVALID_CREDENTIALS: {
+    Type: "ERROR",
+    Code: "INVALID_CREDENTIALS",
+    Message: "Invalid credentials found. Please check your token and recipient ID.",
+  }
 };
 
 export enum VerificationStatus {
   PENDING = "PENDING",
   SUCCESS = "SUCCESS",
   FAILED = "FAILED"
+}
+
+export enum EventType {
+  NOTIFICATION = "NOTIFICATIONS",
+  UNVIEWED_COUNT = "UNVIEWED_COUNT",
 }

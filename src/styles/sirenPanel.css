@@ -1,19 +1,26 @@
 .siren-sdk-list-loader-container{
     width: 100%;
 }
+.siren-sdk-panel-modal-fullscreen {
+    height: 100%;
+}
 .siren-sdk-panel-modal {
     position:absolute;
     box-shadow: rgb(0 0 0 / 30%) 0px 8px 24px;
     border-radius: 20px;
-    background-color: #FFFFFF;
+    background-color: transparent;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     margin: 10px;
 
 }
+.siren-sdk-panel-content-container {
+    overflow: auto;
+}
 .siren-sdk-panel-container {
     width: 100% !important;
+    height: 100%;;
     border-radius: 20px;
     background-color: #FFFFFF;
     display: flex;

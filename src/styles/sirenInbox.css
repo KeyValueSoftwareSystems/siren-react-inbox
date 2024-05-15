@@ -1,8 +1,8 @@
-.siren-sdk-inbox-root {
-    position: fixed;
-}
 
 .siren-sdk-inbox-container {
     width: fit-content;
     position: relative;
+}
+.siren-sdk-inbox-window-container {
+    height: 100%;
 }

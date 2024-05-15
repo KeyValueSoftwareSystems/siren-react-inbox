@@ -1,10 +1,11 @@
-import React, { type FC, useCallback, useEffect, useState } from "react";
+import React, { type FC, useCallback, useEffect, useMemo, useState } from "react";
 
 import type {
   ActionResponse,
   MarkAsViewedResponse,
   NotificationDataType,
   NotificationsApiResponse,
+  SirenErrorType,
 } from "@sirenapp/js-sdk/dist/esm/types";
 
 import "../styles/sirenPanel.css";
@@ -15,16 +16,18 @@ import Header from "./Header";
 import AnimatedLoader from "./Loader";
 import ShowMoreButton from "./ShowMore";
 import { useSirenContext } from "./SirenProvider";
-import type { SirenPanelProps } from "../types";
+import type { EventListenerDataType, SirenPanelProps } from "../types";
 import {
   filterDataProperty,
   generateFilterParams,
+  getModalContentHeightInFullScreen,
   isEmptyArray,
   isValidResponse,
   mergeArrays,
+  mergeStyles,
   updateNotifications,
 } from "../utils/commonUtils";
-import { DEFAULT_WINDOW_TITLE, ERROR_TEXT, events, eventTypes, VerificationStatus } from "../utils/constants";
+import { DEFAULT_WINDOW_TITLE, ERROR_TEXT, errorMap, events, EventType, eventTypes, VerificationStatus } from "../utils/constants";
 import useSiren from "../utils/sirenHook";
 
 /**
@@ -40,60 +43,58 @@ import useSiren from "../utils/sirenHook";
  *   renderListEmpty={() => <div>No notifications</div>}
  *   customFooter={<FooterComponent />}
  *   customHeader={<CustomHeader />}
- *   customNotificationCard={(dataItem) => <CustomNotificationCard data={dataItem} />}
- *   onNotificationCardClick={(notification) => console.log('Notification clicked', notification)}
+ *   customCard={(dataItem) => <CustomNotificationCard data={dataItem} />}
+ *   onCardClick={(notification) => console.log('Notification clicked', notification)}
  * />
  *
  * @param {SirenPanelProps} props - The properties passed to the SirenWindow component.
  * @param {Object} props.styles - Custom styles applied to the notification panel and its elements.
- * @param {boolean} [props.hideBadge] - Flag indicating if the badge should be hidden
  * @param {string} props.loadMoreLabel - Label for load more button  
- * @param {Object} props.inboxHeaderProps - Object containing props related to the inbox header.
+ * @param {boolean} [props.hideBadge] - Flag indicating if the badge should be hidden
+ * @param {Object} props.headerProps - Object containing props related to the inbox header.
  * @param {Object} props.cardProps - Optional properties to customize the appearance of notification cards.
- * @param {Function} props.renderListEmpty - Function to render content when the notification list is empty.
+ * @param {boolean} props.darkMode - Flag indicating if the component is in dark mode.
+ * @param {number} props.noOfNotificationsPerFetch - The number of notifications to fetch per request.
+ * @param {boolean} props.fullScreen - Flag indicating if the component is in full screen mode.
+ * @param {ReactNode} props.listEmptyComponent - Custom component to be rendered when the notification list is empty.
  * @param {ReactNode} props.customFooter - Custom footer component to be rendered below the notification list.
  * @param {ReactNode} pros.customLoader - Custom Loader component to be rendered while fetching notification list for the first time
  * @param {ReactNode} pros.loadMoreComponent -Custom load more component to be rendered
  * @param {ReactNode} props.customErrorWindow -Custom error window component to be rendered when there is an error
- * @param {Function} props.customNotificationCard - Function to render custom notification cards.
- * @param {Function} props.onNotificationCardClick - Callback function executed when a notification card is clicked.
+ * @param {Function} props.customCard - Function to render custom notification cards.
+ * @param {Function} props.onCardClick - Callback function executed when a notification card is clicked.
  * @param {DimensionValue} props.modalWidth - The width of the notification panel.
+ * @param {Function} props.onError - Callback function executed when an error occurs.
  * @returns {ReactElement} The rendered SirenInbox component.
  */
 
-type EventListenerDataType = {
-  id?: string;
-  action: string;
-  newNotifications?: NotificationDataType[];
-  unreadCount?: number;
-};
 
 const SirenPanel: FC<SirenPanelProps> = ({
   styles,
   loadMoreLabel,
   hideBadge,
-  darkMode,
-  inboxHeaderProps,
+  headerProps,
   cardProps,
-  customFooter,
-  loadMoreComponent,
-  fullScreen,
-  customLoader,
-  listEmptyComponent,
-  customErrorWindow,
+  darkMode,
   noOfNotificationsPerFetch,
-  customNotificationCard,
-  onNotificationCardClick,
+  fullScreen,
+  listEmptyComponent,
+  customFooter,
+  customLoader,
+  loadMoreComponent,
+  customErrorWindow,
+  customCard,
+  onCardClick,
   onError,
   modalWidth,
 }) => {
   const {
-    markNotificationsAsViewed,
-    deleteNotificationsByDate,
-    deleteNotification,
+    markAllAsViewed,
+    deleteByDate,
+    deleteById,
   } = useSiren();
-  const { siren, verificationStatus } = useSirenContext();
-  const {hideHeader = false, hideClearAll = false, customHeader, title = DEFAULT_WINDOW_TITLE} = inboxHeaderProps ?? {};
+  const { siren, verificationStatus, id } = useSirenContext();
+  const {hideHeader = false, hideClearAll = false, customHeader, title = DEFAULT_WINDOW_TITLE} = headerProps ?? {};
   const [notifications, setNotifications] = useState<NotificationDataType[]>(
     []
   );
@@ -108,24 +109,29 @@ const SirenPanel: FC<SirenPanelProps> = ({
     const data = await JSON.parse(dataString);
 
     setEventListenerData(data);
-  };
+  };  
 
   useEffect(() => {
-    PubSub.subscribe(events.NOTIFICATION_LIST_EVENT, notificationSubscriber);
+    PubSub.subscribe(`${events.NOTIFICATION_LIST_EVENT}${id}`, notificationSubscriber);
 
     return () => {
       cleanUp();
       setNotifications([]);
-      !hideBadge && restartNotificationCountFetch();
       handleMarkNotificationsAsViewed(new Date().toISOString());
     };
-  }, [hideBadge]);
+  }, [siren]);
+
+  useEffect(() => {
+    return(() => {
+      !hideBadge && restartNotificationCountFetch();
+    })
+  }, [hideBadge])
 
   useEffect(() => {
     if (eventListenerData) {
       const updatedNotifications: NotificationDataType[] = updateNotifications(
         eventListenerData,
-        notifications
+        notifications,
       );
 
       if(!isEmptyArray(eventListenerData?.newNotifications)) handleMarkNotificationsAsViewed(updatedNotifications[0]?.createdAt);
@@ -134,23 +140,32 @@ const SirenPanel: FC<SirenPanelProps> = ({
     }
   }, [eventListenerData]);
 
+  const handleVerificationFailure = () => {
+    setIsLoading(false);
+    onError && onError(errorMap?.INVALID_CREDENTIALS);
+    setError(ERROR_TEXT);
+  };
+
   useEffect(() => {
-    if (siren && verificationStatus !== VerificationStatus.PENDING) {
-      !hideBadge && siren.stopRealTimeUnviewedCountFetch();
+    if (siren && verificationStatus === VerificationStatus.SUCCESS) {
+      !hideBadge && siren.stopRealTimeFetch(EventType.UNVIEWED_COUNT);
       fetchNotifications(true);
+    }
+    else if(verificationStatus === VerificationStatus.FAILED) {
+      handleVerificationFailure();
     }
   }, [siren, verificationStatus, hideBadge]);
 
   const restartNotificationCountFetch = () => {
     try {
-      siren?.startRealTimeUnviewedCountFetch();
+      siren?.startRealTimeFetch({eventType: EventType.UNVIEWED_COUNT});
     } catch (er) {
       //  handle error if needed
     }
   };
 
   const cleanUp = () => {
-    siren?.stopRealTimeNotificationFetch();
+    siren?.stopRealTimeFetch(EventType.NOTIFICATION);
   };
 
   const triggerOnError = useCallback(
@@ -171,7 +186,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
   const handleClearAllNotification = async (): Promise<void> => {
     try {
       if (!isEmptyArray(notifications)) {
-        const response = await deleteNotificationsByDate(
+        const response = await deleteByDate(
           notifications[0].createdAt
         );
 
@@ -179,7 +194,6 @@ const SirenPanel: FC<SirenPanelProps> = ({
 
         if (response && isValidResponse(response)) {
           resetValues();
-          setEndReached(true);
           setIsLoading(false);
         }
       }
@@ -237,10 +251,12 @@ const SirenPanel: FC<SirenPanelProps> = ({
         setEndReached(true);
         setError(ERROR_TEXT);
       }
-    } catch (error: any) {
+    }  catch (error) {
       setIsLoading(false);
-      if ("Message" in error) setError(error?.Message);
-      else setError(ERROR_TEXT);
+      if (typeof error === 'object' && error !== null && 'Message' in error) 
+        setError((error as SirenErrorType).Message);
+      else 
+        setError(ERROR_TEXT);     
     }
 
     setIsLoading(false);
@@ -253,8 +269,8 @@ const SirenPanel: FC<SirenPanelProps> = ({
     if (!refresh) return;
 
     try {
-      siren?.startRealTimeNotificationFetch(
-        generateFilterParams(newList ?? [], true, noOfNotificationsPerFetch)
+      siren?.startRealTimeFetch(
+        {eventType: EventType.NOTIFICATION, params:   generateFilterParams(newList ?? [], true, noOfNotificationsPerFetch)}   
       );
     } catch (er) {
       //  handle error if needed
@@ -262,16 +278,22 @@ const SirenPanel: FC<SirenPanelProps> = ({
   };
 
   const deleteNotificationById = useCallback(
-    async (id: string) => {
-      try {
-        const response = await deleteNotification(id);
+    async (id: string, shouldUpdateList: boolean) => {
+      let isSuccess = false;
 
+      try {
+        const response = await deleteById(id, shouldUpdateList);
+
+        if (response?.data) isSuccess = true;
         response && triggerOnError(response);
       } catch (er) {
+        isSuccess = false;
         //  handle error if needed
       }
+
+      return isSuccess;
     },
-    [deleteNotification, triggerOnError]
+    [deleteById, triggerOnError]
   );
 
   const onEndReached = (): void => {
@@ -288,9 +310,9 @@ const SirenPanel: FC<SirenPanelProps> = ({
         action: eventTypes.UPDATE_NOTIFICATIONS_COUNT,
       };
 
-      PubSub.publish(events.NOTIFICATION_COUNT_EVENT, JSON.stringify(payload));
+      PubSub.publish(`${events.NOTIFICATION_COUNT_EVENT}${id}`, JSON.stringify(payload));
       if (createdAt) {
-        const response = await markNotificationsAsViewed(createdAt);
+        const response = await markAllAsViewed(createdAt);
 
         response && triggerOnError(response);
       }
@@ -314,6 +336,22 @@ const SirenPanel: FC<SirenPanelProps> = ({
     );
   };
 
+  const renderedListItems = useMemo(() => {
+    return notifications.map((item) => (
+      <NotificationCard
+        notification={item}
+        cardProps={cardProps}
+        onCardClick={onCardClick}
+        deleteNotificationById={deleteNotificationById}
+        styles={styles}
+        key={item.id}
+        darkMode={darkMode}
+        data-testid="notification-card"
+      />
+    ));
+  }, [notifications, cardProps, onCardClick, deleteNotificationById, styles, darkMode]);
+
+
   const renderList = () => {
     if (isLoading && isEmptyArray(notifications)) {
       const hideAvatar = cardProps?.hideAvatar || false;
@@ -332,42 +370,35 @@ const SirenPanel: FC<SirenPanelProps> = ({
       );
     }
 
-    if (error)
+    if (error && !isLoading)
       return (
-        customErrorWindow || (
-          <ErrorWindow styles={styles} error={error} darkMode={darkMode} />
-        )
+        <div aria-label="siren-error-state">
+          { customErrorWindow || (
+            <ErrorWindow styles={styles} error={error} darkMode={darkMode} />
+          )}
+        </div>
       );
 
-    if (isEmptyArray(notifications))
+    if (isEmptyArray(notifications) && !error && !isLoading)
       return (
-        listEmptyComponent || (
-          <EmptyList
-            data-testid="empty-list"
-            styles={styles}
-            darkMode={darkMode}
-          />
-        )
+        <div aria-label="siren-empty-state">
+          {listEmptyComponent || (
+            <EmptyList
+              data-testid="empty-list"
+              styles={styles}
+              darkMode={darkMode}
+            />)
+          }
+        </div>     
       );
 
-    if (customNotificationCard)
-      return notifications.map((item) => customNotificationCard(item));
+    if (customCard)
+      return notifications.map((item) => customCard(item));
 
-    return notifications.map((item) => (
-      <NotificationCard
-        notification={item}
-        cardProps={cardProps}
-        onNotificationCardClick={onNotificationCardClick}
-        deleteNotificationById={deleteNotificationById}
-        styles={styles}
-        key={item.id}
-        darkMode={darkMode}
-        data-testid="notification-card"
-      />
-    ));
+    return renderedListItems;
   };
 
-  const renderListBottomComponent = () => {
+  const renderListBottomComponent = useMemo(() => {
     if (isEmptyArray(notifications)) return null;
     if (isLoading && !endReached)
       return (
@@ -389,20 +420,42 @@ const SirenPanel: FC<SirenPanelProps> = ({
       );
 
     return null;
-  };
+  }, [notifications, isLoading, endReached, styles, loadMoreComponent, handleLoadMore, loadMoreLabel]);
 
-  const containerClassNames = `${
-    (!notifications?.length || error) &&
-    !isLoading &&
-    "siren-sdk-content-container"
-  } ${customFooter ? "siren-sdk-panel-no-border" : ""}`;
 
-  const panelStyle = {
-    ...(!fullScreen && styles.windowTopBorder),
-    ...(!fullScreen && { width: `${modalWidth}px` }),
-    ...(!fullScreen && styles.windowBottomBorder),
-    ...styles.container,
-  };
+  const containerClassNames = useMemo(() => {
+    const hasNotifications = notifications?.length;
+    const hasError = error;
+    const isEmptyOrErrorState = !hasNotifications || hasError && !isLoading;
+  
+    const classes = [];
+
+    if (isEmptyOrErrorState) classes.push("siren-sdk-content-container");
+    if (customFooter) classes.push("siren-sdk-panel-no-border");
+  
+    return classes.join(' ');
+  }, [notifications, error, isLoading, customFooter]);
+  
+  
+  const panelStyle = useMemo(() => {
+    let baseStyles = { ...styles.container };
+  
+    if (!fullScreen) 
+      baseStyles = mergeStyles(
+        baseStyles,
+        styles.windowTopBorder,
+        { width: `${modalWidth}px` },
+        styles.windowBottomBorder
+      );
+    
+    
+    return baseStyles;
+  }, [fullScreen, styles, modalWidth]);
+  
+
+  const contentContainerHeightInFullScreen = useMemo(() => {
+    return getModalContentHeightInFullScreen(styles?.headerContainer?.height);
+  }, [styles?.headerContainer?.height]);
 
   return (
     <div
@@ -412,7 +465,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
       style={panelStyle}
       data-testid="siren-panel"
     >
-      <div>
+      <div className={fullScreen ? 'siren-sdk-panel-modal-fullscreen' : ''}>
         {!hideHeader &&
           (customHeader || (
             <Header
@@ -427,19 +480,23 @@ const SirenPanel: FC<SirenPanelProps> = ({
         <div
           style={{
             ...(!fullScreen && styles.windowBottomBorder),
+            ...(fullScreen && {height: contentContainerHeightInFullScreen}),
             ...styles.contentContainer,
           }}
         >
           <div
             id="contentContainer"
             style={{
-              ...(!fullScreen && styles.windowBottomBorder),
-              ...styles.body,
+              ...(fullScreen ? { height: contentContainerHeightInFullScreen } : {
+                ...styles.windowBottomBorder,
+                ...styles.body
+              }),
             }}
-            className={containerClassNames}
+            className={`siren-sdk-panel-content-container ${containerClassNames}`}
+            aria-label="siren-notification-list"
           >
             {renderList()}
-            {renderListBottomComponent()}
+            {renderListBottomComponent}
           </div>
           {renderFooter()}
         </div>

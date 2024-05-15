@@ -5,33 +5,35 @@ import { useSirenContext } from "./SirenProvider";
 import "../styles/sirenNotificationIcon.css";
 import type { SirenNotificationButtonProps } from "../types";
 import { Constants } from "../utils";
-import { BadgeType } from "../utils/constants";
+import { BadgeType, EventType, MAX_UNVIEWED_COUNT_SHOWN } from "../utils/constants";
 
 const { eventTypes, events } = Constants;
 
 /**
  * SirenNotificationIcon Component
  * @component
- * @param {Object} props - Props for the SirenNotificationIcon component
+ * @param {SirenNotificationButtonProps} props - Props for the SirenNotificationIcon component
  * @param {ReactNode} [props.notificationIcon] - The icon for the notification
- * @param {BadgeType} [props.badgeType=DEFAULT] - The type of badge to display
  * @param {Object} [props.styles] - Custom styles for the component
  * @param {Function} props.onIconClick - Click event handler for the icon
+ * @param {boolean} [props.darkMode] - Flag indicating if the component is in dark mode
+ * @param {boolean} [props.isModalOpen] - Flag indicating if the modal is open
  * @param {boolean} [props.hideBadge] - Flag indicating if the badge should be hidden
  * @returns {JSX.Element} - SirenNotificationIcon component JSX
  */
 
 const SirenNotificationIcon: FC<SirenNotificationButtonProps> = ({
   notificationIcon,
-  badgeType,
   styles,
   onIconClick,
   darkMode,
   hideBadge,
+  isModalOpen,
 }) => {
-  const { siren } = useSirenContext();
+  const { siren, id } = useSirenContext();
 
-  const [unviewedCount, seUnviewedCount] = useState<number>(0);
+  const [unviewedCount, setUnviewedCount] = useState<number>(0);
+  const badgeType:BadgeType = isModalOpen ? BadgeType.NONE : BadgeType.DEFAULT;
 
   const notificationCountSubscriber = async (
     type: string,
@@ -40,13 +42,13 @@ const SirenNotificationIcon: FC<SirenNotificationButtonProps> = ({
     const data = await JSON.parse(dataString);
 
     if (data.action === eventTypes.UPDATE_NOTIFICATIONS_COUNT)
-      seUnviewedCount(data.unviewedCount);
+      setUnviewedCount(data.unviewedCount);
   };
 
   useEffect(() => {
     if(!hideBadge) {
       PubSub.subscribe(
-        events.NOTIFICATION_COUNT_EVENT,
+        `${events.NOTIFICATION_COUNT_EVENT}${id}`,
         notificationCountSubscriber
       );
 
@@ -57,7 +59,8 @@ const SirenNotificationIcon: FC<SirenNotificationButtonProps> = ({
   }, []);
 
   useEffect(() => {
-    if(!hideBadge) 
+    // Check to avoid calling getUnViewedCount when the badge is hidden and the modal is open, and when either the siren object or hideBadge state changes.
+    if(!hideBadge && !isModalOpen) 
       getUnViewedCount();
     
   }, [siren, hideBadge]);
@@ -68,12 +71,12 @@ const SirenNotificationIcon: FC<SirenNotificationButtonProps> = ({
   }, [hideBadge]);
 
   const cleanUp = () => {
-    siren?.stopRealTimeUnviewedCountFetch();
+    siren?.stopRealTimeFetch(EventType.UNVIEWED_COUNT);
   };
 
   const startRealTimeDataFetch = (): void => {
     cleanUp();
-    siren?.startRealTimeUnviewedCountFetch();
+    siren?.startRealTimeFetch({eventType: EventType.UNVIEWED_COUNT});
   };
 
   const getUnViewedCount = async (): Promise<void> => {
@@ -82,48 +85,37 @@ const SirenNotificationIcon: FC<SirenNotificationButtonProps> = ({
       const response = await siren.fetchUnviewedNotificationsCount();
 
       startRealTimeDataFetch();
-      if (response && response.error) return;
-      if (response?.data) seUnviewedCount(response?.data?.unviewedCount || 0);
+      if (response?.error) return;
+      if (response?.data) setUnviewedCount(response?.data?.unviewedCount || 0);
     } catch (er) {
       //  handle error if needed
     }
   };
 
   const renderCount = useCallback(
-    () => (unviewedCount > 99 ? "99+" : unviewedCount),
+    () => (unviewedCount > MAX_UNVIEWED_COUNT_SHOWN ? `${MAX_UNVIEWED_COUNT_SHOWN}+` : unviewedCount),
     [unviewedCount]
   );
 
   const renderBadge = () => {
-    switch (badgeType) {
-      case BadgeType.DEFAULT: {
-        return (
-          unviewedCount > 0 && (
-            <div
-              style={styles.badgeStyle}
-              className="siren-sdk-notificationIcon-badge-container"
-            >
-              <div
-                style={styles.badgeTextStyle}
-                data-testid="notification-default-badge"
-              >
-                {renderCount()}
-              </div>
-            </div>
-          )
-        );
-      }
-      case BadgeType.DOT:
-        return (
-          <span
+    if (badgeType === BadgeType.DEFAULT) 
+      return (
+        unviewedCount > 0 && (
+          <div
+            style={styles.badgeStyle}
             className="siren-sdk-notificationIcon-badge-container"
-            data-testid="notification-dot-badge"
-          />
-        );
-
-      default:
-        return null;
-    }
+          >
+            <div
+              style={styles.badgeTextStyle}
+              data-testid="notification-default-badge"
+            >
+              {renderCount()}
+            </div>
+          </div>
+        )
+      );
+ 
+    return null;
   };
 
   return (
@@ -131,6 +123,7 @@ const SirenNotificationIcon: FC<SirenNotificationButtonProps> = ({
       onClick={onIconClick}
       className="siren-sdk-notificationIcon-container"
       data-testid="notification-icon"
+      aria-label="siren-notification-icon"
     >
       {notificationIcon || (
         <BellIcon

@@ -1,13 +1,17 @@
-import type { CSSProperties } from "react";
-import React, { type FC } from "react";
+import type { CSSProperties , FC} from "react";
+import React, { useState } from "react";
 
 import CloseIcon from "./CloseIcon";
+import { useSirenContext } from "./SirenProvider";
 import TimerIcon from "./TimerIcon";
 import defaultAvatarDark from "../assets/dark/defaultAvatarDark.png";
+import failedImageDark from "../assets/dark/failedImageDark.svg";
 import defaultAvatarLight from "../assets/light/defaultAvatarLight.png";
+import failedImageLight from "../assets/light/failedImageLight.svg";
 import type { NotificationCardProps } from "../types";
 import { generateElapsedTimeText } from "../utils/commonUtils";
 import "../styles/card.css";
+import { events, eventTypes } from "../utils/constants";
 import useSiren from "../utils/sirenHook";
 
 /**
@@ -28,8 +32,9 @@ import useSiren from "../utils/sirenHook";
  * <Card
  *   notification={notification}
  *   cardProps={{ hideAvatar: false }}
+ *   darkMode={false}
  *   styles={customStyles}
- *   onNotificationCardClick={(notification) => console.log('Notification clicked', notification)}
+ *   onCardClick={(notification) => console.log('Notification clicked', notification)}
  *   deleteNotificationById={(id) => console.log('Notification deleted', id)}
  * />
  *
@@ -37,7 +42,8 @@ import useSiren from "../utils/sirenHook";
  * @param {Object} props.notification - The notification data to display in the card.
  * @param {Object} [props.cardProps] - Optional properties to customize the appearance of the card.
  * @param {Object} props.styles - Custom styles applied to the card and its elements.
- * @param {Function} [props.onNotificationCardClick] - Callback function executed when the card is clicked.
+ * @param {boolean} props.darkMode - Flag to determine the dark mode status.
+ * @param {Function} [props.onCardClick] - Callback function executed when the card is clicked.
  * @param {Function} [props.deleteNotificationById] - Callback function executed when the delete action is triggered.
  * @returns {ReactElement} The rendered Card component.
  */
@@ -47,21 +53,44 @@ const Card: FC<NotificationCardProps> = ({
   cardProps,
   styles,
   darkMode,
-  onNotificationCardClick,
+  onCardClick,
   deleteNotificationById,
 }) => {
-  const { id, createdAt, message, isRead } = notification;
-  const { avatar, header, subHeader, body } = message;
-  const { hideAvatar, hideDelete, disableAutoMarkAsRead } =  cardProps ?? {};
+  const { createdAt, message, isRead } = notification;
+  const { avatar, header, subHeader, body, thumbnailUrl } = message;
+  const { hideAvatar, hideDelete, hideMediaThumbnail, disableAutoMarkAsRead, deleteIcon = null, onAvatarClick, onMediaThumbnailClick } =  cardProps ?? {};
   const {
-    markAsRead
+    markAsReadById
   } = useSiren();
-  const onDelete = (event: React.MouseEvent) => {
-    deleteNotificationById(id);
+  const { id } = useSirenContext();
+
+  const [deleteAnimationStyle, setDeleteAnimationStyle] = useState('');
+  const [imageLoaded, setImageLoaded] = useState(true);
+  const [imageSource, setImageSource] = useState(thumbnailUrl ?? '');
+  
+  const defaultAvatar = darkMode ? defaultAvatarDark : defaultAvatarLight;
+  const failedImage = darkMode ? failedImageDark: failedImageLight;
+
+
+  const onDelete = async (event: React.MouseEvent): Promise<void> => {
+    
     event.stopPropagation();
+    
+    const isSuccess = await deleteNotificationById(notification.id, false);
+
+    if (isSuccess) {
+
+      setDeleteAnimationStyle("siren-sdk-delete-animation");
+
+      const payload = { id: notification.id, action: eventTypes.DELETE_ITEM };
+
+      setTimeout(() => {
+        PubSub.publish(`${events.NOTIFICATION_LIST_EVENT}${id}`, JSON.stringify(payload));
+      }, 200)
+
+    }
   };
 
-  const defaultAvatar = darkMode ? defaultAvatarDark : defaultAvatarLight;
   const cardContainerStyle: CSSProperties = isRead
     ? {
       ...styles.defaultCardContainer,
@@ -74,9 +103,24 @@ const Card: FC<NotificationCardProps> = ({
     };
 
   const handleNotificationCardClick = () => {
-    onNotificationCardClick && onNotificationCardClick(notification);
-    !disableAutoMarkAsRead && markAsRead(notification.id);
-  }
+    onCardClick && onCardClick(notification);
+    !disableAutoMarkAsRead && markAsReadById(notification.id);
+  };
+
+  const handleAvatarClick = (event: React.MouseEvent) => {
+    onAvatarClick && onAvatarClick(notification);
+    event.stopPropagation();
+  };
+
+  const handleMediaClick = (event: React.MouseEvent) => {
+    onMediaThumbnailClick && onMediaThumbnailClick(notification);
+    event.stopPropagation();
+  };
+
+  const onErrorMedia = (): void => {
+    setImageLoaded(false);
+    setImageSource(failedImage);
+  };
 
   return (
     <div
@@ -85,27 +129,33 @@ const Card: FC<NotificationCardProps> = ({
         hideAvatar
           ? "siren-sdk-hide-avatar-card-container"
           : "siren-sdk-card-container"
-      }`}
+      } siren-sdk-card-common-container ${deleteAnimationStyle}`}
       onClick={handleNotificationCardClick}
+      aria-label={`siren-notification-card-${notification.id}`}
       data-testid={`card-${notification.id}`}
+      role="button"
     >
       {!hideAvatar && (
         <div
           style={{
             ...styles.cardIconRound,
             backgroundImage: `url(${avatar?.imageUrl || defaultAvatar})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            ...(onAvatarClick && { cursor: "pointer" }),
           }}
+          aria-label={`siren-notification-avatar-${notification.id}`}
+          onClick={handleAvatarClick}
+          role="button"
         />
       )}
       <div className="siren-sdk-card-content-wrapper">
-        <div style={styles.cardTitle} className="siren-sdk-card-text-break">
+        <div style={styles.cardTitle} className="siren-sdk-card-text-break siren-sdk-card-title">
           {header}
         </div>
         <div
-          style={styles.cardDescription}
-          className="siren-sdk-card-text-break"
+          style={styles.cardSubTitle}
+          className="siren-sdk-card-text-break siren-sdk-card-subtitle"
         >
           {subHeader}
         </div>
@@ -115,28 +165,45 @@ const Card: FC<NotificationCardProps> = ({
         >
           {body}
         </div>
+        {!hideMediaThumbnail && thumbnailUrl &&(
+          <div 
+            className="siren-sdk-card-thumbnail-container" 
+            style={{...(onMediaThumbnailClick && { cursor: "pointer" }),
+              backgroundColor: darkMode ? '#4C4C4C' : '#F0F2F5'}}
+            onClick={handleMediaClick}
+            role="button"
+          >
+            <img
+              className={`siren-sdk-card-thumbnail-image ${thumbnailUrl && imageLoaded ? 'siren-sdk-card-thumbnail-with-image' : ''}`}
+              src={imageSource}
+              onError={onErrorMedia}
+            />
+          </div>
+        )}
         <div className="siren-sdk-card-date-container">
           <TimerIcon
             color={styles.timerIcon.color}
             size={styles.timerIcon.size}
           />
-          <div style={styles.dateStyle}>
+          <div style={styles.dateStyle} className="siren-sdk-card-date-label">
             {generateElapsedTimeText(createdAt)}
           </div>
         </div>
       </div>
-      {!hideDelete && (
+      {!hideDelete && (deleteIcon || (
         <div
           data-testid={`delete-${notification.id}`}
           className="siren-sdk-delete-button"
           onClick={onDelete}
+          aria-label={`siren-notification-delete-${notification.id}`}
+          role="button"
         >
           <CloseIcon
             color={styles?.deleteIcon.color}
             size={styles.deleteIcon.size}
           />
         </div>
-      )}
+      ))}
     </div>
   );
 };

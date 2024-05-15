@@ -1,10 +1,8 @@
 import type { FC } from 'react';
 import React from 'react';
 
-interface IconProps {
-  color?: string;
-  size?: number
-}
+import type { IconProps } from '../types';
+
 
 const BellIcon: FC<IconProps> = ({ color = '#232326', size = 30 }: { color?: string, size?: number}) => {
   return (

@@ -58,16 +58,17 @@ Below are optional props available for the inbox component:
 Prop | Description | Type | Default value |
 --- | --- | --- | --- |
 theme | Object for custom themes |  Theme | {} |
+customStyles | Object for custom styling | CustomStyle | {} |
 loadMoreLabel | Text shown on the load more component | string | "Load More" |
 hideBadge | Toggle to hide or show the badge       |   boolean  |   false  |
 darkMode | Toggle to enable dark mode |  boolean | false |
 itemsPerFetch | Number of notifications fetch per api request (have a max cap of 50) | number | 20 |
 windowViewOnly | Toggle to enable fit-to-screen window or modal view |  boolean | false |
 notificationIcon | Option to use custom notification Icon |  JSX Element | null |
-inboxHeaderProps | Props for customizing the header.<br> title - Title of the notification inbox<br> hideHeader - Toggle to hide or show the header section.<br> hideClearAll - Toggle to hide or show the clear all button.<br> customHeader - Custom header component. | InboxHeaderProps| { title: 'Notifications', <br>hideHeader: false,<br> hideClearAll: false, <br>customHeader: null } |
-cardProps | Props for customizing the notification cards. <br>hideDelete - Toggle to hide or show delete icon<br> hideAvatar - Toggle to hide or show the avatar.<br> disableAutoMarkAsRead - Toggle to disable or enable the markAsRead functionality on card click | CardProps | { hideDelete: false,<br> hideAvatar: false,<br> disableAutoMarkAsRead: false } |
-customNotificationCard | Function for rendering custom notification cards | (notification)=> JSX Element | null |
-onNotificationCardClick | Custom click handler for notification cards | (notification)=> void | ()=>null |
+headerProps | Props for customizing the header.<br> title - Title of the notification inbox<br> hideHeader - Toggle to hide or show the header section.<br> hideClearAll - Toggle to hide or show the clear all button.<br> customHeader - Custom header component. | HeaderProps| { title: 'Notifications', <br>hideHeader: false,<br> hideClearAll: false, <br>customHeader: null } |
+cardProps | Props for customizing the notification cards. <br>hideDelete - Toggle to hide or show delete icon<br> hideAvatar - Toggle to hide or show the avatar.<br> hideMediaThumbnail - Toggle to hide or show thumbnail image<br> disableAutoMarkAsRead - Toggle to disable or enable the markAsReadById functionality on card click.<br> deleteIcon - Custom delete icon <br> onAvatarClick - Custom click handler for avatar <br> onMediaThumbnailClick - Custom click handler for media thumbnail | CardProps | { hideDelete: false,<br> hideAvatar: false,<br> disableAutoMarkAsRead: false, <br> hideMediaThumbnail: false, <br>deleteIcon: null, <br> onAvatarClick: ()=>null,<br> onMediaThumbnailClick: () => null } |
+customCard | Function for rendering custom notification cards | (notification)=> JSX Element | null |
+onCardClick | Custom click handler for notification cards | (notification)=> void | ()=>null |
 listEmptyComponent | Custom component for empty notification list | JSX Element | null |
 customFooter | Custom footer component | JSX Element | null |
 customLoader | Custom loader component | JSX Element | null |
@@ -88,9 +89,6 @@ type Theme = {
 };
 
 type ThemeProps = {
-  notificationIcon?: {
-    size?: number,
-  },
   colors?: {
     primaryColor?: string,
     textColor?: string,
@@ -108,25 +106,22 @@ type ThemeProps = {
     color?: string,
     textColor?: string,
   },
-  window?: {
-    borderColor?: string,
-  },
   windowHeader?: {
     background?: string,
     titleColor?: string,
     headerActionColor?: string,
-    borderColor?: string,
   },
   windowContainer?: {
     background?: string,
   },
-  notificationCard?: {
+  customCard?: {
     borderColor?: string,
     background?: string,
     titleColor?: string,
+    subtitleColor?: string,
     descriptionColor?: string,
   },
-  loadMoreButton: {
+  loadMoreButton?: {
     color?: string,
     background?: string,
   },
@@ -153,17 +148,21 @@ Please note that the badgeStyle, window shadow and border props are only applica
     titleFontWeight?:TextStyle["fontWeight"],
     titleSize?: number,
     titlePadding?: number,
+    borderWidth?: string,
   },
   windowContainer?: {
     padding?: number,
     contentHeight?: DimensionValue,
   },
-  notificationCard?: {
+  customCard?: {
     padding?: number,
     borderWidth?: number,
     avatarSize?: number,
     titleFontWeight?: TextStyle["fontWeight"],
     titleSize?: number,
+    subtitleFontWeight?: TextStyle['fontWeight'],
+    subtitleSize?: number,
+    descriptionFontWeight?: TextStyle['fontWeight'],
     descriptionSize?: number,
     dateSize?: number,
   },
@@ -174,18 +173,18 @@ Please note that the badgeStyle, window shadow and border props are only applica
   badgeStyle?: {
     size?: number,
     textSize?: number,
-    top?: number;
-    left?: number
+    top?: number,
+    right?: number
   },
   deleteIcon?:{
     size?: number
-  }
-  dateIcon?:{
+  },
+  timerIcon?:{
     size?: number
-  }
+  },
   clearAllIcon?:{
     size?: number
-  }
+  },
 }
 ```
 
@@ -193,9 +192,13 @@ Please note that the badgeStyle, window shadow and border props are only applica
 
 ```js
     type CardProps = {
-      hideDelete?: boolean;
+      hideDelete?: boolean,
       hideAvatar?: boolean,
+      hideMediaThumbnail?: boolean,
       disableAutoMarkAsRead?: boolean,
+      deleteIcon?: JSX.Element,
+      onAvatarClick?: () => void,
+      onMediaThumbnailClick?: () => void,
     };
 ```
 
@@ -203,7 +206,7 @@ Please note that the badgeStyle, window shadow and border props are only applica
 
 ```js
     type InboxHeaderProps = {
-      title?: string;
+      title?: string,
       hideHeader?: boolean,
       hideClearAll?: boolean,
       customHeader?: JSX.Element | null,
@@ -219,31 +222,11 @@ import { useSiren } from "@sirenapp/react-inbox";
 
 function MyComponent() {
   const {
-    markAsRead,
-    deleteNotification,
-    markAllNotificationsAsReadByDate,
-    clearAllNotificationByDate,
-    markNotificationsAsViewed,
+    markAsReadById,
   } = useSiren();
 
   function handleMarkAsRead(id) {
-    markAsRead(id);
-  }
-
-  function handleDeleteNotification(id) {
-    deleteNotification(id);
-  }
-
-  function handleMarkAllNotificationsAsReadByDate(untilDate) {
-    markNotificationsAsReadByDate(untilDate);
-  }
-
-  function handleClearAllNotificationByDate(untilDate) {
-    deleteNotificationsByDate(untilDate);
-  }
-
-  function handleMarkNotificationsAsViewed(untilDate) {
-    markNotificationsAsViewed(untilDate);
+    markAsReadById(id);
   }
 
   return {
@@ -256,24 +239,12 @@ function MyComponent() {
 
 Functions | Parameters | Type | Description |
 ----------|------------|-------|------------|
-markNotificationsAsReadByDate | startDate | ISO date string | Sets the read status of notifications to true until the given date |
-markAsRead | id | string | Set read status of a notification to true          |
-deleteNotification |  id | string  | Delete a notification by id |
-deleteNotificationsByDate | startDate | ISO date string | Delete all notifications until given date |
-markNotificationsAsViewed | startDate | ISO date string |Sets the viewed status of notifications to true until the given date |
+markAsReadByDate | startDate | ISO date string | Sets the read status of notifications to true until the given date |
+markAsReadById | id | string | Set read status of a notification to true          |
+deleteById |  id | string  | Delete a notification by id |
+deleteByDate | startDate | ISO date string | Delete all notifications until given date |
+markAllAsViewed | startDate | ISO date string |Sets the viewed status of notifications to true until the given date |
 
-## 5. Error codes
-
-Given below are all possible error codes thrown by sdk.
-
-Error code                | Description                                                       |
-------------------------- | ------------------------------------------------------------------|
-INVALID_TOKEN             | The token passed in the provider is invalid                       |
-INVALID_RECIPIENT_ID      | The recipient id passed in the provider is invalid                |
-TOKEN_VERIFICATION_FAILED | Verification of the given tokens has failed                       |
-GENERIC_API_ERROR         | Occurrence of an unexpected api error                             |
-OUTSIDE_SIREN_CONTEXT     | Attempting to invoke the functions outside the siren inbox context|
-MISSING_PARAMETER         | The required parameter is missing                |
 
 ## Example
 
@@ -302,7 +273,7 @@ export function MyContainer(): React.JSX.Element {
   return (
     <div>
       <SirenInbox
-        inboxHeaderProps={
+        headerProps={
           title: "Notifications",
           hideHeader: false
         }
@@ -311,6 +282,8 @@ export function MyContainer(): React.JSX.Element {
           hideDelete: false,
           hideAvatar: false,
           disableAutoMarkAsRead: false,
+          deleteIcon: null,
+          onAvatarClick: () => null,
         }}
       />
     </div>

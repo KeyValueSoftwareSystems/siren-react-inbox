@@ -14,7 +14,8 @@ jest.mock("../../src/styles/sirenNotificationIcon.css", () => ({}));
 
 const mockSirenContextValue = {
   siren: null,
-  verificationStatus: VerificationStatus.SUCCESS
+  verificationStatus: VerificationStatus.SUCCESS,
+  id: ''
 };
 
 const style = applyTheme();
@@ -24,10 +25,10 @@ test("matches snapshot", () => {
     <SirenNotificationIcon
       styles={style}
       notificationIcon={<div />}
-      badgeType="default"
       onIconClick={mockClickFn}
       darkMode={false}
       hideBadge={false}
+      isModalOpen={false}
     />
   );
 
@@ -40,9 +41,9 @@ test("should render notification icon only", () => {
       styles={style}
       onIconClick={mockClickFn}
       notificationIcon={<div />}
-      badgeType="none"
       darkMode={true}
       hideBadge={false}
+      isModalOpen={false}
     />
   );
   const badge = component.queryByTestId("notification-default-badge");
@@ -50,30 +51,15 @@ test("should render notification icon only", () => {
   expect(badge).toBeNull();
 });
 
-test("should notification icon with a dot badge", () => {
-  const component = render(
-    <SirenNotificationIcon
-      styles={style}
-      onIconClick={mockClickFn}
-      notificationIcon={<div />}
-      badgeType="dot"
-      darkMode={true}
-      hideBadge={false}
-    />
-  );
-  const badge = component.queryByTestId("notification-dot-badge");
-
-  expect(badge).toBeTruthy();
-});
 test("should render the passed notification icon", () => {
   const component = render(
     <SirenNotificationIcon
       styles={style}
       onIconClick={mockClickFn}
-      badgeType="default"
       notificationIcon={<div data-testid="custom-notification-icon" />}
       darkMode={true}
       hideBadge={false}
+      isModalOpen={false}
     />
   );
   const button = component.getByTestId("custom-notification-icon"); // Assuming count is displayed as button text
@@ -87,7 +73,7 @@ test("should call onClick handler on button click", () => {
       styles={style}
       onIconClick={mockClickFn}
       notificationIcon={<div />}
-      badgeType="dot"
+      isModalOpen={false}
       darkMode={true}
       hideBadge={false}
     />
@@ -102,12 +88,12 @@ test("should call onClick handler on button click", () => {
 it("does not render badge with count if unviewed count is 0", () => {
   const { queryByTestId } = render(
     <SirenNotificationIcon
-      badgeType="default"
       styles={style}
       onIconClick={mockClickFn}
       notificationIcon={<div />}
       darkMode={true}
       hideBadge={false}
+      isModalOpen={false}
     />
   );
   const badge = queryByTestId("notification-default-badge");
@@ -115,21 +101,7 @@ it("does not render badge with count if unviewed count is 0", () => {
   expect(badge).toBeFalsy();
 });
 
-it("renders badge without count for DOT badge type", () => {
-  const { getByTestId } = render(
-    <SirenNotificationIcon
-      styles={style}
-      onIconClick={mockClickFn}
-      notificationIcon={<div />}
-      badgeType="dot"
-      darkMode={true}
-      hideBadge={false}
-    />
-  );
-  const badge = getByTestId("notification-dot-badge");
 
-  expect(badge).toBeTruthy();
-});
 
 it("calls onClick handler when icon is clicked", () => {
   const onClickMock = jest.fn();
@@ -138,7 +110,7 @@ it("calls onClick handler when icon is clicked", () => {
       onIconClick={onClickMock}
       styles={style}
       notificationIcon={<div />}
-      badgeType="dot"
+      isModalOpen={false}
       darkMode={true}
       hideBadge={false}
     />
@@ -152,12 +124,12 @@ it("calls onClick handler when icon is clicked", () => {
 test("should not render badge with count if unviewed count is 0", () => {
   const { queryByTestId } = render(
     <SirenNotificationIcon
-      badgeType="default"
       styles={style}
       onIconClick={mockClickFn}
       notificationIcon={<div />}
       darkMode={true}
       hideBadge={false}
+      isModalOpen={false}
     />
   );
   const badge = queryByTestId("notification-default-badge");
@@ -170,10 +142,10 @@ test("should hide badge if unviewed count is 0 and badge type is default", () =>
     <SirenNotificationIcon
       styles={style}
       onIconClick={mockClickFn}
-      badgeType="default"
       notificationIcon={<div />}
       darkMode={true}
       hideBadge={false}
+      isModalOpen={false}
     />
   );
   const badge = queryByTestId("notification-default-badge");
@@ -186,7 +158,7 @@ test("should hide badge if badge type is set to none", () => {
     <SirenNotificationIcon
       styles={style}
       onIconClick={mockClickFn}
-      badgeType="none"
+      isModalOpen={false}
       notificationIcon={<div />}
       darkMode={true}
       hideBadge={false}
@@ -202,10 +174,10 @@ test("calls PubSub.subscribe with correct arguments", () => {
     <SirenNotificationIcon
       styles={style}
       notificationIcon={<div />}
-      badgeType="default"
       onIconClick={mockClickFn}
       darkMode={true}
       hideBadge={false}
+      isModalOpen={false}
     />,
     {
       wrapper: ({ children }) => (
