@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.1.0] - 2024-05-15
+## 1.1.0
 This is an update to the package.
 
 ### Added
@@ -14,7 +14,7 @@ This is an update to the package.
 - Enhanced style and theme customizations. 
 
 
-## [1.0.0] - 2024-03-26
+## 1.0.0 
 
 ### Added
 
