@@ -1,7 +1,8 @@
+import type { FC } from "react";
 import React from "react";
 
 import errorIcon from "../assets/errorIcon.svg";
-import type { SirenStyleProps } from "../types";
+import type { ErrorWindowProps } from "../types";
 import { Constants } from "../utils";
 import { ERROR_SUB_TEXT, ERROR_TEXT } from "../utils/constants";
 import "../styles/errorWindow.css";
@@ -13,20 +14,22 @@ import "../styles/errorWindow.css";
  * @example
  * <ErrorWindow
  *   styles={customStyles}
+ *   error="An error occurred while fetching data."
+ *   darkMode={false}
  *   onRefresh={() => console.log('Refresh button clicked')}
  * />
  *
- * @param {Object} props - The properties passed to the ErrorWindow component.
+ * @param {ErrorWindowProps} props - The properties passed to the ErrorWindow component.
  * @param {Object} props.styles - The styles object to customize the appearance of the error window.
+ * @param {Object} props.error - The error message to display in the window.
  * @param {boolean} props.darkMode - Flag for whether the selected theme is dark mode
  * @returns {ReactElement} The rendered ErrorWindow component.
  */
-const ErrorWindow = (props: {
-  styles: SirenStyleProps;
-  error: string;
-  darkMode: boolean;
+const ErrorWindow: FC<ErrorWindowProps> = ({
+  styles,
+  error,
+  darkMode
 }) => {
-  const { styles, error, darkMode } = props;
   const containerStyle = {
     backgroundColor: darkMode
       ? Constants.COLORS.dark.iconColor

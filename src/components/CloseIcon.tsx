@@ -1,10 +1,8 @@
 import type { FC } from 'react';
 import React from 'react';
 
-interface IconProps {
-  color?: string;
-  size?: number;
-}
+import type { IconProps } from '../types';
+
 
 const CloseIcon: FC<IconProps> = ({ color = '#98A2B3', size= 20 }) => {
   return (

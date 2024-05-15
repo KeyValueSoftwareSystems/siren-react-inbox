@@ -23,7 +23,6 @@ import {
  * SirenInbox Component
  * @param {Object} props - Props for the SirenInbox component
  * @param {Theme} props.theme - The theme for the SirenInbox component
- * @param {string} [props.title] - The title for the SirenInbox component
  * @param {boolean} [props.windowViewOnly=false] - Flag indicating if the window is view-only
  * @param {boolean} [props.hideBadge] - Flag indicating if the badge should be hidden
  * @param {CardProps} [props.headerProps] - Object containing props related to the inbox header
@@ -35,7 +34,7 @@ import {
  * @param {Function} [props.customCard] - Function to render custom notification card
  * @param {Function} [props.onCardClick] - Handler for notification card click event
  * @param {Function} [props.onError] - Handler for error events
- * @param {number} [props.noOfNotificationsPerFetch] - The number of notifications to fetch per request
+ * @param {number} [props.itemsPerFetch] - The number of notifications to fetch per request
  * @param {ReactNode} [pros.customLoader] - Custom Loader component to be rendered while fetching notification list for the first time
  * @param {ReactNode} [pros.loadMoreComponent] -Custom load more component to be rendered 
  * @param {ReactNode} [props.customErrorWindow] -Custom error window component to be rendered when there is an error
@@ -62,6 +61,20 @@ const SirenInbox: FC<SirenProps> = ({
   onError,
   itemsPerFetch = 20,
 }) => {
+
+  const { siren } = useSirenContext();
+  const iconRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);  //ref for the modal
+  
+  const initialModalWidth = customStyles?.window?.width ?? DefaultStyle.window.width;
+
+  const [modalPosition, setModalPosition] = useState<{
+    right?: string;
+    left?: string;
+  }>();
+  const [updatedModalWidth, setUpdatedModalWidth] = useState(initialModalWidth);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const notificationsPerPage = useMemo(
     () =>
       Math.max(
@@ -72,19 +85,7 @@ const SirenInbox: FC<SirenProps> = ({
       ),
     [itemsPerFetch]
   );
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const { siren } = useSirenContext();
-  const iconRef = useRef<HTMLDivElement>(null);
-  //ref for the modal
-  const modalRef = useRef<HTMLDivElement>(null);
-  const [modalPosition, setModalPosition] = useState<{
-    right?: string;
-    left?: string;
-  }>();
-  const initialModalWidth =
-    customStyles?.window?.width || DefaultStyle.window.width;
-  const [updatedModalWidth, setUpdatedModalWidth] = useState(initialModalWidth);
+ 
   const styles = useMemo(
     () =>
       applyTheme(
@@ -118,7 +119,7 @@ const SirenInbox: FC<SirenProps> = ({
   }, [window.innerWidth, initialModalWidth]);
 
   useEffect(() => {
-    const containerWidth = styles.container.width || DefaultStyle.window.width;
+    const containerWidth = styles.container.width ?? DefaultStyle.window.width;
     const updateWindowViewMode = () => {
       setModalPosition(calculateModalPosition(iconRef, window, containerWidth));
     };

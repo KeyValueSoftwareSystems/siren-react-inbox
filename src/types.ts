@@ -7,20 +7,20 @@ import type {
 
 export type SirenInboxProps = {
   theme?: Theme;
-  customStyles?: CustomStyle,
-  loadMoreLabel?: string,
+  customStyles?: CustomStyle;
+  loadMoreLabel?: string;
   headerProps?: {
     title?: string;
     hideHeader?: boolean;
     hideClearAll?: boolean;
     customHeader?: JSX.Element;
-  }
+  };
   hideBadge?: boolean;
   darkMode?: boolean;
   itemsPerFetch?: number;
   cardProps?: CardProps;
   listEmptyComponent?: JSX.Element;
-  loadMoreComponent?:JSX.Element;
+  loadMoreComponent?: JSX.Element;
   customFooter?: JSX.Element;
   customLoader?: JSX.Element;
   customErrorWindow?: JSX.Element;
@@ -62,7 +62,10 @@ export type NotificationCardProps = {
   cardProps: SirenInboxProps["cardProps"];
   onCardClick: SirenInboxProps["onCardClick"];
   styles: SirenStyleProps;
-  deleteNotificationById: (id: string, shouldUpdateList: boolean) => Promise <boolean>;
+  deleteNotificationById: (
+    id: string,
+    shouldUpdateList: boolean
+  ) => Promise<boolean>;
   darkMode: boolean;
 };
 
@@ -108,7 +111,7 @@ export type HeaderProps = {
 export type LoaderProps = {
   styles: SirenStyleProps;
   hideAvatar: boolean;
-}
+};
 
 export type Theme = {
   dark: ThemeProps;
@@ -150,7 +153,7 @@ export type CustomStyle = {
   };
   windowHeader?: {
     height?: DimensionValue;
-    titleFontWeight?:TextStyle["fontWeight"];
+    titleFontWeight?: TextStyle["fontWeight"];
     titleSize?: number;
     titlePadding?: number;
     borderWidth?: string;
@@ -165,15 +168,15 @@ export type CustomStyle = {
     avatarSize?: number;
     titleFontWeight?: TextStyle["fontWeight"];
     titleSize?: number;
-    subtitleFontWeight?: TextStyle['fontWeight'];
-    subtitleSize?: number
-    descriptionFontWeight?: TextStyle['fontWeight'];
+    subtitleFontWeight?: TextStyle["fontWeight"];
+    subtitleSize?: number;
+    descriptionFontWeight?: TextStyle["fontWeight"];
     descriptionSize?: number;
     dateSize?: number;
   };
   loadMoreButton?: {
     fontSize?: number;
-    fontWeight?: TextStyle["fontWeight"]
+    fontWeight?: TextStyle["fontWeight"];
   };
   badgeStyle?: {
     size?: number;
@@ -181,16 +184,16 @@ export type CustomStyle = {
     top?: number;
     right?: number;
   };
-  deleteIcon?:{
-    size?: number
-  }
-  timerIcon?:{
-    size?: number
-  }
-  clearAllIcon?:{
-    size?: number
-  }
-}
+  deleteIcon?: {
+    size?: number;
+  };
+  timerIcon?: {
+    size?: number;
+  };
+  clearAllIcon?: {
+    size?: number;
+  };
+};
 
 type WindowProps = {
   borderColor?: string;
@@ -244,13 +247,13 @@ export type SirenStyleProps = {
   dateStyle: CSSProperties;
   emptyText: CSSProperties;
   errorText: CSSProperties;
-  clearIcon: { size?: number; color?: string; };
-  timerIcon: { size?: number; color?: string; };
-  notificationIcon: { size?: number; };
+  clearIcon: { size?: number; color?: string };
+  timerIcon: { size?: number; color?: string };
+  notificationIcon: { size?: number };
   loadMoreButton: CSSProperties;
   loader: CSSProperties;
   body: CSSProperties;
-  deleteIcon: { size?: number; color?: string; };
+  deleteIcon: { size?: number; color?: string };
   badgeStyle: CSSProperties;
   badgeTextStyle: CSSProperties;
   windowTopBorder: CSSProperties;
@@ -258,9 +261,33 @@ export type SirenStyleProps = {
   infiniteLoader: CSSProperties;
   windowShadow: CSSProperties;
 };
+
 export type LoadMoreProps = {
   loadMoreLabel?: string;
   styles: SirenStyleProps;
   customComponent?: JSX.Element;
-  onClick: (event: React.MouseEvent)=> void;
-}
+  onClick: (event: React.MouseEvent) => void;
+};
+
+export type IconProps = {
+  color?: string;
+  size?: number;
+};
+
+export type EmptyListProps = {
+  styles: SirenStyleProps;
+  darkMode: boolean;
+};
+
+export type ErrorWindowProps = {
+  styles: SirenStyleProps;
+  error: string;
+  darkMode: boolean;
+};
+
+export type EventListenerDataType = {
+  id?: string;
+  action: string;
+  newNotifications?: NotificationDataType[];
+  unreadCount?: number;
+};

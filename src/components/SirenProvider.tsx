@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 import { Siren } from "@sirenapp/js-sdk";
 import type {
@@ -179,13 +179,15 @@ const SirenProvider: React.FC<SirenProvider> = ({ config, children }) => {
     setSiren(siren);
   };
 
+  const contextValue = useMemo(() => ({
+    id,
+    siren,
+    verificationStatus,
+  }), [id, siren, verificationStatus]);
+
   return (
     <SirenContext.Provider
-      value={{
-        id,
-        siren,
-        verificationStatus,
-      }}
+      value={contextValue}
     >
       {children}
     </SirenContext.Provider>

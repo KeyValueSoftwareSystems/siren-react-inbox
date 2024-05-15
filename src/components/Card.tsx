@@ -1,5 +1,5 @@
-import type { CSSProperties } from "react";
-import React, { type FC, useState } from "react";
+import type { CSSProperties , FC} from "react";
+import React, { useState } from "react";
 
 import CloseIcon from "./CloseIcon";
 import { useSirenContext } from "./SirenProvider";
@@ -32,17 +32,19 @@ import useSiren from "../utils/sirenHook";
  * <Card
  *   notification={notification}
  *   cardProps={{ hideAvatar: false }}
+ *   darkMode={false}
  *   styles={customStyles}
  *   onCardClick={(notification) => console.log('Notification clicked', notification)}
- *   deleteById={(id) => console.log('Notification deleted', id)}
+ *   deleteNotificationById={(id) => console.log('Notification deleted', id)}
  * />
  *
  * @param {NotificationCardProps} props - The properties passed to the Card component.
  * @param {Object} props.notification - The notification data to display in the card.
  * @param {Object} [props.cardProps] - Optional properties to customize the appearance of the card.
  * @param {Object} props.styles - Custom styles applied to the card and its elements.
+ * @param {boolean} props.darkMode - Flag to determine the dark mode status.
  * @param {Function} [props.onCardClick] - Callback function executed when the card is clicked.
- * @param {Function} [props.deleteById] - Callback function executed when the delete action is triggered.
+ * @param {Function} [props.deleteNotificationById] - Callback function executed when the delete action is triggered.
  * @returns {ReactElement} The rendered Card component.
  */
 
@@ -63,6 +65,8 @@ const Card: FC<NotificationCardProps> = ({
   const { id } = useSirenContext();
 
   const [deleteAnimationStyle, setDeleteAnimationStyle] = useState('');
+  const [imageLoaded, setImageLoaded] = useState(true);
+  const [imageSource, setImageSource] = useState(thumbnailUrl ?? '');
   
   const defaultAvatar = darkMode ? defaultAvatarDark : defaultAvatarLight;
   const failedImage = darkMode ? failedImageDark: failedImageLight;
@@ -113,10 +117,6 @@ const Card: FC<NotificationCardProps> = ({
     event.stopPropagation();
   };
 
-  const [imageLoaded, setImageLoaded] = useState(true); // Initially assume image is loaded
-
-  const [imageSource, setImageSource] = useState(thumbnailUrl ? thumbnailUrl : '');
-
   const onErrorMedia = (): void => {
     setImageLoaded(false);
     setImageSource(failedImage);
@@ -133,6 +133,7 @@ const Card: FC<NotificationCardProps> = ({
       onClick={handleNotificationCardClick}
       aria-label={`siren-notification-card-${notification.id}`}
       data-testid={`card-${notification.id}`}
+      role="button"
     >
       {!hideAvatar && (
         <div
@@ -145,6 +146,7 @@ const Card: FC<NotificationCardProps> = ({
           }}
           aria-label={`siren-notification-avatar-${notification.id}`}
           onClick={handleAvatarClick}
+          role="button"
         />
       )}
       <div className="siren-sdk-card-content-wrapper">
@@ -168,7 +170,9 @@ const Card: FC<NotificationCardProps> = ({
             className="siren-sdk-card-thumbnail-container" 
             style={{...(onMediaThumbnailClick && { cursor: "pointer" }),
               backgroundColor: darkMode ? '#4C4C4C' : '#F0F2F5'}}
-            onClick={handleMediaClick}>
+            onClick={handleMediaClick}
+            role="button"
+          >
             <img
               className={`siren-sdk-card-thumbnail-image ${thumbnailUrl && imageLoaded ? 'siren-sdk-card-thumbnail-with-image' : ''}`}
               src={imageSource}
@@ -192,6 +196,7 @@ const Card: FC<NotificationCardProps> = ({
           className="siren-sdk-delete-button"
           onClick={onDelete}
           aria-label={`siren-notification-delete-${notification.id}`}
+          role="button"
         >
           <CloseIcon
             color={styles?.deleteIcon.color}

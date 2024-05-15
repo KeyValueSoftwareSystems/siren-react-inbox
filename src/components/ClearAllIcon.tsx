@@ -1,10 +1,8 @@
 import type { FC } from 'react';
 import React from 'react';
 
-interface IconProps {
-  color?: string;
-  size?: number;
-}
+import type { IconProps } from '../types';
+
 
 const ClearAllIcon: FC<IconProps> = ({ color = '#667185', size = 24 }) => {
   return (
