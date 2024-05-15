@@ -19,7 +19,6 @@ exports[`matches snapshot 1`] = `
       class="siren-sdk-header-right-container"
       data-testid="clear-all"
       role="button"
-      style="opacity: 1; cursor: pointer;"
     >
       <svg
         fill="none"
