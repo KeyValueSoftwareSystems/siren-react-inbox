@@ -1,4 +1,4 @@
-import type { RefObject } from "react";
+import type { CSSProperties, RefObject } from "react";
 
 import type {
   ActionResponse,
@@ -449,4 +449,10 @@ export const getModalContentHeightInFullScreen = (headerHeight: DimensionValue |
 
 export const generateUniqueId = (): string => {
   return Math.random().toString(36).substring(2, 15);
+};
+
+export const mergeStyles = (...styleObjects: CSSProperties[]): CSSProperties => {
+  return styleObjects.reduce((mergedStyles, currentStyle) => {
+    return { ...mergedStyles, ...currentStyle };
+  }, {});
 };

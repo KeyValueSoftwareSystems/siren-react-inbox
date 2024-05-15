@@ -113,7 +113,9 @@ const SirenNotificationIcon: FC<SirenNotificationButtonProps> = ({
             </div>
           </div>
         )
-      ); 
+      );
+ 
+    return null;
   };
 
   return (

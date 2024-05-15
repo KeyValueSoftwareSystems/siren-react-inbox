@@ -40,10 +40,7 @@ const Header: FC<HeaderProps> = ({
 }) => {
 
   const headerRightContainerStyle = useMemo(() => ({
-    ...(enableClearAll ? {
-      opacity: 1,
-      cursor: 'pointer'
-    } : {
+    ...(!enableClearAll && {
       opacity: 0.5,
       cursor: 'default'
     })

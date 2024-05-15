@@ -24,6 +24,7 @@ import {
   isEmptyArray,
   isValidResponse,
   mergeArrays,
+  mergeStyles,
   updateNotifications,
 } from "../utils/commonUtils";
 import { DEFAULT_WINDOW_TITLE, ERROR_TEXT, errorMap, events, EventType, eventTypes, VerificationStatus } from "../utils/constants";
@@ -437,19 +438,20 @@ const SirenPanel: FC<SirenPanelProps> = ({
   
   
   const panelStyle = useMemo(() => {
-    const baseStyles = {
-      ...styles.container,
-    };
-
+    let baseStyles = { ...styles.container };
+  
     if (!fullScreen) 
-      Object.assign(baseStyles, {
-        ...styles.windowTopBorder,
-        width: `${modalWidth}px`,
-        ...styles.windowBottomBorder,
-      });
+      baseStyles = mergeStyles(
+        baseStyles,
+        styles.windowTopBorder,
+        { width: `${modalWidth}px` },
+        styles.windowBottomBorder
+      );
+    
     
     return baseStyles;
   }, [fullScreen, styles, modalWidth]);
+  
 
   const contentContainerHeightInFullScreen = useMemo(() => {
     return getModalContentHeightInFullScreen(styles?.headerContainer?.height);
