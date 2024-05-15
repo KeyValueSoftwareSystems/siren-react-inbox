@@ -1,4 +1,4 @@
-import type { RefObject } from "react";
+import type { CSSProperties, RefObject } from "react";
 
 import type {
   ActionResponse,
@@ -6,15 +6,20 @@ import type {
   NotificationsApiResponse,
 } from "@sirenapp/js-sdk/dist/esm/types";
 
-import { defaultBadgeStyle, eventTypes, LogLevel, ThemeMode } from "./constants";
+import {
+  defaultBadgeStyle,
+  eventTypes,
+  LogLevel,
+  ThemeMode,
+} from "./constants";
+import { default as DefaultStyle } from "./defaultStyles";
+import { default as DefaultTheme } from "./defaultTheme";
 import type {
   CustomStyle,
   DimensionValue,
   SirenStyleProps,
   ThemeProps,
 } from "../types";
-
-import { DefaultStyle, DefaultTheme } from ".";
 
 type FetchParams = {
   size: number;
@@ -122,7 +127,6 @@ export const applyTheme = (
 
   return {
     container: {
-      width: customStyle.window?.width || DefaultStyle.window.width,
       maxWidth: customStyle.window?.width || "100",
     },
     windowShadow: {
@@ -153,7 +157,6 @@ export const applyTheme = (
       }`,
     },
     body: {
-      overflow: "auto",
       height: customStyle.windowContainer?.contentHeight || "700px",
     },
     headerContainer: {
@@ -161,17 +164,12 @@ export const applyTheme = (
         theme.windowHeader?.background ||
         theme.colors?.neutralColor ||
         DefaultTheme[mode].windowHeader.background,
-      borderBottom: `0.5px solid ${
-        theme.colors?.borderColor || DefaultTheme[mode].colors.borderColor
-      }`,
+      borderBottom: `${customStyle.windowHeader?.borderWidth || DefaultStyle.windowHeader.borderWidth} solid`,
+      borderColor: theme.colors?.borderColor || DefaultTheme[mode].colors.borderColor,
       height:
         customStyle.windowHeader?.height || DefaultStyle.windowHeader.height,
     },
     headerTitle: {
-      alignItems: "center",
-      display: "flex",
-      margin: 0,
-      lineHeight: "28px",
       color:
         theme.windowHeader?.titleColor ||
         theme.colors?.textColor ||
@@ -194,45 +192,56 @@ export const applyTheme = (
     },
     defaultCardContainer: {
       backgroundColor:
-        theme.notificationCard?.background ||
-        DefaultTheme[mode].notificationCard.background,
+        theme.customCard?.background ||
+        DefaultTheme[mode].customCard.background,
       padding:
-        customStyle.notificationCard?.padding ||
-        DefaultStyle.notificationCard.padding,
+        customStyle.customCard?.padding ||
+        DefaultStyle.customCard.padding,
       borderBottom: `${
-        customStyle.notificationCard?.borderWidth ||
-        DefaultStyle.notificationCard.borderWidth
+        customStyle.customCard?.borderWidth ||
+        DefaultStyle.customCard.borderWidth
       }px solid`,
       borderColor:
-        theme.notificationCard?.borderColor ||
+        theme.customCard?.borderColor ||
         theme.colors?.borderColor ||
-        DefaultTheme[mode].notificationCard.borderColor,
+        DefaultTheme[mode].customCard.borderColor,
     },
     cardIconRound: {
       width:
-        customStyle.notificationCard?.avatarSize ||
-        DefaultStyle.notificationCard.avatarSize,
+        customStyle.customCard?.avatarSize ||
+        DefaultStyle.customCard.avatarSize,
       height:
-        customStyle.notificationCard?.avatarSize ||
-        DefaultStyle.notificationCard.avatarSize,
+        customStyle.customCard?.avatarSize ||
+        DefaultStyle.customCard.avatarSize,
       borderRadius:
-        (customStyle.notificationCard?.avatarSize ||
-          DefaultStyle.notificationCard.avatarSize) / 2,
+        (customStyle.customCard?.avatarSize ||
+          DefaultStyle.customCard.avatarSize) / 2,
       overflow: "hidden",
       backgroundColor:
         theme.colors?.borderColor || DefaultTheme[mode].colors.borderColor,
     },
     cardTitle: {
       color:
-        theme.notificationCard?.titleColor ||
+        theme.customCard?.titleColor ||
         theme.colors?.textColor ||
-        DefaultTheme[mode].notificationCard.titleColor,
+        DefaultTheme[mode].customCard.titleColor,
       fontSize:
-        customStyle.notificationCard?.titleSize ||
-        DefaultStyle.notificationCard.titleSize,
+        customStyle.customCard?.titleSize ||
+        DefaultStyle.customCard.titleSize,
       fontWeight:
-        customStyle.notificationCard?.titleFontWeight ||
-        DefaultStyle.notificationCard.titleFontWeight,
+        customStyle.customCard?.titleFontWeight ||
+        DefaultStyle.customCard.titleFontWeight,
+    },
+    cardSubTitle: {
+      color:
+        theme.customCard?.subtitleColor ||
+        theme.colors?.textColor ||
+        DefaultTheme[mode].customCard.subtitleColor,
+      fontSize:
+        customStyle.customCard?.subtitleSize || DefaultStyle.customCard.subtitleSize,
+      fontWeight:
+        customStyle.customCard?.subtitleFontWeight ||
+        DefaultStyle.customCard.subtitleFontWeight,
     },
     activeCardMarker: {
       backgroundColor:
@@ -243,19 +252,21 @@ export const applyTheme = (
     },
     cardDescription: {
       color:
-        theme.notificationCard?.descriptionColor ||
+        theme.customCard?.descriptionColor ||
         theme.colors?.textColor ||
-        DefaultTheme[mode].notificationCard.descriptionColor,
+        DefaultTheme[mode].customCard.descriptionColor,
       fontSize:
-        customStyle.notificationCard?.descriptionSize ||
-        DefaultStyle.notificationCard.descriptionSize,
-      fontWeight: "400",
+        customStyle.customCard?.descriptionSize ||
+        DefaultStyle.customCard.descriptionSize,
+      fontWeight:
+      customStyle.customCard?.descriptionFontWeight ||
+      DefaultStyle.customCard.descriptionFontWeight,
     },
     dateStyle: {
       color: theme.colors?.dateColor || DefaultTheme[mode].colors.dateColor,
       fontSize:
-        customStyle.notificationCard?.dateSize ||
-        DefaultStyle.notificationCard.dateSize,
+        customStyle.customCard?.dateSize ||
+        DefaultStyle.customCard.dateSize,
       lineHeight: "16px",
     },
     emptyText: {
@@ -306,8 +317,8 @@ export const applyTheme = (
       minWidth: customStyle.badgeStyle?.size || defaultBadgeStyle.size,
       height: customStyle.badgeStyle?.size || defaultBadgeStyle.size,
       backgroundColor: theme.badgeStyle?.color || defaultBadgeStyle.color,
-      top: `${customStyle.badgeStyle?.top}px` || defaultBadgeStyle.top,
-      left: `${customStyle.badgeStyle?.left}px` || defaultBadgeStyle.left,
+      top:  customStyle?.badgeStyle?.top ? `${customStyle.badgeStyle.top}px` : defaultBadgeStyle.top,
+      right:  customStyle?.badgeStyle?.right ? `${customStyle.badgeStyle.right}px` : defaultBadgeStyle.right,    
     },
     badgeTextStyle: {
       color: theme.badgeStyle?.textColor || defaultBadgeStyle.textColor,
@@ -372,35 +383,76 @@ export const calculateModalPosition = (
     const screenWidth = window.innerWidth;
     const spaceRight = screenWidth - iconRect.x;
     const spaceLeft = iconRect.x;
-    let modalWidth = 400;
+    let modalWidth = calculateModalWidth(containerWidth);
 
-    if (typeof containerWidth === "string")
-      modalWidth = parseInt(containerWidth.slice(0, -2));
-    else if (typeof containerWidth === "number") modalWidth = containerWidth;
+    const centerPosition =
+      Math.min(spaceLeft, spaceRight) + Math.abs(spaceLeft - spaceRight) / 2;
 
-    const topPosition = iconRect.bottom;
-    const leftPosition = screenWidth / 2 - modalWidth / 2;
+    if (window.innerWidth <= modalWidth) modalWidth = window.innerWidth - 40;
 
-    if (
-      spaceLeft < modalWidth &&
-      spaceRight < modalWidth &&
-      screenWidth > modalWidth
-    ) {
-      return { top: `${topPosition}px`, left: `-${leftPosition}px` };
-    } else {
-      const rightPosition = spaceRight < modalWidth + 30 ? "30px" : null;
+    if (spaceRight > modalWidth) {
+      return {
+        left: `0px`,
+      };
+    } else if (spaceLeft > modalWidth) {
+      const rightPosition = spaceRight < modalWidth ? "30px" : null;
 
       return {
-        top: `${topPosition}px`,
         ...(rightPosition && { right: rightPosition }),
       };
+    } else if (
+      spaceLeft < modalWidth &&
+      spaceRight < modalWidth &&
+      spaceLeft > spaceRight
+    ) {
+      return { right: "30px" };
+    } else {
+      return { left: `-${centerPosition - 40}px` };
     }
   }
-
-  return { top: "0" };
 };
-export const hexToRgba = (hex: string, alpha: number) => {
-  const [r, g, b] = hex.match(/\w\w/g)?.map((x) => parseInt(x, 16)) ?? [];
 
-  return `rgba(${r},${g},${b},${alpha})`;
+export const calculateModalWidth = (containerWidth: DimensionValue): number => {
+  let modalWidth = 500;
+
+  if (typeof containerWidth === "string")
+    modalWidth = parseInt(containerWidth.slice(0, -2)) + 40;
+  else if (typeof containerWidth === "number") modalWidth = containerWidth + 40;
+
+  return modalWidth;
+};
+
+
+export const debounce = <F extends (...args: unknown[]) => void>(
+  func: F,
+  delay: number
+) => {
+  let timerId: ReturnType<typeof setTimeout>;
+
+  return (...args: Parameters<F>): void => {
+    clearTimeout(timerId);
+    timerId = setTimeout(() => {
+      func(...args);
+    }, delay);
+  };
+};
+
+export const getModalContentHeightInFullScreen = (headerHeight: DimensionValue | undefined) =>  {
+  let updatedHeight = 0;
+
+  if (typeof headerHeight === "string")
+    updatedHeight = parseInt(headerHeight.slice(0, -2));
+  else if (typeof headerHeight === "number") updatedHeight = headerHeight;
+
+  return `calc(100% - ${updatedHeight}px)`
+};
+
+export const generateUniqueId = (): string => {
+  return Math.random().toString(36).substring(2, 15);
+};
+
+export const mergeStyles = (...styleObjects: CSSProperties[]): CSSProperties => {
+  return styleObjects.reduce((mergedStyles, currentStyle) => {
+    return { ...mergedStyles, ...currentStyle };
+  }, {});
 };
