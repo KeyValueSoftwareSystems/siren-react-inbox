@@ -5,7 +5,7 @@ exports[`matches snapshot 1`] = `
   <div
     class="siren-sdk-panel-modal"
     data-testid="siren-panel"
-    style="border-top-left-radius: 10px; border-top-right-radius: 10px; width: 500px; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; max-width: 100;"
+    style="max-width: 100; border-top-left-radius: 10px; border-top-right-radius: 10px; width: 500px; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;"
   >
     <div
       class=""
@@ -26,6 +26,7 @@ exports[`matches snapshot 1`] = `
           aria-label="siren-header-clear-all"
           class="siren-sdk-header-right-container"
           data-testid="clear-all"
+          role="button"
           style="opacity: 0.5; cursor: default;"
         >
           <svg
@@ -53,7 +54,7 @@ exports[`matches snapshot 1`] = `
       >
         <div
           aria-label="siren-notification-list"
-          class="siren-sdk-panel-content-container false "
+          class="siren-sdk-panel-content-container siren-sdk-content-container"
           id="contentContainer"
           style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; height: 700px;"
         >
