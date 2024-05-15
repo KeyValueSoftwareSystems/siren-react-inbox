@@ -12,6 +12,10 @@ This is an update to the package.
 - Exposed Avatar click property.
 - Implemented specific error code mapping.
 - Enhanced style and theme customizations. 
+- Add stories for components.
+- Update realtime fetch logic and rename functions
+- Terminate retry verification api trigger if config changes while retrying
+- Add unique identifier for PubSub events in SirenProvider
 
 
 ## 1.0.0 
