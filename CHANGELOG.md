@@ -3,7 +3,6 @@
 All notable changes to this project will be documented in this file.
 
 ## 1.1.0
-This is an update to the package.
 
 ### Added
 
