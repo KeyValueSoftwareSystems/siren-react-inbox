@@ -15,6 +15,7 @@ import "../styles/emptyList.css";
  * @example
  * <EmptyList
  *   styles={customStyles}
+ *   darkMode={false}
  * />
  *
  * @param {EmptyListProps} props - The properties passed to the EmptyList component.

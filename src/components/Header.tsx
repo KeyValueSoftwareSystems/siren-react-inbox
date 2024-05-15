@@ -16,13 +16,16 @@ const { CLEAR_ALL_LABEL } = Constants;
  *   title="Notifications"
  *   styles={customStyles}
  *   enableClearAll={true}
+ *   hideClearAll={false}
  *   handleClearAllNotification={() => console.log('Clear all notifications')}
+ *   fullScreen={false}
  * />
  *
  * @param {HeaderProps} props - The properties passed to the Header component.
  * @param {string} props.title - The title to be displayed in the header.
  * @param {Object} props.styles - The styles object to customize the appearance of the header.
  * @param {boolean} props.enableClearAll - Whether to enable the "Clear All" action in the header.
+ * @param {boolean} props.hideClearAll - Flag indicating if the "Clear All" action should be hidden.
  * @param {Function} props.handleClearAllNotification - Callback function executed when the "Clear All" action is clicked.
  * @param {boolean} props.fullScreen - Flag indicating if the component is in full screen mode.
  * @returns {ReactElement} The rendered Header component.

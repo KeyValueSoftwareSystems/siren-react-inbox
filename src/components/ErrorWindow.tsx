@@ -14,6 +14,8 @@ import "../styles/errorWindow.css";
  * @example
  * <ErrorWindow
  *   styles={customStyles}
+ *   error="An error occurred while fetching data."
+ *   darkMode={false}
  *   onRefresh={() => console.log('Refresh button clicked')}
  * />
  *

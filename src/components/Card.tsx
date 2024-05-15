@@ -32,17 +32,19 @@ import useSiren from "../utils/sirenHook";
  * <Card
  *   notification={notification}
  *   cardProps={{ hideAvatar: false }}
+ *   darkMode={false}
  *   styles={customStyles}
  *   onCardClick={(notification) => console.log('Notification clicked', notification)}
- *   deleteById={(id) => console.log('Notification deleted', id)}
+ *   deleteNotificationById={(id) => console.log('Notification deleted', id)}
  * />
  *
  * @param {NotificationCardProps} props - The properties passed to the Card component.
  * @param {Object} props.notification - The notification data to display in the card.
  * @param {Object} [props.cardProps] - Optional properties to customize the appearance of the card.
  * @param {Object} props.styles - Custom styles applied to the card and its elements.
+ * @param {boolean} props.darkMode - Flag to determine the dark mode status.
  * @param {Function} [props.onCardClick] - Callback function executed when the card is clicked.
- * @param {Function} [props.deleteById] - Callback function executed when the delete action is triggered.
+ * @param {Function} [props.deleteNotificationById] - Callback function executed when the delete action is triggered.
  * @returns {ReactElement} The rendered Card component.
  */
 

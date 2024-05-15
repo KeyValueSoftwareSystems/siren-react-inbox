@@ -3,6 +3,22 @@ import React, { type FC } from "react";
 import "../styles/loader.css";
 import type { LoaderProps } from "../types";
 
+/**
+ * Loader component represents a skeleton loader for the notification card.
+ *
+ * @component
+ * @example
+ * <Loader
+ *   hideAvatar={false}
+ *   styles={customStyles}
+ * />
+ *
+ * @param {LoaderProps} props - The properties passed to the Loader component.
+ * @param {boolean} props.hideAvatar - Flag to determine if the avatar should be hidden.
+ * @param {Object} props.styles - Custom styles applied to the loader.
+ * @returns {ReactElement} The rendered Loader component.
+ */
+
 const Loader : FC<LoaderProps> = ({
   hideAvatar,
   styles,
