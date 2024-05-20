@@ -26,6 +26,7 @@ type FetchParams = {
   start?: string;
   end?: string;
   sort?: "createdAt" | "updatedAt";
+  isRead?: boolean;
 };
 
 export const generateElapsedTimeText = (timeString: string) => {
@@ -331,6 +332,26 @@ export const applyTheme = (
         DefaultTheme[mode].colors.primaryColor
       }`,
     },
+    tabsHeaderContainer:{
+      height: customStyle.tabs?.containerHeight || DefaultStyle.tabs.containerHeight,
+      backgroundColor: theme.tabs?.containerBackgroundColor || DefaultTheme[mode].tabs.containerBackgroundColor,
+    },
+    activeTabStyle:{
+      backgroundColor: theme.tabs?.activeTabBackgroundColor || DefaultTheme[mode].tabs.activeTabBackgroundColor,
+      color: theme.tabs?.activeTabTextColor || DefaultTheme[mode].tabs.activeTabTextColor,
+      fontSize: customStyle.tabs?.activeTabTextSize || DefaultStyle.tabs.activeTabTextSize,
+      fontWeight: customStyle.tabs?.activeTabTextWeight || DefaultStyle.tabs.activeTabTextWeight,
+    },
+    inactiveTabStyle:{
+      backgroundColor: theme.tabs?.inactiveTabBackgroundColor || DefaultTheme[mode].tabs.inactiveTabBackgroundColor,
+      color: theme.tabs?.inactiveTabTextColor || DefaultTheme[mode].tabs.inactiveTabTextColor,
+      fontSize: customStyle.tabs?.inactiveTabTextSize || DefaultStyle.tabs.inactiveTabTextSize,
+      fontWeight: customStyle.tabs?.inactiveTabTextWeight || DefaultStyle.tabs.inactiveTabTextWeight,
+    },
+    activeTabIndicator:{
+      backgroundColor: theme.tabs?.indicatorColor || DefaultTheme[mode].tabs.indicatorColor,
+      height: customStyle.tabs?.indicatorHeight || DefaultStyle.tabs.indicatorHeight,
+    }
   };
 };
 
@@ -362,13 +383,16 @@ export const filterDataProperty = (
 export const generateFilterParams = (
   data: NotificationDataType[],
   fromStart: boolean,
-  itemsPerPage: number
+  itemsPerPage: number,
+  filterType: string,
 ): FetchParams => {
   let params: FetchParams = { size: itemsPerPage, sort: "createdAt" };
 
   if (data.length > 0)
     if (fromStart) params = { ...params, start: data[0].createdAt };
     else params = { ...params, end: data[data.length - 1].createdAt };
+
+  if (filterType === "Unread") params = { ...params, isRead: false};
 
   return params;
 };

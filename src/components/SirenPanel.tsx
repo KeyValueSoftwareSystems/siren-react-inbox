@@ -16,6 +16,7 @@ import Header from "./Header";
 import AnimatedLoader from "./Loader";
 import ShowMoreButton from "./ShowMore";
 import { useSirenContext } from "./SirenProvider";
+import Tab from "./Tab";
 import type { EventListenerDataType, SirenPanelProps } from "../types";
 import {
   filterDataProperty,
@@ -87,6 +88,14 @@ const SirenPanel: FC<SirenPanelProps> = ({
   onCardClick,
   onError,
   modalWidth,
+  hideTab = false,
+  tabProps = {
+    tabs: [
+      { key: 'All', title: 'All' },
+      { key: 'Unread', title: 'Unread' }
+    ],
+    activeTab: 0
+  }
 }) => {
   const {
     markAllAsViewed,
@@ -98,7 +107,8 @@ const SirenPanel: FC<SirenPanelProps> = ({
   const [notifications, setNotifications] = useState<NotificationDataType[]>(
     []
   );
-
+  const [activeTabIndex, setActiveTabIndex] = useState(0);
+  const [filterType, setFilterType] = useState<string>(tabProps.tabs[tabProps.activeTab].key);
   const [error, setError] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
   const [endReached, setEndReached] = useState(false);
@@ -154,7 +164,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
     else if(verificationStatus === VerificationStatus.FAILED) {
       handleVerificationFailure();
     }
-  }, [siren, verificationStatus, hideBadge]);
+  }, [siren, verificationStatus, hideBadge, activeTabIndex]);
 
   const restartNotificationCountFetch = () => {
     try {
@@ -183,7 +193,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
     setError("");
   };
 
-  const handleClearAllNotification = async (): Promise<void> => {
+  const handleClearAllNotification = async (): Promise<void> => {   
     try {
       if (!isEmptyArray(notifications)) {
         const response = await deleteByDate(
@@ -194,6 +204,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
 
         if (response && isValidResponse(response)) {
           resetValues();
+          setEndReached(true);
           setIsLoading(false);
         }
       }
@@ -227,7 +238,8 @@ const SirenPanel: FC<SirenPanelProps> = ({
         generateFilterParams(
           isRefresh ? [] : notifications,
           false,
-          noOfNotificationsPerFetch
+          noOfNotificationsPerFetch,
+          filterType
         )
       );
 
@@ -270,7 +282,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
 
     try {
       siren?.startRealTimeFetch(
-        {eventType: EventType.NOTIFICATION, params:   generateFilterParams(newList ?? [], true, noOfNotificationsPerFetch)}   
+        {eventType: EventType.NOTIFICATION, params:   generateFilterParams(newList ?? [], true, noOfNotificationsPerFetch, filterType)}   
       );
     } catch (er) {
       //  handle error if needed
@@ -326,6 +338,14 @@ const SirenPanel: FC<SirenPanelProps> = ({
     onEndReached();
   };
 
+
+  const handleTabChange = (index: number) => {
+    resetValues();
+    cleanUp();
+    setActiveTabIndex(index);
+    setFilterType(tabProps.tabs[index].key);
+  };
+
   const renderFooter = () => {
     if (isEmptyArray(notifications) && isLoading) return <div />;
 
@@ -350,7 +370,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
       />
     ));
   }, [notifications, cardProps, onCardClick, deleteNotificationById, styles, darkMode]);
-
+  
 
   const renderList = () => {
     if (isLoading && isEmptyArray(notifications)) {
@@ -392,9 +412,9 @@ const SirenPanel: FC<SirenPanelProps> = ({
         </div>     
       );
 
-    if (customCard)
-      return notifications.map((item) => customCard(item));
-
+    if (customCard) 
+      return notifications.map((item) => customCard(item)); 
+     
     return renderedListItems;
   };
 
@@ -457,6 +477,13 @@ const SirenPanel: FC<SirenPanelProps> = ({
     return getModalContentHeightInFullScreen(styles?.headerContainer?.height);
   }, [styles?.headerContainer?.height]);
 
+  const defaultTabProps = {
+    tabs: tabProps.tabs,
+    activeTab: tabProps.activeTab,
+    onTabChange: handleTabChange, 
+    styles: styles,
+  };
+
   return (
     <div
       className={
@@ -484,6 +511,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
             ...styles.contentContainer,
           }}
         >
+          {!hideTab && (<Tab {...defaultTabProps} />)} 
           <div
             id="contentContainer"
             style={{

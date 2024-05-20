@@ -48,6 +48,15 @@ const defaultStyles = {
   },
   clearAllIcon:{
     size: 18
+  },
+  tabs: {
+    containerHeight: 50,
+    activeTabTextWeight: 600,
+    inactiveTabTextWeight: 600,
+    indicatorHeight: 3,
+    activeTabTextSize: 14,
+    inactiveTabTextSize: 14,
+    
   }
 }
 
