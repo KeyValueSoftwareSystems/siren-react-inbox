@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tab Component renders correctly and matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="siren-sdk-tab-container"
+  >
+    <div
+      class="siren-sdk-tab-header-container"
+      style="height: 50px; background-color: rgb(35, 35, 38);"
+    >
+      <div
+        class="siren-sdk-tab-header active"
+        role="button"
+        style="margin-right: 22px; background-color: rgb(35, 35, 38); color: rgb(250, 152, 116); font-size: 14px; font-weight: 600;"
+      >
+        All
+      </div>
+      <div
+        class="siren-sdk-tab-header "
+        role="button"
+        style="margin-right: 0px; background-color: rgb(35, 35, 38); color: rgb(255, 255, 255); font-size: 14px; font-weight: 600;"
+      >
+        Unread
+      </div>
+      <div
+        class="siren-sdk-active-tab-indicator"
+        style="background-color: rgb(250, 152, 116); height: 3px; left: 0px; width: 0px;"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;

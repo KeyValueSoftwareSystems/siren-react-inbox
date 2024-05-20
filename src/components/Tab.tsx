@@ -2,7 +2,7 @@ import type { FC} from 'react';
 import React, { useEffect, useRef, useState } from 'react';
 
 import "../styles/tab.css";
-import type { TabProps } from '../types';
+import type { TabComponentProps } from '../types';
 
 /**
  *
@@ -20,7 +20,7 @@ import type { TabProps } from '../types';
  * @param {Function} props.onTabChange - Callback function to be called when a tab is clicked.
  */
 
-const Tab: FC<TabProps> = ({ tabs, activeTab: defaultActiveIndex = 0, styles, onTabChange }) => {
+const Tab: FC<TabComponentProps> = ({ tabs, activeTab: defaultActiveIndex = 0, styles, onTabChange }) => {
   const [activeIndex, setActiveIndex] = useState(defaultActiveIndex);
   const indicatorRef = useRef<HTMLDivElement | null>(null);
   const tabHeadersRef = useRef<(HTMLDivElement | null)[]>([]);

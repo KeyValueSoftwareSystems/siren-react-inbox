@@ -14,6 +14,7 @@ jest.mock("../../src/styles/emptyList.css", () => ({}));
 jest.mock("../../src/styles/errorWindow.css", () => ({}));
 jest.mock("../../src/styles/sirenPanel.css", () => ({}));
 jest.mock("../../src/styles/showMore.css", () => ({}));
+jest.mock("../../src/styles/tab.css", () => ({}));
 
 const mockErrorFn = jest.fn();
 const style = applyTheme();
@@ -34,6 +35,12 @@ const props = {
   setModalVisible: jest.fn(),
   darkMode: false,
   modalWidth: 500,
+  hideTab: false,
+  tabProps: {
+    tabs: [{ key: "All", title: "All" }, { key: "Unread", title: "Unread" }],
+    activeTab: 0,
+    onTabChange: jest.fn(),
+  },
 };
 
 test("matches snapshot", () => {

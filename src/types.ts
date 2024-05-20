@@ -34,6 +34,9 @@ export type SirenInboxProps = {
 export type TabProps = {
   tabs: Array<{ key: string; title: string }>;
   activeTab: number;
+};
+
+export type TabComponentProps = TabProps & {
   styles: SirenStyleProps;
   onTabChange: (index: number) => void;
 };
