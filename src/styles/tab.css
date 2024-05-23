@@ -12,6 +12,9 @@
 }
 .siren-sdk-tab-header{
     padding: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .siren-sdk-tab-container .siren-sdk-tab-header-container {
