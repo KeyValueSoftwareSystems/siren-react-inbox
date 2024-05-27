@@ -28,7 +28,7 @@ import {
   mergeStyles,
   updateNotifications,
 } from "../utils/commonUtils";
-import { DEFAULT_WINDOW_TITLE, ERROR_TEXT, errorMap, events, EventType, eventTypes, VerificationStatus } from "../utils/constants";
+import { DEFAULT_WINDOW_TITLE, ERROR_TEXT, errorMap, events, EventType, eventTypes, LIST_EMPTY_TEXT, UNREAD_LIST_EMPTY_TEXT, VerificationStatus } from "../utils/constants";
 import useSiren from "../utils/sirenHook";
 
 /**
@@ -407,6 +407,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
               data-testid="empty-list"
               styles={styles}
               darkMode={darkMode}
+              emptyText={filterType === 'Unread' ? UNREAD_LIST_EMPTY_TEXT : LIST_EMPTY_TEXT}
             />)
           }
         </div>     

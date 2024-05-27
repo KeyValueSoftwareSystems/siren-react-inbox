@@ -311,6 +311,7 @@ export type IconProps = {
 export type EmptyListProps = {
   styles: SirenStyleProps;
   darkMode: boolean;
+  emptyText?: string;
 };
 
 export type ErrorWindowProps = {

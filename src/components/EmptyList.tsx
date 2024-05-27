@@ -5,7 +5,7 @@ import darkModeIcon from "../assets/dark/emptyIconDark.svg";
 import lightModeIcon from "../assets/light/emptyIconLight.svg";
 import type { EmptyListProps } from "../types";
 import { Constants } from "../utils";
-import { LIST_EMPTY_SUB_TEXT, LIST_EMPTY_TEXT } from "../utils/constants";
+import { LIST_EMPTY_SUB_TEXT } from "../utils/constants";
 import "../styles/emptyList.css";
 
 /**
@@ -25,7 +25,8 @@ import "../styles/emptyList.css";
  */
 const EmptyList: FC<EmptyListProps> = ({
   styles,
-  darkMode
+  darkMode,
+  emptyText,
 }) => {
 
   const containerStyle = { backgroundColor: darkMode ? Constants.COLORS.dark.iconColor : Constants.COLORS.light.iconColor };
@@ -38,7 +39,7 @@ const EmptyList: FC<EmptyListProps> = ({
           <img src={lightModeIcon} alt="empty-icon" className="siren-sdk-empty-icon" />}
       </div>
       <div style={styles.emptyText} className="siren-sdk-empty-text">
-        {LIST_EMPTY_TEXT}
+        {emptyText}
       </div>
       <div style={styles.emptyText} className="siren-sdk-empty-sub-text">
         {LIST_EMPTY_SUB_TEXT}

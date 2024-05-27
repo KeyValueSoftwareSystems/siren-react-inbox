@@ -93,6 +93,7 @@ export enum sirenReducerTypes {
 }
 
 export const LIST_EMPTY_TEXT = "No new notifications";
+export const UNREAD_LIST_EMPTY_TEXT = "No unread notifications";
 export const LIST_EMPTY_SUB_TEXT = "Check back later for updates and alerts.";
 export const ERROR_TEXT = "Oops! Something went wrong";
 export const ERROR_SUB_TEXT =
