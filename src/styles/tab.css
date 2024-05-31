@@ -1,42 +1,37 @@
 .siren-sdk-tab-container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-.siren-sdk-tab-header-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding-left: 16px;
-    padding-right: 16px;
-}
-.siren-sdk-tab-header{
-    padding: 8px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
-.siren-sdk-tab-container .siren-sdk-tab-header-container {
-    display: flex;
-    position: relative;
-  }
-  
-  .siren-sdk-tab-container .siren-sdk-tab-header {
-    cursor: pointer;
-    padding: 10px 20px;
-    transition: color 0.3s ease-in-out;
-  }
-  
-  .siren-sdk-tab-container .siren-sdk-tab-header.active {
-    color: var(--active-tab-color);
-  }
-  
-  .siren-sdk-active-tab-indicator {
-    position: absolute;
-    bottom: 0;
-    height: 2px;
-    background-color: var(--active-tab-color);
-    transition: left 0.3s ease-in-out, width 0.3s ease-in-out;
-  }
-  
+.siren-sdk-tab-header-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+}
+
+.siren-sdk-tab-header {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0 16px;
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+}
+
+.siren-sdk-tab-header.active {
+  color: var(--active-tab-color);
+}
+
+.siren-sdk-active-tab-indicator {
+  position: absolute;
+  bottom: 0;
+  height: 2px;
+  background-color: var(--active-tab-color);
+  transition: left 0.3s ease-in-out, width 0.3s ease-in-out;
+}

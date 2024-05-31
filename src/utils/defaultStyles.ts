@@ -51,6 +51,7 @@ const defaultStyles = {
   },
   tabs: {
     containerHeight: 50,
+    containerPadding: 5,
     activeTabTextWeight: 600,
     inactiveTabTextWeight: 600,
     indicatorHeight: 3,

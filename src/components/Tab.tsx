@@ -51,7 +51,6 @@ const Tab: FC<TabComponentProps> = ({ tabs, activeTab: defaultActiveIndex = 0, s
             className={`siren-sdk-tab-header ${activeIndex === index ? 'active' : ''}`}
             onClick={() => handleTabClick(index)}
             style={{
-              marginRight: index !== tabs.length - 1 ? '22px' : '0',
               ...(activeIndex === index ? styles?.activeTabStyle : styles?.inactiveTabStyle),
             }}
             role="button"

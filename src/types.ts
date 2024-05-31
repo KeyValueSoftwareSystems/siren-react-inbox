@@ -158,7 +158,6 @@ export type ThemeProps = {
   tabs?: {
     containerBackgroundColor?: string;
     activeTabBackgroundColor?: string;
-    inactiveTabBackgroundColor?: string;
     activeTabTextColor?: string;
     inactiveTabTextColor?: string;
     indicatorColor?: string;
@@ -217,6 +216,7 @@ export type CustomStyle = {
   };
   tabs?: {
     containerHeight?: number;
+    containerPadding?: number; //horizontal padding
     activeTabTextSize?: number;
     inactiveTabTextSize?: number;
     activeTabTextWeight?: TextStyle['fontWeight'];

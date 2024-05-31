@@ -335,6 +335,16 @@ export const applyTheme = (
     tabsHeaderContainer:{
       height: customStyle.tabs?.containerHeight || DefaultStyle.tabs.containerHeight,
       backgroundColor: theme.tabs?.containerBackgroundColor || DefaultTheme[mode].tabs.containerBackgroundColor,
+      borderBottom: `${
+        customStyle.customCard?.borderWidth ||
+        DefaultStyle.customCard.borderWidth
+      }px solid`,
+      borderColor:
+        theme.customCard?.borderColor ||
+        theme.colors?.borderColor ||
+        DefaultTheme[mode].customCard.borderColor,
+      padding: `0 ${customStyle.tabs?.containerPadding || DefaultStyle.tabs.containerPadding}px`
+
     },
     activeTabStyle:{
       backgroundColor: theme.tabs?.activeTabBackgroundColor || DefaultTheme[mode].tabs.activeTabBackgroundColor,
@@ -343,7 +353,7 @@ export const applyTheme = (
       fontWeight: customStyle.tabs?.activeTabTextWeight || DefaultStyle.tabs.activeTabTextWeight,
     },
     inactiveTabStyle:{
-      backgroundColor: theme.tabs?.inactiveTabBackgroundColor || DefaultTheme[mode].tabs.inactiveTabBackgroundColor,
+      backgroundColor: 'transparent',
       color: theme.tabs?.inactiveTabTextColor || DefaultTheme[mode].tabs.inactiveTabTextColor,
       fontSize: customStyle.tabs?.inactiveTabTextSize || DefaultStyle.tabs.inactiveTabTextSize,
       fontWeight: customStyle.tabs?.inactiveTabTextWeight || DefaultStyle.tabs.inactiveTabTextWeight,
