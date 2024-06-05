@@ -187,9 +187,9 @@ const SirenPanel: FC<SirenPanelProps> = ({
   const handleClearAllNotification = async (): Promise<void> => {
     try {
       if (!isEmptyArray(notifications)) {
-        const response = await deleteByDate(
-          notifications[0].createdAt,
-          category
+        const response = await deleteByDate({
+          startDate: notifications[0].createdAt,
+          category}
         );
 
         response && triggerOnError(response);

@@ -28,9 +28,9 @@ const useSiren = () => {
     return { error: errorMap.SIREN_OBJECT_NOT_FOUND };
   };
 
-  const markAsReadByDate = async (untilDate: string, category?: string) => {
-    if (siren && untilDate) {
-      const params = { startDate: untilDate, category };
+  const markAsReadByDate = async (params: { startDate: string, category?: string }) => {
+    
+    if (siren && params?.startDate) {
       const response = await siren?.markAsReadByDate(params);
 
       if (response?.data) {
@@ -44,7 +44,6 @@ const useSiren = () => {
 
     return { error: errorMap.SIREN_OBJECT_NOT_FOUND };
   };
-  
   const deleteById = async (id: string, shouldUpdateList: boolean = true) => {
     if (siren)
       if (id?.length > 0) {
@@ -67,28 +66,29 @@ const useSiren = () => {
     return { error: errorMap.SIREN_OBJECT_NOT_FOUND };
   };
 
-  const deleteByDate = async (untilDate: string, category?: string) => {
-    if (siren && untilDate) {
-      const params = { startDate: untilDate, category };
+  const deleteByDate = async (params: { startDate: string, category?: string }) => {
+    
+    if (siren && params?.startDate) {
       const response = await siren?.deleteByDate(params);
-
+  
       if (response?.data) {
         const payload = { action: eventTypes.DELETE_ALL_ITEM };
 
         PubSub.publish(`${events.NOTIFICATION_LIST_EVENT}${providerInstanceId}`, JSON.stringify(payload));
       }
-
+  
       return response;
     }
-
+  
     return { error: errorMap.SIREN_OBJECT_NOT_FOUND };
   };
+  
 
   const markAllAsViewed = async (untilDate: string) => {
     if (siren && untilDate) {
       const response = await siren?.markAllAsViewed(untilDate);
 
-      if (response && response.data) {
+      if (response?.data) {
         const payload = {
           notificationsCount: 0,
           action: eventTypes.UPDATE_NOTIFICATIONS_COUNT,
