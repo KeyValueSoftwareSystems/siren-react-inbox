@@ -60,6 +60,7 @@ const SirenInbox: FC<SirenProps> = ({
   onCardClick,
   onError,
   itemsPerFetch = 20,
+  category,
 }) => {
 
   const { siren } = useSirenContext();
@@ -205,6 +206,7 @@ const SirenInbox: FC<SirenProps> = ({
             darkMode={darkMode}
             customErrorWindow={customErrorWindow}
             modalWidth={updatedModalWidth}
+            category={category}
           />
         </div>
       )}

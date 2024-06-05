@@ -3,7 +3,7 @@ import type { CSSProperties } from "react";
 import type {
   NotificationDataType,
   SirenErrorType,
-} from "@sirenapp/js-sdk/dist/esm/types";
+} from "test_notification/dist/esm/types";
 
 export type SirenInboxProps = {
   theme?: Theme;
@@ -27,6 +27,7 @@ export type SirenInboxProps = {
   customCard?: (notification: NotificationDataType) => JSX.Element;
   onCardClick?: (notification: NotificationDataType) => void;
   onError?: (error: SirenErrorType) => void;
+  category?: string;
 };
 
 export type SirenNotificationIconProps = {
@@ -89,6 +90,7 @@ export type SirenPanelProps = Pick<
   | "loadMoreComponent"
   | "loadMoreLabel"
   | "customErrorWindow"
+  | "category"
 > & {
   styles: SirenStyleProps;
   onError?: (error: SirenErrorType) => void;

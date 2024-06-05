@@ -6,7 +6,7 @@ import type {
   NotificationDataType,
   NotificationsApiResponse,
   SirenErrorType,
-} from "@sirenapp/js-sdk/dist/esm/types";
+} from "test_notification/dist/esm/types";
 
 import "../styles/sirenPanel.css";
 import NotificationCard from "./Card";
@@ -87,6 +87,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
   onCardClick,
   onError,
   modalWidth,
+  category,
 }) => {
   const {
     markAllAsViewed,
@@ -187,7 +188,8 @@ const SirenPanel: FC<SirenPanelProps> = ({
     try {
       if (!isEmptyArray(notifications)) {
         const response = await deleteByDate(
-          notifications[0].createdAt
+          notifications[0].createdAt,
+          category
         );
 
         response && triggerOnError(response);
@@ -227,7 +229,8 @@ const SirenPanel: FC<SirenPanelProps> = ({
         generateFilterParams(
           isRefresh ? [] : notifications,
           false,
-          noOfNotificationsPerFetch
+          noOfNotificationsPerFetch,
+          category,
         )
       );
 
@@ -270,7 +273,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
 
     try {
       siren?.startRealTimeFetch(
-        {eventType: EventType.NOTIFICATION, params:   generateFilterParams(newList ?? [], true, noOfNotificationsPerFetch)}   
+        {eventType: EventType.NOTIFICATION, params: generateFilterParams(newList ?? [], true, noOfNotificationsPerFetch, category)}   
       );
     } catch (er) {
       //  handle error if needed
