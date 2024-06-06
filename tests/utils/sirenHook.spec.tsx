@@ -1,4 +1,4 @@
-import type { Siren } from "@sirenapp/js-sdk";
+import type { Siren } from "test_notification";
 
 import { useSiren } from "../../src";
 import * as sirenProvider from "../../src/components/SirenProvider";

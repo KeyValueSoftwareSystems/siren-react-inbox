@@ -6,7 +6,7 @@ import type {
   NotificationDataType,
   NotificationsApiResponse,
   SirenErrorType,
-} from "@sirenapp/js-sdk/dist/esm/types";
+} from "test_notification/dist/esm/types";
 
 import "../styles/sirenPanel.css";
 import NotificationCard from "./Card";
@@ -196,8 +196,17 @@ const SirenPanel: FC<SirenPanelProps> = ({
   const handleClearAllNotification = async (): Promise<void> => {   
     try {
       if (!isEmptyArray(notifications)) {
+        let params;
+        const startDate = notifications[0].createdAt;
+
+        if (filterType === 'unread') 
+          params = { startDate, isRead: false };
+        else 
+          params = { startDate };
+        
+  
         const response = await deleteByDate(
-          notifications[0].createdAt
+          params
         );
 
         response && triggerOnError(response);
