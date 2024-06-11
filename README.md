@@ -130,6 +130,13 @@ type ThemeProps = {
     color?: string,
     background?: string,
   },
+    tabs?: {
+    containerBackgroundColor?: string,
+    activeTabBackgroundColor?: string,
+    activeTabTextColor?: string,
+    inactiveTabTextColor?: string,
+    indicatorColor?: string,
+  };
 };
 ```
 
@@ -190,6 +197,15 @@ Please note that the badgeStyle, window shadow and border props are only applica
   clearAllIcon?:{
     size?: number
   },
+    tabs?: {
+    containerHeight?: number,
+    tabPadding?: number,
+    activeTabTextSize?: number,
+    inactiveTabTextSize?: number,
+    activeTabTextWeight?: TextStyle['fontWeight'],
+    inactiveTabTextWeight?: TextStyle['fontWeight'],
+    indicatorHeight?: number,
+  };
 }
 ```
 
