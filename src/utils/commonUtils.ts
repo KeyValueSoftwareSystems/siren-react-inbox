@@ -366,7 +366,12 @@ export const generateFilterParams = (
   itemsPerPage: number,
   category?: string,
 ): FetchParams => {
-  let params: FetchParams = { size: itemsPerPage, sort: "createdAt", category};
+  let params: FetchParams = { size: itemsPerPage, sort: "createdAt"};
+
+  if (category) 
+    params.category = category;
+  
+
 
   if (data.length > 0)
     if (fromStart) params = { ...params, start: data[0].createdAt };
