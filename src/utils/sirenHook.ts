@@ -11,7 +11,7 @@ const useSiren = () => {
       if (id?.length > 0) {
         const response = await siren?.markAsReadById(id);
 
-        if (response && response.data) {
+        if (response?.data) {
           const payload = { id, action: eventTypes.MARK_ITEM_AS_READ };
 
           PubSub.publish(
@@ -28,11 +28,12 @@ const useSiren = () => {
     return { error: errorMap.SIREN_OBJECT_NOT_FOUND };
   };
 
-  const markAsReadByDate = async (untilDate: string) => {
-    if (siren && untilDate) {
-      const response = await siren?.markAsReadByDate(untilDate);
+  const markAsReadByDate = async (params: { startDate: string, category?: string }) => {
+    
+    if (siren && params?.startDate) {
+      const response = await siren?.markAsReadByDate(params);
 
-      if (response && response.data) {
+      if (response?.data) {
         const payload = { action: eventTypes.MARK_ALL_AS_READ };
 
         PubSub.publish(`${events.NOTIFICATION_LIST_EVENT}${providerInstanceId}`, JSON.stringify(payload));
@@ -65,27 +66,29 @@ const useSiren = () => {
     return { error: errorMap.SIREN_OBJECT_NOT_FOUND };
   };
 
-  const deleteByDate = async (untilDate: string) => {
-    if (siren && untilDate) {
-      const response = await siren.deleteByDate(untilDate);
-
-      if (response && response.data) {
+  const deleteByDate = async (params: { startDate: string, category?: string }) => {
+    
+    if (siren && params?.startDate) {
+      const response = await siren?.deleteByDate(params);
+  
+      if (response?.data) {
         const payload = { action: eventTypes.DELETE_ALL_ITEM };
 
         PubSub.publish(`${events.NOTIFICATION_LIST_EVENT}${providerInstanceId}`, JSON.stringify(payload));
       }
-
+  
       return response;
     }
-
+  
     return { error: errorMap.SIREN_OBJECT_NOT_FOUND };
   };
+  
 
   const markAllAsViewed = async (untilDate: string) => {
     if (siren && untilDate) {
       const response = await siren?.markAllAsViewed(untilDate);
 
-      if (response && response.data) {
+      if (response?.data) {
         const payload = {
           notificationsCount: 0,
           action: eventTypes.UPDATE_NOTIFICATIONS_COUNT,

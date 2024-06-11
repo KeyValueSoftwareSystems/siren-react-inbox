@@ -4,7 +4,7 @@ import type {
   ActionResponse,
   NotificationDataType,
   NotificationsApiResponse,
-} from "@sirenapp/js-sdk/dist/esm/types";
+} from "test_notification/dist/esm/types";
 
 import {
   defaultBadgeStyle,
@@ -26,6 +26,7 @@ type FetchParams = {
   start?: string;
   end?: string;
   sort?: "createdAt" | "updatedAt";
+  category?: string;
 };
 
 export const generateElapsedTimeText = (timeString: string) => {
@@ -362,14 +363,20 @@ export const filterDataProperty = (
 export const generateFilterParams = (
   data: NotificationDataType[],
   fromStart: boolean,
-  itemsPerPage: number
+  itemsPerPage: number,
+  category?: string,
 ): FetchParams => {
-  let params: FetchParams = { size: itemsPerPage, sort: "createdAt" };
+  let params: FetchParams = { size: itemsPerPage, sort: "createdAt"};
+
+  if (category) 
+    params.category = category;
+  
+
 
   if (data.length > 0)
     if (fromStart) params = { ...params, start: data[0].createdAt };
     else params = { ...params, end: data[data.length - 1].createdAt };
-
+  
   return params;
 };
 
