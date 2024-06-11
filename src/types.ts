@@ -216,7 +216,7 @@ export type CustomStyle = {
   };
   tabs?: {
     containerHeight?: number;
-    containerPadding?: number; //horizontal padding
+    tabPadding?: number;
     activeTabTextSize?: number;
     inactiveTabTextSize?: number;
     activeTabTextWeight?: TextStyle['fontWeight'];

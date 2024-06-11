@@ -343,7 +343,7 @@ export const applyTheme = (
         theme.customCard?.borderColor ||
         theme.colors?.borderColor ||
         DefaultTheme[mode].customCard.borderColor,
-      padding: `0 ${customStyle.tabs?.containerPadding || DefaultStyle.tabs.containerPadding}px`
+      padding: `0 ${customStyle.tabs?.tabPadding || DefaultStyle.tabs.tabPadding}px`
 
     },
     activeTabStyle:{
