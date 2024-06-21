@@ -3,7 +3,7 @@ import type { CSSProperties } from "react";
 import type {
   NotificationDataType,
   SirenErrorType,
-} from "@sirenapp/js-sdk/dist/esm/types";
+} from "test_notification/dist/esm/types";
 
 export type SirenInboxProps = {
   theme?: Theme;
@@ -27,6 +27,18 @@ export type SirenInboxProps = {
   customCard?: (notification: NotificationDataType) => JSX.Element;
   onCardClick?: (notification: NotificationDataType) => void;
   onError?: (error: SirenErrorType) => void;
+  hideTab?: boolean;
+  tabProps?: TabProps;
+};
+
+export type TabProps = {
+  tabs: Array<{ key: string; title: string }>;
+  activeTab: number;
+};
+
+export type TabComponentProps = TabProps & {
+  styles: SirenStyleProps;
+  onTabChange: (index: number) => void;
 };
 
 export type SirenNotificationIconProps = {
@@ -89,6 +101,8 @@ export type SirenPanelProps = Pick<
   | "loadMoreComponent"
   | "loadMoreLabel"
   | "customErrorWindow"
+  | "hideTab"
+  | "tabProps"
 > & {
   styles: SirenStyleProps;
   onError?: (error: SirenErrorType) => void;
@@ -141,6 +155,13 @@ export type ThemeProps = {
     color?: string;
     textColor?: string;
   };
+  tabs?: {
+    containerBackgroundColor?: string;
+    activeTabBackgroundColor?: string;
+    activeTabTextColor?: string;
+    inactiveTabTextColor?: string;
+    indicatorColor?: string;
+  };
 };
 
 export type CustomStyle = {
@@ -192,6 +213,15 @@ export type CustomStyle = {
   };
   clearAllIcon?: {
     size?: number;
+  };
+  tabs?: {
+    containerHeight?: number;
+    tabPadding?: number;
+    activeTabTextSize?: number;
+    inactiveTabTextSize?: number;
+    activeTabTextWeight?: TextStyle['fontWeight'];
+    inactiveTabTextWeight?: TextStyle['fontWeight'];
+    indicatorHeight?: number;
   };
 };
 
@@ -260,6 +290,10 @@ export type SirenStyleProps = {
   windowBottomBorder: CSSProperties;
   infiniteLoader: CSSProperties;
   windowShadow: CSSProperties;
+  tabsHeaderContainer: CSSProperties;
+  activeTabStyle: CSSProperties;
+  inactiveTabStyle: CSSProperties;
+  activeTabIndicator: CSSProperties;
 };
 
 export type LoadMoreProps = {
@@ -277,6 +311,7 @@ export type IconProps = {
 export type EmptyListProps = {
   styles: SirenStyleProps;
   darkMode: boolean;
+  emptyText?: string;
 };
 
 export type ErrorWindowProps = {

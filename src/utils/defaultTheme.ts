@@ -49,6 +49,14 @@ const defaultTheme = {
     },
     loader:{
       backgroundImage: 'linear-gradient(to right, #F0f0f0 0%, #E0E0E0 50%, #F0F0F0 100%)',
+    },
+    tabs: {
+      containerBackgroundColor: COLORS[ThemeMode.LIGHT].neutralColor,
+      activeTabBackgroundColor: COLORS[ThemeMode.LIGHT].neutralColor,
+      inactiveTabBackgroundColor: COLORS[ThemeMode.LIGHT].neutralColor,
+      activeTabTextColor: COLORS[ThemeMode.LIGHT].primaryColor,
+      inactiveTabTextColor: COLORS[ThemeMode.LIGHT].textColor,
+      indicatorColor: COLORS[ThemeMode.LIGHT].primaryColor,
     }
   },
   dark: {
@@ -98,6 +106,14 @@ const defaultTheme = {
     },
     loader:{
       backgroundImage: 'linear-gradient(to right, #49494A 0%, #535354 50%, #49494A 100%)',
+    },
+    tabs: {
+      containerBackgroundColor: COLORS[ThemeMode.DARK].neutralColor,
+      activeTabBackgroundColor: COLORS[ThemeMode.DARK].neutralColor,
+      inactiveTabBackgroundColor: COLORS[ThemeMode.DARK].neutralColor,
+      activeTabTextColor: COLORS[ThemeMode.DARK].primaryColor,
+      inactiveTabTextColor: COLORS[ThemeMode.DARK].textColor,
+      indicatorColor: COLORS[ThemeMode.DARK].primaryColor,
     }
   },
 };

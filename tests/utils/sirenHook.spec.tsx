@@ -1,4 +1,4 @@
-import type { Siren } from "@sirenapp/js-sdk";
+import type { Siren } from "test_notification";
 
 import { useSiren } from "../../src";
 import * as sirenProvider from "../../src/components/SirenProvider";
@@ -15,6 +15,7 @@ jest.mock('../../src/styles/errorWindow.css', () => ({}));
 jest.mock('../../src/styles/sirenPanel.css', () => ({}));
 jest.mock('../../src/styles/sirenInbox.css', () => ({}));
 jest.mock('../../src/styles/showMore.css', () => ({}));
+jest.mock('../../src/styles/tab.css', () => ({}));
 
 const Response = {
   data: {
@@ -168,10 +169,10 @@ describe("useSiren hook", () => {
 
     const { markAsReadByDate } = useSiren();
     const untilDate = "2024-02-28T00:00:00Z";
-    const response = await markAsReadByDate(untilDate);
+    const response = await markAsReadByDate({startDate: untilDate});
 
     expect(mockSirenCore.markAsReadByDate).toHaveBeenCalledWith(
-      untilDate
+      {startDate: untilDate}
     );
 
     expect(response).toEqual(ActionResponse);
@@ -187,9 +188,10 @@ describe("useSiren hook", () => {
     });
 
     const { markAsReadByDate } = useSiren();
-    const response = await markAsReadByDate(
-      undefined as unknown as string
-    );
+    const response = await markAsReadByDate({
+      startDate: undefined as unknown as string,
+      isRead: undefined,
+    });
 
     expect(response).toEqual({
       error: errorMap.SIREN_OBJECT_NOT_FOUND,
@@ -238,10 +240,10 @@ describe("useSiren hook", () => {
 
     const { deleteByDate } = useSiren();
     const untilDate = "2024-02-28T00:00:00Z";
-    const response = await deleteByDate(untilDate);
+    const response = await deleteByDate({startDate: untilDate});
 
     expect(mockSirenCore.deleteByDate).toHaveBeenCalledWith(
-      untilDate
+      {startDate: untilDate}
     );
 
     expect(response).toEqual(ActionResponse);

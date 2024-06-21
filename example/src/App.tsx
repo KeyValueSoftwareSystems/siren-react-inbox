@@ -83,8 +83,11 @@ const App: React.FC = () => {
         <div>
           <div style={{ color: "#fff", fontWeight: "600" }}>Siren</div>
         </div>
-        <div>
-          <div style={{ color: "#fff", fontWeight: "600" }} onClick={() => markAsReadByDate(String(new Date().getTime()))}>Mark allAsRead</div>
+        <div
+          style={{ color: "#fff", fontWeight: "600" }}
+          onClick={() => markAsReadByDate({ startDate: String(new Date().getTime()) })}
+        >
+          Mark allAsRead
         </div>
       </div>
     );

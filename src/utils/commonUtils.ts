@@ -4,12 +4,13 @@ import type {
   ActionResponse,
   NotificationDataType,
   NotificationsApiResponse,
-} from "@sirenapp/js-sdk/dist/esm/types";
+} from "test_notification/dist/esm/types";
 
 import {
   defaultBadgeStyle,
   eventTypes,
   LogLevel,
+  Tabs,
   ThemeMode,
 } from "./constants";
 import { default as DefaultStyle } from "./defaultStyles";
@@ -26,6 +27,7 @@ type FetchParams = {
   start?: string;
   end?: string;
   sort?: "createdAt" | "updatedAt";
+  isRead?: boolean;
 };
 
 export const generateElapsedTimeText = (timeString: string) => {
@@ -331,6 +333,36 @@ export const applyTheme = (
         DefaultTheme[mode].colors.primaryColor
       }`,
     },
+    tabsHeaderContainer:{
+      height: customStyle.tabs?.containerHeight || DefaultStyle.tabs.containerHeight,
+      backgroundColor: theme.tabs?.containerBackgroundColor || DefaultTheme[mode].tabs.containerBackgroundColor,
+      borderBottom: `${
+        customStyle.customCard?.borderWidth ||
+        DefaultStyle.customCard.borderWidth
+      }px solid`,
+      borderColor:
+        theme.customCard?.borderColor ||
+        theme.colors?.borderColor ||
+        DefaultTheme[mode].customCard.borderColor,
+      padding: `0 ${customStyle.tabs?.tabPadding || DefaultStyle.tabs.tabPadding}px`
+
+    },
+    activeTabStyle:{
+      backgroundColor: theme.tabs?.activeTabBackgroundColor || DefaultTheme[mode].tabs.activeTabBackgroundColor,
+      color: theme.tabs?.activeTabTextColor || DefaultTheme[mode].tabs.activeTabTextColor,
+      fontSize: customStyle.tabs?.activeTabTextSize || DefaultStyle.tabs.activeTabTextSize,
+      fontWeight: customStyle.tabs?.activeTabTextWeight || DefaultStyle.tabs.activeTabTextWeight,
+    },
+    inactiveTabStyle:{
+      backgroundColor: 'transparent',
+      color: theme.tabs?.inactiveTabTextColor || DefaultTheme[mode].tabs.inactiveTabTextColor,
+      fontSize: customStyle.tabs?.inactiveTabTextSize || DefaultStyle.tabs.inactiveTabTextSize,
+      fontWeight: customStyle.tabs?.inactiveTabTextWeight || DefaultStyle.tabs.inactiveTabTextWeight,
+    },
+    activeTabIndicator:{
+      backgroundColor: theme.tabs?.indicatorColor || DefaultTheme[mode].tabs.indicatorColor,
+      height: customStyle.tabs?.indicatorHeight || DefaultStyle.tabs.indicatorHeight,
+    }
   };
 };
 
@@ -362,13 +394,16 @@ export const filterDataProperty = (
 export const generateFilterParams = (
   data: NotificationDataType[],
   fromStart: boolean,
-  itemsPerPage: number
+  itemsPerPage: number,
+  filterType: string,
 ): FetchParams => {
   let params: FetchParams = { size: itemsPerPage, sort: "createdAt" };
 
   if (data.length > 0)
     if (fromStart) params = { ...params, start: data[0].createdAt };
     else params = { ...params, end: data[data.length - 1].createdAt };
+
+  if (filterType === Tabs.UNREAD) params = { ...params, isRead: false};
 
   return params;
 };
