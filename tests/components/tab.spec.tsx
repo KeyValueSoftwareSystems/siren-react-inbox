@@ -5,14 +5,15 @@ import { fireEvent, render } from '@testing-library/react';
 import Tab from '../../src/components/Tab';
 import type { TabComponentProps } from '../../src/types';
 import { applyTheme } from '../../src/utils/commonUtils';
+import { Tabs } from '../../src/utils/constants';
 
 
 // Mock CSS
 jest.mock('../../src/styles/tab.css', () => ({}));
 
 const tabs = [
-  { key: 'all', title: 'All' },
-  { key: 'unread', title: 'Unread' },
+  { key: Tabs.ALL, title: 'All' },
+  { key: Tabs.UNREAD, title: 'Unread' },
 ];
 
 const styles = applyTheme();

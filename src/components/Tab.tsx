@@ -10,7 +10,7 @@ import type { TabComponentProps } from '../types';
  * @example
  * <Tab
  *   activeTab={0}
- *   tabs={[{ key: 'All', title: 'All' }, { key: 'Unread', title: 'Unread ' }]}
+ *   tabs={[{ key: 'all', title: 'All' }, { key: 'unread', title: 'Unread ' }]}
  * />
  *
  * @param {Object} props - The properties passed to the Tab component.

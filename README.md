@@ -64,8 +64,8 @@ hideBadge | Toggle to hide or show the badge       |   boolean  |   false  |
 darkMode | Toggle to enable dark mode |  boolean | false |
 hideTab  | Toggle to enable all and unread tabs  | false |
 tabProps | Props for customizing tab. <br>tabs - List of tab items. <br> activeTab - Active tab index. | tabProps| { tabs: [
-      { key: 'All', title: 'All' },
-      { key: 'Unread', title: 'Unread' }
+      { key: 'all', title: 'All' },
+      { key: 'unread', title: 'Unread' }
     ], activeTab: 0}  |
 itemsPerFetch | Number of notifications fetch per api request (have a max cap of 50) | number | 20 |
 windowViewOnly | Toggle to enable fit-to-screen window or modal view |  boolean | false |

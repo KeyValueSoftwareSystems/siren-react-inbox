@@ -4,6 +4,7 @@ import { render, waitFor } from "@testing-library/react";
 
 import SirenPanel from "../../src/components/SirenPanel"; // Adjust the import path accordingly
 import { applyTheme } from "../../src/utils/commonUtils";
+import { Tabs } from "../../src/utils/constants";
 
 // Mock the CSS files to avoid Jest error
 jest.mock("../../src/styles/sirenNotificationIcon.css", () => ({}));
@@ -37,7 +38,7 @@ const props = {
   modalWidth: 500,
   hideTab: false,
   tabProps: {
-    tabs: [{ key: "All", title: "All" }, { key: "Unread", title: "Unread" }],
+    tabs: [{ key: Tabs.ALL, title: "All" }, { key: Tabs.UNREAD, title: "Unread" }],
     activeTab: 0,
     onTabChange: jest.fn(),
   },

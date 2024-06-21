@@ -6,7 +6,7 @@ import type {
   NotificationDataType,
   NotificationsApiResponse,
   SirenErrorType,
-} from "@sirenapp/js-sdk/dist/esm/types";
+} from "test_notification/dist/esm/types";
 
 import "../styles/sirenPanel.css";
 import NotificationCard from "./Card";
@@ -91,8 +91,8 @@ const SirenPanel: FC<SirenPanelProps> = ({
   hideTab = false,
   tabProps = {
     tabs: [
-      { key: 'All', title: 'All' },
-      { key: 'Unread', title: 'Unread' }
+      { key: Tabs.ALL, title: 'All' },
+      { key: Tabs.UNREAD, title: 'Unread' }
     ],
     activeTab: 0
   }
@@ -416,7 +416,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
               data-testid="empty-list"
               styles={styles}
               darkMode={darkMode}
-              emptyText={filterType === 'Unread' ? UNREAD_LIST_EMPTY_TEXT : LIST_EMPTY_TEXT}
+              emptyText={filterType ===  Tabs.UNREAD ? UNREAD_LIST_EMPTY_TEXT : LIST_EMPTY_TEXT}
             />)
           }
         </div>     

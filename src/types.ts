@@ -3,7 +3,7 @@ import type { CSSProperties } from "react";
 import type {
   NotificationDataType,
   SirenErrorType,
-} from "@sirenapp/js-sdk/dist/esm/types";
+} from "test_notification/dist/esm/types";
 
 export type SirenInboxProps = {
   theme?: Theme;

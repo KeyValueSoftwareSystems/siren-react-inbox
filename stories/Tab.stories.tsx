@@ -2,7 +2,7 @@ import React from 'react';
 
 import Tab from '../src/components/Tab';
 import { applyTheme } from '../src/utils/commonUtils';
-import { ThemeMode } from '../src/utils/constants';
+import { Tabs, ThemeMode } from '../src/utils/constants';
 
 
 export default {
@@ -21,8 +21,8 @@ export const DefaultTab = Template.bind({});
 DefaultTab.args = {
   activeTab: 0,
   tabs: [
-    { key: 'all', title: 'All' },
-    { key: 'unread', title: 'Unread' },
+    { key: Tabs.ALL, title: 'All' },
+    { key: Tabs.UNREAD, title: 'Unread' },
   ],
   styles: applyTheme({}, ThemeMode.LIGHT, {})
 };
