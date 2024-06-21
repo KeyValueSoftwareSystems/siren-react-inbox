@@ -4,12 +4,13 @@ import type {
   ActionResponse,
   NotificationDataType,
   NotificationsApiResponse,
-} from "test_notification/dist/esm/types";
+} from "@sirenapp/js-sdk/dist/esm/types";
 
 import {
   defaultBadgeStyle,
   eventTypes,
   LogLevel,
+  Tabs,
   ThemeMode,
 } from "./constants";
 import { default as DefaultStyle } from "./defaultStyles";
@@ -402,7 +403,7 @@ export const generateFilterParams = (
     if (fromStart) params = { ...params, start: data[0].createdAt };
     else params = { ...params, end: data[data.length - 1].createdAt };
 
-  if (filterType === "Unread") params = { ...params, isRead: false};
+  if (filterType === Tabs.UNREAD) params = { ...params, isRead: false};
 
   return params;
 };

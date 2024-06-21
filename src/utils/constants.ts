@@ -136,3 +136,8 @@ export enum EventType {
   NOTIFICATION = "NOTIFICATIONS",
   UNVIEWED_COUNT = "UNVIEWED_COUNT",
 }
+
+export enum Tabs { 
+  UNREAD = 'unread',
+  ALL = 'all'
+}

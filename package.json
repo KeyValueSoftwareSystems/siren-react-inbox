@@ -84,7 +84,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "test_notification": "^1.1.5",
+    "@sirenapp/js-sdk": "^1.1.0",
     "pubsub-js": "^1.9.4"
   }
 }

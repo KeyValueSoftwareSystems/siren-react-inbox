@@ -1,4 +1,4 @@
-import type { Siren } from "test_notification";
+import type { Siren } from "@sirenapp/js-sdk";
 
 import { useSiren } from "../../src";
 import * as sirenProvider from "../../src/components/SirenProvider";
@@ -172,7 +172,7 @@ describe("useSiren hook", () => {
     const response = await markAsReadByDate({startDate: untilDate});
 
     expect(mockSirenCore.markAsReadByDate).toHaveBeenCalledWith(
-      {startDate: untilDate}
+      untilDate
     );
 
     expect(response).toEqual(ActionResponse);
@@ -243,7 +243,7 @@ describe("useSiren hook", () => {
     const response = await deleteByDate({startDate: untilDate});
 
     expect(mockSirenCore.deleteByDate).toHaveBeenCalledWith(
-      {startDate: untilDate}
+      untilDate
     );
 
     expect(response).toEqual(ActionResponse);

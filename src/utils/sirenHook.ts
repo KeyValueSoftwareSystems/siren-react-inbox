@@ -31,7 +31,7 @@ const useSiren = () => {
   const markAsReadByDate = async (params: { startDate: string, isRead?: boolean }) => {
     
     if (siren && params?.startDate) {
-      const response = await siren?.markAsReadByDate(params);
+      const response = await siren?.markAsReadByDate(params.startDate);
 
       if (response?.data) {
         const payload = { action: eventTypes.MARK_ALL_AS_READ };
@@ -69,7 +69,7 @@ const useSiren = () => {
   const deleteByDate = async (params: { startDate: string, isRead?: boolean }) => {
     
     if (siren && params?.startDate) {
-      const response = await siren.deleteByDate(params);
+      const response = await siren?.deleteByDate(params.startDate);
   
       if (response?.data) {
         const payload = { action: eventTypes.DELETE_ALL_ITEM };

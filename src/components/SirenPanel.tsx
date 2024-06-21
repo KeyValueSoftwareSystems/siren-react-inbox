@@ -6,7 +6,7 @@ import type {
   NotificationDataType,
   NotificationsApiResponse,
   SirenErrorType,
-} from "test_notification/dist/esm/types";
+} from "@sirenapp/js-sdk/dist/esm/types";
 
 import "../styles/sirenPanel.css";
 import NotificationCard from "./Card";
@@ -28,7 +28,7 @@ import {
   mergeStyles,
   updateNotifications,
 } from "../utils/commonUtils";
-import { DEFAULT_WINDOW_TITLE, ERROR_TEXT, errorMap, events, EventType, eventTypes, LIST_EMPTY_TEXT, UNREAD_LIST_EMPTY_TEXT, VerificationStatus } from "../utils/constants";
+import { DEFAULT_WINDOW_TITLE, ERROR_TEXT, errorMap, events, EventType, eventTypes, LIST_EMPTY_TEXT, Tabs, UNREAD_LIST_EMPTY_TEXT, VerificationStatus } from "../utils/constants";
 import useSiren from "../utils/sirenHook";
 
 /**
@@ -199,7 +199,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
         let params;
         const startDate = notifications[0].createdAt;
 
-        if (filterType === 'unread') 
+        if (filterType === Tabs.UNREAD) 
           params = { startDate, isRead: false };
         else 
           params = { startDate };
