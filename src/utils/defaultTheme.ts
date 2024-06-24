@@ -57,6 +57,7 @@ const defaultTheme = {
       activeTabTextColor: COLORS[ThemeMode.LIGHT].primaryColor,
       inactiveTabTextColor: COLORS[ThemeMode.LIGHT].textColor,
       indicatorColor: COLORS[ThemeMode.LIGHT].primaryColor,
+      borderColor: COLORS[ThemeMode.LIGHT].neutralColor
     }
   },
   dark: {
@@ -114,6 +115,7 @@ const defaultTheme = {
       activeTabTextColor: COLORS[ThemeMode.DARK].primaryColor,
       inactiveTabTextColor: COLORS[ThemeMode.DARK].textColor,
       indicatorColor: COLORS[ThemeMode.DARK].primaryColor,
+      borderColor: COLORS[ThemeMode.DARK].neutralColor
     }
   },
 };

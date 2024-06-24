@@ -344,7 +344,8 @@ export const applyTheme = (
         theme.customCard?.borderColor ||
         theme.colors?.borderColor ||
         DefaultTheme[mode].customCard.borderColor,
-      padding: `0 ${customStyle.tabs?.tabPadding || DefaultStyle.tabs.tabPadding}px`
+      padding: `0 ${customStyle.tabs?.tabPadding || DefaultStyle.tabs.tabPadding}px`,
+      gap: customStyle.tabs?.headingGap || DefaultStyle.tabs.headingGap
 
     },
     activeTabStyle:{
@@ -352,16 +353,41 @@ export const applyTheme = (
       color: theme.tabs?.activeTabTextColor || DefaultTheme[mode].tabs.activeTabTextColor,
       fontSize: customStyle.tabs?.activeTabTextSize || DefaultStyle.tabs.activeTabTextSize,
       fontWeight: customStyle.tabs?.activeTabTextWeight || DefaultStyle.tabs.activeTabTextWeight,
+      border: `${
+        customStyle.tabs?.borderWidth ||
+        DefaultStyle.tabs.borderWidth
+      }px solid`,
+      borderColor:
+      theme.tabs?.borderColor ||
+      theme.colors?.borderColor ||
+      DefaultTheme[mode].tabs?.borderColor,
+      borderRadius: customStyle.tabs?.borderRadius ||
+      DefaultStyle.tabs.borderRadius,
+      padding: `${customStyle.tabs?.paddingY || DefaultStyle.tabs.paddingY}px
+       ${customStyle.tabs?.paddingX || DefaultStyle.tabs.paddingX}px`,
     },
     inactiveTabStyle:{
-      backgroundColor: 'transparent',
+      backgroundColor: theme.tabs?.inactiveTabBackgroundColor || DefaultTheme[mode].tabs.inactiveTabBackgroundColor,
       color: theme.tabs?.inactiveTabTextColor || DefaultTheme[mode].tabs.inactiveTabTextColor,
       fontSize: customStyle.tabs?.inactiveTabTextSize || DefaultStyle.tabs.inactiveTabTextSize,
       fontWeight: customStyle.tabs?.inactiveTabTextWeight || DefaultStyle.tabs.inactiveTabTextWeight,
+      border: `${
+        customStyle.tabs?.borderWidth ||
+        DefaultStyle.tabs.borderWidth
+      }px solid`,
+      borderColor:
+      theme.tabs?.borderColor ||
+      theme.colors?.borderColor ||
+      DefaultTheme[mode].tabs?.borderColor,
+      borderRadius: customStyle.tabs?.borderRadius ||
+      DefaultStyle.tabs.borderRadius,
+      padding: `${customStyle.tabs?.paddingY || DefaultStyle.tabs.paddingY}px
+       ${customStyle.tabs?.paddingX || DefaultStyle.tabs.paddingX}px`,
     },
     activeTabIndicator:{
       backgroundColor: theme.tabs?.indicatorColor || DefaultTheme[mode].tabs.indicatorColor,
-      height: customStyle.tabs?.indicatorHeight || DefaultStyle.tabs.indicatorHeight,
+      height: (customStyle.tabs?.indicatorHeight === undefined || customStyle.tabs?.indicatorHeight === null) ? 
+        DefaultStyle.tabs.indicatorHeight : customStyle.tabs?.indicatorHeight,
     }
   };
 };
