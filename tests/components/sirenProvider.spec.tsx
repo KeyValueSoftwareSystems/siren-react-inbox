@@ -1,11 +1,11 @@
 import React from "react";
 
 import { render } from "@testing-library/react";
-import { Siren } from "test_notification";
+import { Siren } from "@sirenapp/js-sdk";
 
 import SirenProvider from "../../src/components/SirenProvider"; // Replace with your path
 
-jest.mock("test_notification");
+jest.mock("@sirenapp/js-sdk");
 
 describe("SirenProvider", () => {
   it("should render children", () => {

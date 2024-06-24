@@ -1,13 +1,13 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 
-import PubSub from "pubsub-js";
-import { Siren } from "test_notification";
+import { Siren } from "@sirenapp/js-sdk";
 import type {
   InitConfigType,
   NotificationsApiResponse,
   SirenErrorType,
   UnviewedCountApiResponse,
-} from "test_notification/dist/esm/types";
+} from "@sirenapp/js-sdk/dist/esm/types";
+import PubSub from "pubsub-js";
 
 import type { SirenProviderConfigProps } from "../types";
 import { generateUniqueId, logger } from "../utils/commonUtils";
