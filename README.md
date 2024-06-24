@@ -136,6 +136,8 @@ type ThemeProps = {
     activeTabTextColor?: string,
     inactiveTabTextColor?: string,
     indicatorColor?: string,
+    borderColor?: string;
+    inactiveTabBackgroundColor?: string
   };
 };
 ```
@@ -205,6 +207,11 @@ Please note that the badgeStyle, window shadow and border props are only applica
     activeTabTextWeight?: TextStyle['fontWeight'],
     inactiveTabTextWeight?: TextStyle['fontWeight'],
     indicatorHeight?: number,
+    headingGap?: number;
+    borderWidth?: number;
+    borderRadius?: number;
+    paddingY?: number;
+    paddingX?: number;
   };
 }
 ```

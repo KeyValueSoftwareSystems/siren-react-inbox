@@ -161,6 +161,8 @@ export type ThemeProps = {
     activeTabTextColor?: string;
     inactiveTabTextColor?: string;
     indicatorColor?: string;
+    borderColor?: string;
+    inactiveTabBackgroundColor?: string
   };
 };
 
@@ -222,6 +224,11 @@ export type CustomStyle = {
     activeTabTextWeight?: TextStyle['fontWeight'];
     inactiveTabTextWeight?: TextStyle['fontWeight'];
     indicatorHeight?: number;
+    headingGap?: number;
+    borderWidth?: number;
+    borderRadius?: number;
+    paddingY?: number;
+    paddingX?: number;
   };
 };
 
