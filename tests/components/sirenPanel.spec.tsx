@@ -4,6 +4,7 @@ import { render, waitFor } from "@testing-library/react";
 
 import SirenPanel from "../../src/components/SirenPanel"; // Adjust the import path accordingly
 import { applyTheme } from "../../src/utils/commonUtils";
+import { Tabs } from "../../src/utils/constants";
 
 // Mock the CSS files to avoid Jest error
 jest.mock("../../src/styles/sirenNotificationIcon.css", () => ({}));
@@ -14,6 +15,7 @@ jest.mock("../../src/styles/emptyList.css", () => ({}));
 jest.mock("../../src/styles/errorWindow.css", () => ({}));
 jest.mock("../../src/styles/sirenPanel.css", () => ({}));
 jest.mock("../../src/styles/showMore.css", () => ({}));
+jest.mock("../../src/styles/tab.css", () => ({}));
 
 const mockErrorFn = jest.fn();
 const style = applyTheme();
@@ -34,6 +36,12 @@ const props = {
   setModalVisible: jest.fn(),
   darkMode: false,
   modalWidth: 500,
+  hideTab: false,
+  tabProps: {
+    tabs: [{ key: Tabs.ALL, title: "All" }, { key: Tabs.UNREAD, title: "Unread" }],
+    activeTab: 0,
+    onTabChange: jest.fn(),
+  },
 };
 
 test("matches snapshot", () => {
