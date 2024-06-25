@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- Added tab filter for all notifications and unread
+- Support for tab-based categorization, tabular styles and formats exposure.
 
 ## 1.1.0
 
