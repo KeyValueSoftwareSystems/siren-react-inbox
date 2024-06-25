@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.2.0
+
+### Added
+
+- Added tab filter for all notifications and unread
+
 ## 1.1.0
 
 ### Added

@@ -10,6 +10,7 @@ import {
   defaultBadgeStyle,
   eventTypes,
   LogLevel,
+  Tabs,
   ThemeMode,
 } from "./constants";
 import { default as DefaultStyle } from "./defaultStyles";
@@ -26,6 +27,7 @@ type FetchParams = {
   start?: string;
   end?: string;
   sort?: "createdAt" | "updatedAt";
+  isRead?: boolean;
 };
 
 export const generateElapsedTimeText = (timeString: string) => {
@@ -331,6 +333,62 @@ export const applyTheme = (
         DefaultTheme[mode].colors.primaryColor
       }`,
     },
+    tabsHeaderContainer:{
+      height: customStyle.tabs?.containerHeight || DefaultStyle.tabs.containerHeight,
+      backgroundColor: theme.tabs?.containerBackgroundColor || DefaultTheme[mode].tabs.containerBackgroundColor,
+      borderBottom: `${
+        customStyle.customCard?.borderWidth ||
+        DefaultStyle.customCard.borderWidth
+      }px solid`,
+      borderColor:
+        theme.customCard?.borderColor ||
+        theme.colors?.borderColor ||
+        DefaultTheme[mode].customCard.borderColor,
+      padding: `0 ${customStyle.tabs?.tabPadding || DefaultStyle.tabs.tabPadding}px`,
+      gap: customStyle.tabs?.headingGap || DefaultStyle.tabs.headingGap
+
+    },
+    activeTabStyle:{
+      backgroundColor: theme.tabs?.activeTabBackgroundColor || DefaultTheme[mode].tabs.activeTabBackgroundColor,
+      color: theme.tabs?.activeTabTextColor || DefaultTheme[mode].tabs.activeTabTextColor,
+      fontSize: customStyle.tabs?.activeTabTextSize || DefaultStyle.tabs.activeTabTextSize,
+      fontWeight: customStyle.tabs?.activeTabTextWeight || DefaultStyle.tabs.activeTabTextWeight,
+      border: `${
+        customStyle.tabs?.borderWidth ||
+        DefaultStyle.tabs.borderWidth
+      }px solid`,
+      borderColor:
+      theme.tabs?.borderColor ||
+      theme.colors?.borderColor ||
+      DefaultTheme[mode].tabs?.borderColor,
+      borderRadius: customStyle.tabs?.borderRadius ||
+      DefaultStyle.tabs.borderRadius,
+      padding: `${customStyle.tabs?.paddingY || DefaultStyle.tabs.paddingY}px
+       ${customStyle.tabs?.paddingX || DefaultStyle.tabs.paddingX}px`,
+    },
+    inactiveTabStyle:{
+      backgroundColor: theme.tabs?.inactiveTabBackgroundColor || DefaultTheme[mode].tabs.inactiveTabBackgroundColor,
+      color: theme.tabs?.inactiveTabTextColor || DefaultTheme[mode].tabs.inactiveTabTextColor,
+      fontSize: customStyle.tabs?.inactiveTabTextSize || DefaultStyle.tabs.inactiveTabTextSize,
+      fontWeight: customStyle.tabs?.inactiveTabTextWeight || DefaultStyle.tabs.inactiveTabTextWeight,
+      border: `${
+        customStyle.tabs?.borderWidth ||
+        DefaultStyle.tabs.borderWidth
+      }px solid`,
+      borderColor:
+      theme.tabs?.borderColor ||
+      theme.colors?.borderColor ||
+      DefaultTheme[mode].tabs?.borderColor,
+      borderRadius: customStyle.tabs?.borderRadius ||
+      DefaultStyle.tabs.borderRadius,
+      padding: `${customStyle.tabs?.paddingY || DefaultStyle.tabs.paddingY}px
+       ${customStyle.tabs?.paddingX || DefaultStyle.tabs.paddingX}px`,
+    },
+    activeTabIndicator:{
+      backgroundColor: theme.tabs?.indicatorColor || DefaultTheme[mode].tabs.indicatorColor,
+      height: (customStyle.tabs?.indicatorHeight === undefined || customStyle.tabs?.indicatorHeight === null) ? 
+        DefaultStyle.tabs.indicatorHeight : customStyle.tabs?.indicatorHeight,
+    }
   };
 };
 
@@ -362,13 +420,16 @@ export const filterDataProperty = (
 export const generateFilterParams = (
   data: NotificationDataType[],
   fromStart: boolean,
-  itemsPerPage: number
+  itemsPerPage: number,
+  filterType: string,
 ): FetchParams => {
   let params: FetchParams = { size: itemsPerPage, sort: "createdAt" };
 
   if (data.length > 0)
     if (fromStart) params = { ...params, start: data[0].createdAt };
     else params = { ...params, end: data[data.length - 1].createdAt };
+
+  if (filterType === Tabs.UNREAD) params = { ...params, isRead: false};
 
   return params;
 };

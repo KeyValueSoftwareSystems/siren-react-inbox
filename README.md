@@ -62,6 +62,8 @@ customStyles | Object for custom styling | CustomStyle | {} |
 loadMoreLabel | Text shown on the load more component | string | "Load More" |
 hideBadge | Toggle to hide or show the badge       |   boolean  |   false  |
 darkMode | Toggle to enable dark mode |  boolean | false |
+hideTab  | Toggle to enable all and unread tabs  | false |
+tabProps | Props for customizing tab. <br>tabs - List of tab items. <br> activeTab - Active tab index. | tabProps| { tabs: [<br>{ key: 'all', title: 'All' },<br>{ key: 'unread', title: 'Unread' }<br>],activeTab: 0}  |
 itemsPerFetch | Number of notifications fetch per api request (have a max cap of 50) | number | 20 |
 windowViewOnly | Toggle to enable fit-to-screen window or modal view |  boolean | false |
 notificationIcon | Option to use custom notification Icon |  JSX Element | null |
@@ -125,6 +127,15 @@ type ThemeProps = {
     color?: string,
     background?: string,
   },
+  tabs?: {
+    containerBackgroundColor?: string,
+    activeTabBackgroundColor?: string,
+    activeTabTextColor?: string,
+    inactiveTabTextColor?: string,
+    indicatorColor?: string,
+    borderColor?: string,
+    inactiveTabBackgroundColor?: string
+  };
 };
 ```
 
@@ -185,6 +196,20 @@ Please note that the badgeStyle, window shadow and border props are only applica
   clearAllIcon?:{
     size?: number
   },
+  tabs?: {
+    containerHeight?: number,
+    tabPadding?: number,
+    activeTabTextSize?: number,
+    inactiveTabTextSize?: number,
+    activeTabTextWeight?: TextStyle['fontWeight'],
+    inactiveTabTextWeight?: TextStyle['fontWeight'],
+    indicatorHeight?: number,
+    headingGap?: number,
+    borderWidth?: number,
+    borderRadius?: number,
+    paddingY?: number,
+    paddingX?: number
+  };
 }
 ```
 
