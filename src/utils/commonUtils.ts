@@ -197,7 +197,7 @@ export const applyTheme = (
         theme.customCard?.background ||
         DefaultTheme[mode].customCard.background,
       padding:
-        customStyle.customCard?.padding ||
+        customStyle.customCard?.padding || 
         DefaultStyle.customCard.padding,
       borderBottom: `${
         customStyle.customCard?.borderWidth ||
@@ -228,7 +228,7 @@ export const applyTheme = (
         theme.colors?.textColor ||
         DefaultTheme[mode].customCard.titleColor,
       fontSize:
-        customStyle.customCard?.titleSize ||
+        customStyle.customCard?.titleSize || 
         DefaultStyle.customCard.titleSize,
       fontWeight:
         customStyle.customCard?.titleFontWeight ||
@@ -261,13 +261,13 @@ export const applyTheme = (
         customStyle.customCard?.descriptionSize ||
         DefaultStyle.customCard.descriptionSize,
       fontWeight:
-      customStyle.customCard?.descriptionFontWeight ||
-      DefaultStyle.customCard.descriptionFontWeight,
+        customStyle.customCard?.descriptionFontWeight ||
+        DefaultStyle.customCard.descriptionFontWeight,
     },
     dateStyle: {
       color: theme.colors?.dateColor || DefaultTheme[mode].colors.dateColor,
       fontSize:
-        customStyle.customCard?.dateSize ||
+        customStyle.customCard?.dateSize || 
         DefaultStyle.customCard.dateSize,
       lineHeight: "16px",
     },
@@ -320,7 +320,7 @@ export const applyTheme = (
       height: customStyle.badgeStyle?.size || defaultBadgeStyle.size,
       backgroundColor: theme.badgeStyle?.color || defaultBadgeStyle.color,
       top:  customStyle?.badgeStyle?.top ? `${customStyle.badgeStyle.top}px` : defaultBadgeStyle.top,
-      right:  customStyle?.badgeStyle?.right ? `${customStyle.badgeStyle.right}px` : defaultBadgeStyle.right,    
+      right:  customStyle?.badgeStyle?.right ? `${customStyle.badgeStyle.right}px` : defaultBadgeStyle.right,
     },
     badgeTextStyle: {
       color: theme.badgeStyle?.textColor || defaultBadgeStyle.textColor,
@@ -333,20 +333,25 @@ export const applyTheme = (
         DefaultTheme[mode].colors.primaryColor
       }`,
     },
-    tabsHeaderContainer:{
+    tabsHeaderContainer: {
       height: customStyle.tabs?.containerHeight || DefaultStyle.tabs.containerHeight,
       backgroundColor: theme.tabs?.containerBackgroundColor || DefaultTheme[mode].tabs.containerBackgroundColor,
       borderBottom: `${
-        customStyle.customCard?.borderWidth ||
-        DefaultStyle.customCard.borderWidth
+        (customStyle.tabs?.tabContainerBorderWidth === undefined || customStyle.tabs?.tabContainerBorderWidth === null)? 
+          DefaultStyle.tabs.tabContainerBorderWidth :
+          customStyle.tabs?.tabContainerBorderWidth
       }px solid`,
       borderColor:
         theme.customCard?.borderColor ||
         theme.colors?.borderColor ||
         DefaultTheme[mode].customCard.borderColor,
-      padding: `0 ${customStyle.tabs?.tabPadding || DefaultStyle.tabs.tabPadding}px`,
-      gap: customStyle.tabs?.headingGap || DefaultStyle.tabs.headingGap
-
+      padding: `0 ${
+        customStyle.tabs?.tabPadding === undefined ||
+        customStyle.tabs?.tabPadding === null
+          ? DefaultStyle.tabs.tabPadding
+          : customStyle.tabs?.tabPadding
+      }px`,
+      gap: customStyle.tabs?.headingGap || DefaultStyle.tabs.headingGap,
     },
     activeTabStyle:{
       backgroundColor: theme.tabs?.activeTabBackgroundColor || DefaultTheme[mode].tabs.activeTabBackgroundColor,
@@ -354,14 +359,14 @@ export const applyTheme = (
       fontSize: customStyle.tabs?.activeTabTextSize || DefaultStyle.tabs.activeTabTextSize,
       fontWeight: customStyle.tabs?.activeTabTextWeight || DefaultStyle.tabs.activeTabTextWeight,
       border: `${
-        customStyle.tabs?.borderWidth ||
+        customStyle.tabs?.borderWidth || 
         DefaultStyle.tabs.borderWidth
       }px solid`,
       borderColor:
-      theme.tabs?.borderColor ||
-      theme.colors?.borderColor ||
-      DefaultTheme[mode].tabs?.borderColor,
-      borderRadius: customStyle.tabs?.borderRadius ||
+        theme.tabs?.borderColor ||
+        theme.colors?.borderColor ||
+        DefaultTheme[mode].tabs?.borderColor,
+      borderRadius: customStyle.tabs?.borderRadius || 
       DefaultStyle.tabs.borderRadius,
       padding: `${customStyle.tabs?.paddingY || DefaultStyle.tabs.paddingY}px
        ${customStyle.tabs?.paddingX || DefaultStyle.tabs.paddingX}px`,
@@ -372,23 +377,26 @@ export const applyTheme = (
       fontSize: customStyle.tabs?.inactiveTabTextSize || DefaultStyle.tabs.inactiveTabTextSize,
       fontWeight: customStyle.tabs?.inactiveTabTextWeight || DefaultStyle.tabs.inactiveTabTextWeight,
       border: `${
-        customStyle.tabs?.borderWidth ||
+        customStyle.tabs?.borderWidth || 
         DefaultStyle.tabs.borderWidth
       }px solid`,
       borderColor:
-      theme.tabs?.borderColor ||
-      theme.colors?.borderColor ||
-      DefaultTheme[mode].tabs?.borderColor,
-      borderRadius: customStyle.tabs?.borderRadius ||
+        theme.tabs?.borderColor ||
+        theme.colors?.borderColor ||
+        DefaultTheme[mode].tabs?.borderColor,
+      borderRadius: customStyle.tabs?.borderRadius || 
       DefaultStyle.tabs.borderRadius,
       padding: `${customStyle.tabs?.paddingY || DefaultStyle.tabs.paddingY}px
        ${customStyle.tabs?.paddingX || DefaultStyle.tabs.paddingX}px`,
     },
     activeTabIndicator:{
       backgroundColor: theme.tabs?.indicatorColor || DefaultTheme[mode].tabs.indicatorColor,
-      height: (customStyle.tabs?.indicatorHeight === undefined || customStyle.tabs?.indicatorHeight === null) ? 
-        DefaultStyle.tabs.indicatorHeight : customStyle.tabs?.indicatorHeight,
-    }
+      height:
+        customStyle.tabs?.indicatorHeight === undefined ||
+        customStyle.tabs?.indicatorHeight === null
+          ? DefaultStyle.tabs.indicatorHeight
+          : customStyle.tabs?.indicatorHeight,
+    },
   };
 };
 
@@ -429,7 +437,7 @@ export const generateFilterParams = (
     if (fromStart) params = { ...params, start: data[0].createdAt };
     else params = { ...params, end: data[data.length - 1].createdAt };
 
-  if (filterType === Tabs.UNREAD) params = { ...params, isRead: false};
+  if (filterType === Tabs.UNREAD) params = { ...params, isRead: false };
 
   return params;
 };
@@ -483,7 +491,6 @@ export const calculateModalWidth = (containerWidth: DimensionValue): number => {
   return modalWidth;
 };
 
-
 export const debounce = <F extends (...args: unknown[]) => void>(
   func: F,
   delay: number
@@ -498,21 +505,25 @@ export const debounce = <F extends (...args: unknown[]) => void>(
   };
 };
 
-export const getModalContentHeightInFullScreen = (headerHeight: DimensionValue | undefined) =>  {
+export const getModalContentHeightInFullScreen = (
+  headerHeight: DimensionValue | undefined
+) => {
   let updatedHeight = 0;
 
   if (typeof headerHeight === "string")
     updatedHeight = parseInt(headerHeight.slice(0, -2));
   else if (typeof headerHeight === "number") updatedHeight = headerHeight;
 
-  return `calc(100% - ${updatedHeight}px)`
+  return `calc(100% - ${updatedHeight}px)`;
 };
 
 export const generateUniqueId = (): string => {
   return Math.random().toString(36).substring(2, 15);
 };
 
-export const mergeStyles = (...styleObjects: CSSProperties[]): CSSProperties => {
+export const mergeStyles = (
+  ...styleObjects: CSSProperties[]
+): CSSProperties => {
   return styleObjects.reduce((mergedStyles, currentStyle) => {
     return { ...mergedStyles, ...currentStyle };
   }, {});

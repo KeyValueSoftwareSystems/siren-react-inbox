@@ -208,7 +208,8 @@ Please note that the badgeStyle, window shadow and border props are only applica
     borderWidth?: number,
     borderRadius?: number,
     paddingY?: number,
-    paddingX?: number
+    paddingX?: number,
+    tabContainerBorderWidth?: number
   };
 }
 ```
