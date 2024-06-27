@@ -119,6 +119,13 @@ export const logger = {
   },
 };
 
+export const getCustomStyleValues = (customValue?: number, defaultValue?: number) => {
+  return customValue === undefined ||
+        customValue === null
+    ? defaultValue
+    : customValue
+}
+
 export const applyTheme = (
   theme: ThemeProps = {},
   mode: ThemeMode = ThemeMode.DARK,
@@ -337,19 +344,14 @@ export const applyTheme = (
       height: customStyle.tabs?.containerHeight || DefaultStyle.tabs.containerHeight,
       backgroundColor: theme.tabs?.containerBackgroundColor || DefaultTheme[mode].tabs.containerBackgroundColor,
       borderBottom: `${
-        (customStyle.tabs?.tabContainerBorderWidth === undefined || customStyle.tabs?.tabContainerBorderWidth === null)? 
-          DefaultStyle.tabs.tabContainerBorderWidth :
-          customStyle.tabs?.tabContainerBorderWidth
+        getCustomStyleValues(customStyle.tabs?.tabContainerBorderWidth, DefaultStyle.tabs.tabContainerBorderWidth)
       }px solid`,
       borderColor:
         theme.customCard?.borderColor ||
         theme.colors?.borderColor ||
         DefaultTheme[mode].customCard.borderColor,
       padding: `0 ${
-        customStyle.tabs?.tabPadding === undefined ||
-        customStyle.tabs?.tabPadding === null
-          ? DefaultStyle.tabs.tabPadding
-          : customStyle.tabs?.tabPadding
+        getCustomStyleValues(customStyle.tabs?.tabPadding, DefaultStyle.tabs.tabPadding)
       }px`,
       gap: customStyle.tabs?.headingGap || DefaultStyle.tabs.headingGap,
     },
@@ -391,11 +393,7 @@ export const applyTheme = (
     },
     activeTabIndicator:{
       backgroundColor: theme.tabs?.indicatorColor || DefaultTheme[mode].tabs.indicatorColor,
-      height:
-        customStyle.tabs?.indicatorHeight === undefined ||
-        customStyle.tabs?.indicatorHeight === null
-          ? DefaultStyle.tabs.indicatorHeight
-          : customStyle.tabs?.indicatorHeight,
+      height: getCustomStyleValues(customStyle.tabs?.indicatorHeight, DefaultStyle.tabs.indicatorHeight)
     },
   };
 };
