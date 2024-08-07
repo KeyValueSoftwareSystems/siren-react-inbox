@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.2.1
+
+### Fixed
+
+- Fixed styles for tab filters
+- Restricted redundant verify token calls to avoid unnecessary network requests and enhance overall efficiency.
+
 ## 1.2.0
 
 ### Added
