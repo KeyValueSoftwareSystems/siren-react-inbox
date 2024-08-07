@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.3.0
+
+### Fixed
+
+- Fixed styles for tab filters
+- Resolved multiple verify token calls
+
 ## 1.2.0
 
 ### Added
