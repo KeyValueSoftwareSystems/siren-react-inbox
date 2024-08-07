@@ -61,7 +61,8 @@ const defaultStyles = {
     borderWidth: 0,
     borderRadius: 0,
     paddingX: 10,
-    paddingY: 5
+    paddingY: 5,
+    tabContainerBorderWidth: 0.5,
   }
 }
 
