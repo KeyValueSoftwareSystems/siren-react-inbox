@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import React, { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
 
 import { Siren } from "@sirenapp/js-sdk";
 import type {
@@ -77,13 +77,15 @@ const SirenProvider: React.FC<SirenProvider> = ({ config, children }) => {
   const [siren, setSiren] = useState<Siren | null>(null);
   const [verificationStatus, setVerificationStatus] =
     useState<VerificationStatus>(VerificationStatus.PENDING);
+  const shouldInitialize = useRef(true);
   let retryCount = 0;
   
 
   const [id] = useState(generateUniqueId());
 
   useEffect(() => {
-    if (config?.recipientId && config?.userToken) {
+    if (config?.recipientId && config?.userToken && shouldInitialize.current) {
+      shouldInitialize.current = false;
       stopRealTimeFetch();
       sendResetDataEvents();
       initialize();
