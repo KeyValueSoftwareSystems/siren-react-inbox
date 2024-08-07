@@ -265,11 +265,11 @@ function MyComponent() {
 
 Functions | Parameters | Type | Description |
 ----------|------------|-------|------------|
-markAsReadByDate | startDate | ISO date string | Sets the read status of notifications to true until the given date |
+markAsReadByDate | options | { startDate: ISO date string, <br>isRead?: boolean } | Sets the read status of notifications until the given start date. <br> isRead filters notifications based on their read status. |
 markAsReadById | id | string | Set read status of a notification to true          |
-deleteById |  id | string  | Delete a notification by id |
-deleteByDate | startDate | ISO date string | Delete all notifications until given date |
-markAllAsViewed | startDate | ISO date string |Sets the viewed status of notifications to true until the given date |
+deleteById |  id, shouldUpdateList | id: string, <br>shouldUpdateList?: boolean  | Delete a notification by id |
+deleteByDate | options | { startDate: ISO date string, <br>isRead?: boolean } | Delete all notifications until given  start date. <br> isRead filters notifications based on their read status. |
+markAllAsViewed | untilDate | ISO date string |Sets the viewed status of notifications to true until the given date |
 
 
 ## Example
