@@ -208,7 +208,8 @@ Please note that the badgeStyle, window shadow and border props are only applica
     borderWidth?: number,
     borderRadius?: number,
     paddingY?: number,
-    paddingX?: number
+    paddingX?: number,
+    tabContainerBorderWidth?: number
   };
 }
 ```
@@ -264,11 +265,11 @@ function MyComponent() {
 
 Functions | Parameters | Type | Description |
 ----------|------------|-------|------------|
-markAsReadByDate | startDate | ISO date string | Sets the read status of notifications to true until the given date |
+markAsReadByDate | options | { startDate: ISO date string, <br>isRead?: boolean } |  Updates the read status of notifications. <br>startDate- To set the read status of notifications up to the specified date. <br> isRead- Filters notifications based on their read status. |
 markAsReadById | id | string | Set read status of a notification to true          |
 deleteById |  id | string  | Delete a notification by id |
-deleteByDate | startDate | ISO date string | Delete all notifications until given date |
-markAllAsViewed | startDate | ISO date string |Sets the viewed status of notifications to true until the given date |
+deleteByDate | options | { startDate: ISO date string, <br>isRead?: boolean } | Delete all notifications until given start date. <br>startDate- To specify the date until which notifications are deleted. <br> isRead- Filters notifications based on their read status. |
+markAllAsViewed | untilDate | ISO date string |Sets the viewed status of notifications to true until the given date |
 
 
 ## Example

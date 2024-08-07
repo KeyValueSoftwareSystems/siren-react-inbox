@@ -229,6 +229,7 @@ export type CustomStyle = {
     borderRadius?: number;
     paddingY?: number;
     paddingX?: number;
+    tabContainerBorderWidth?: number;
   };
 };
 
