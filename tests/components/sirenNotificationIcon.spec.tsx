@@ -5,7 +5,6 @@ import { fireEvent, render } from "@testing-library/react";
 import SirenNotificationIcon from "../../src/components/SirenNotificationIcon";
 import { SirenContext } from "../../src/components/SirenProvider"; // Assuming SirenProvider exports SirenContext
 import { applyTheme } from "../../src/utils/commonUtils";
-import { VerificationStatus } from "../../src/utils/constants";
 
 const mockClickFn = jest.fn();
 
@@ -14,7 +13,6 @@ jest.mock("../../src/styles/sirenNotificationIcon.css", () => ({}));
 
 const mockSirenContextValue = {
   siren: null,
-  verificationStatus: VerificationStatus.SUCCESS,
   id: ''
 };
 

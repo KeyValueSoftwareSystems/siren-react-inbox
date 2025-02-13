@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+
+## 1.2.2
+
+### Fixed
+
+- Remove the verification status functionality, as verify token calls have been removed from '@sirenapp/js-sdk' to prevent issues caused by multiple calls.
+
+
 ## 1.2.1
 
 ### Fixed
