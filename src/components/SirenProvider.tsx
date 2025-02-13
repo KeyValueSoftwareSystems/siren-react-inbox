@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
+import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 import { Siren } from "@sirenapp/js-sdk";
 import type {
@@ -18,12 +18,10 @@ import {
   eventTypes,
   IN_APP_RECIPIENT_UNAUTHENTICATED,
   MAXIMUM_RETRY_COUNT,
-  VerificationStatus,
 } from "../utils/constants";
 
 type SirenContextProp = {
   siren: Siren | null;
-  verificationStatus: VerificationStatus;
   id: string;
 };
 
@@ -34,7 +32,6 @@ interface SirenProvider {
 
 export const SirenContext = createContext<SirenContextProp>({
   siren: null,
-  verificationStatus: VerificationStatus.PENDING,
   id: ''
 });
 
@@ -44,7 +41,6 @@ export const SirenContext = createContext<SirenContextProp>({
  * @example
  * const {
  *   siren,
- *   verificationStatus,
  *   id
  * } = useSirenContext();
  *
@@ -56,7 +52,7 @@ export const useSirenContext = (): SirenContextProp => useContext(SirenContext);
  * Provides a React context for Siren notifications, making Siren SDK functionality
  * available throughout your React application.
  *
- * `SirenProvider` initializes the Siren SDK with given configuration and manages the state for siren and verificationStatus.
+ * `SirenProvider` initializes the Siren SDK with given configuration and manages the state for siren.
  *
  * @component
  * @example
@@ -75,23 +71,16 @@ export const useSirenContext = (): SirenContextProp => useContext(SirenContext);
  */
 const SirenProvider: React.FC<SirenProvider> = ({ config, children }) => {
   const [siren, setSiren] = useState<Siren | null>(null);
-  const [verificationStatus, setVerificationStatus] =
-    useState<VerificationStatus>(VerificationStatus.PENDING);
-  const shouldInitialize = useRef(true);
   let retryCount = 0;
   
 
   const [id] = useState(generateUniqueId());
 
   useEffect(() => {
-    if (config?.recipientId && config?.userToken && shouldInitialize.current) {
-      shouldInitialize.current = false;
+    if (config?.recipientId && config?.userToken) {
       stopRealTimeFetch();
       sendResetDataEvents();
       initialize();
-    }
-    else {
-      setVerificationStatus(VerificationStatus.FAILED);
     }
     if (retryCount > MAXIMUM_RETRY_COUNT) stopRealTimeFetch();
   }, [config]);
@@ -146,11 +135,8 @@ const SirenProvider: React.FC<SirenProvider> = ({ config, children }) => {
     }
   };
 
-  const onStatusChange = (status: VerificationStatus) => {
-    setVerificationStatus(status);
-  };
 
-  const actionCallbacks = { onEventReceive, onStatusChange };
+  const actionCallbacks = { onEventReceive };
 
   const getDataParams = () => {
     return {
@@ -163,8 +149,8 @@ const SirenProvider: React.FC<SirenProvider> = ({ config, children }) => {
 
   const retryVerification = (error: SirenErrorType) => {
     const shouldRetry = (error.Code === AUTHENTICATION_FAILED || error.Code === IN_APP_RECIPIENT_UNAUTHENTICATED) &&
-      retryCount < MAXIMUM_RETRY_COUNT && verificationStatus === VerificationStatus.FAILED
-
+      retryCount < MAXIMUM_RETRY_COUNT
+ 
     if (shouldRetry)
       setTimeout(() => {
         initialize();
@@ -177,15 +163,13 @@ const SirenProvider: React.FC<SirenProvider> = ({ config, children }) => {
     const dataParams: InitConfigType = getDataParams();
     const siren = new Siren(dataParams);
 
-    setVerificationStatus(VerificationStatus.PENDING);
     setSiren(siren);
   };
 
   const contextValue = useMemo(() => ({
     id,
     siren,
-    verificationStatus,
-  }), [id, siren, verificationStatus]);
+  }), [id, siren]);
 
   return (
     <SirenContext.Provider

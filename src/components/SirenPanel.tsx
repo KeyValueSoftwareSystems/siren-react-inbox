@@ -28,7 +28,7 @@ import {
   mergeStyles,
   updateNotifications,
 } from "../utils/commonUtils";
-import { DEFAULT_WINDOW_TITLE, ERROR_TEXT, errorMap, events, EventType, eventTypes, LIST_EMPTY_TEXT, Tabs, UNREAD_LIST_EMPTY_TEXT, VerificationStatus } from "../utils/constants";
+import { DEFAULT_WINDOW_TITLE, ERROR_TEXT, events, EventType, eventTypes, LIST_EMPTY_TEXT, Tabs, UNREAD_LIST_EMPTY_TEXT } from "../utils/constants";
 import useSiren from "../utils/sirenHook";
 
 /**
@@ -102,7 +102,7 @@ const SirenPanel: FC<SirenPanelProps> = ({
     deleteByDate,
     deleteById,
   } = useSiren();
-  const { siren, verificationStatus, id } = useSirenContext();
+  const { siren, id } = useSirenContext();
   const {hideHeader = false, hideClearAll = false, customHeader, title = DEFAULT_WINDOW_TITLE} = headerProps ?? {};
   const [notifications, setNotifications] = useState<NotificationDataType[]>(
     []
@@ -150,21 +150,12 @@ const SirenPanel: FC<SirenPanelProps> = ({
     }
   }, [eventListenerData]);
 
-  const handleVerificationFailure = () => {
-    setIsLoading(false);
-    onError && onError(errorMap?.INVALID_CREDENTIALS);
-    setError(ERROR_TEXT);
-  };
-
   useEffect(() => {
-    if (siren && verificationStatus === VerificationStatus.SUCCESS) {
+    if (siren) {
       !hideBadge && siren.stopRealTimeFetch(EventType.UNVIEWED_COUNT);
       fetchNotifications(true);
     }
-    else if(verificationStatus === VerificationStatus.FAILED) {
-      handleVerificationFailure();
-    }
-  }, [siren, verificationStatus, hideBadge, activeTabIndex]);
+  }, [siren, hideBadge, activeTabIndex]);
 
   const restartNotificationCountFetch = () => {
     try {

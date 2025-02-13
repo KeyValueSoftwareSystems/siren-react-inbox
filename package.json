@@ -84,7 +84,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "pubsub-js": "^1.9.4",
-    "@sirenapp/js-sdk": "^1.2.2"
+    "@sirenapp/js-sdk": "^1.2.3",
+    "pubsub-js": "^1.9.4"
   }
 }

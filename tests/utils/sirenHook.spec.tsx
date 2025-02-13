@@ -2,7 +2,7 @@ import type { Siren } from "@sirenapp/js-sdk";
 
 import { useSiren } from "../../src";
 import * as sirenProvider from "../../src/components/SirenProvider";
-import { errorMap, VerificationStatus } from "../../src/utils/constants";
+import { errorMap } from "../../src/utils/constants";
 
 
 // Mock the CSS files to avoid Jest error
@@ -91,7 +91,6 @@ describe("useSiren hook", () => {
     deleteById: jest.fn(async () => ActionResponse),
     deleteByDate: jest.fn(async () => ActionResponse),
     markAllAsViewed: jest.fn(async () => MarkAsViewedResponse),
-    verifyToken: jest.fn(),
     fetchUnviewedNotificationsCount: jest.fn(),
     fetchAllNotifications: jest.fn(),
     startRealTimeFetch: jest.fn(),
@@ -101,7 +100,6 @@ describe("useSiren hook", () => {
   it("should call siren.markAsReadById and return error", async () => {
     jest.spyOn(sirenProvider, "useSirenContext").mockReturnValue({
       siren: mockSirenCore as Siren,
-      verificationStatus: VerificationStatus.SUCCESS,
       id: ''
     });
 
@@ -127,7 +125,6 @@ describe("useSiren hook", () => {
     // Mock useSirenContext
     jest.spyOn(sirenProvider, "useSirenContext").mockReturnValue({
       siren: mockCore as Siren,
-      verificationStatus: VerificationStatus.SUCCESS,
       id: ''
     });
 
@@ -147,7 +144,6 @@ describe("useSiren hook", () => {
     // Mock useSirenContext
     jest.spyOn(sirenProvider, "useSirenContext").mockReturnValue({
       siren: mockSirenCore as Siren,
-      verificationStatus: VerificationStatus.SUCCESS,
       id: ''
     });
 
@@ -163,7 +159,6 @@ describe("useSiren hook", () => {
 
     jest.spyOn(sirenProvider, "useSirenContext").mockReturnValue({
       siren: mockSirenCore as Siren,
-      verificationStatus: VerificationStatus.SUCCESS,
       id: ''
     });
 
@@ -183,7 +178,6 @@ describe("useSiren hook", () => {
     // Mock useSirenContext
     jest.spyOn(sirenProvider, "useSirenContext").mockReturnValue({
       siren: mockSirenCore as Siren,
-      verificationStatus: VerificationStatus.SUCCESS,
       id: ''
     });
 
@@ -202,7 +196,6 @@ describe("useSiren hook", () => {
 
     jest.spyOn(sirenProvider, "useSirenContext").mockReturnValue({
       siren: mockSirenCore as Siren,
-      verificationStatus: VerificationStatus.SUCCESS,
       id: ''
     });
 
@@ -218,7 +211,6 @@ describe("useSiren hook", () => {
     // Mock useSirenContext
     jest.spyOn(sirenProvider, "useSirenContext").mockReturnValue({
       siren: mockSirenCore as Siren,
-      verificationStatus: VerificationStatus.SUCCESS,
       id: ''
     });
 
@@ -234,7 +226,6 @@ describe("useSiren hook", () => {
 
     jest.spyOn(sirenProvider, "useSirenContext").mockReturnValue({
       siren: mockSirenCore as Siren,
-      verificationStatus: VerificationStatus.SUCCESS,
       id: ''
     });
 
@@ -253,7 +244,6 @@ describe("useSiren hook", () => {
 
     jest.spyOn(sirenProvider, "useSirenContext").mockReturnValue({
       siren: mockSirenCore as Siren,
-      verificationStatus: VerificationStatus.SUCCESS,
       id: ''
     });
 
